@@ -1,0 +1,26 @@
+% !TEX root = main.tex
+
+\section{Graph-based inertial-kinematic odometry}
+
+We describe the inertial-kinematic odometry for legged robots, based on a graph model. 
+Graphical methods have been extensively used for modeling estimation problems consisting of sparse networks of constraints. 
+In robotics, the problems of visual odometry or simultaneous localization and mapping have reached a high degree of maturity, in great part thanks of the graphical representation. 
+This is so, among other aspects, because of the power of the graphical representation to accurately model complex estimation problems. 
+These often involve dynamics, proprioceptive measures, exteroceptive measures, and self-calibration. 
+The graphical representation also allows for the design of powerful estimation solvers, which can be built taking into account the needs for accuracy, robustness and CPU-performance.
+
+\subsection{Graph-based estimation through non-linear least squares optimization}
+
+\subsection{The inertial-kinematic odometry}
+
+\subsubsection{Inertial pre-integration}
+
+\subsubsection{Grahical model}
+
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[scale=0.65]{figures/graph_exploded}
+\caption{Detailed factor graph for the initial keyframe and two steps. Orange: initial pose factor. Red: leg kinematic factor. Green: IMU's delta pre-integration factor. Blue: bias drift factor. Cyan: bias absolute factor. Purple: zero-velocity factor. }
+\label{default}
+\end{center}
+\end{figure}
