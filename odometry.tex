@@ -20,7 +20,18 @@ The graphical representation also allows for the design of powerful estimation s
 \begin{figure}[tb]
 \begin{center}
 \includegraphics[scale=0.65]{figures/graph_exploded}
-\caption{Detailed factor graph for the initial keyframe and two steps. Orange: initial pose factor. Red: leg kinematic factor. Green: IMU's delta pre-integration factor. Blue: bias drift factor. Cyan: bias absolute factor. Purple: zero-velocity factor. }
+\includegraphics[scale=0.65]{figures/graph_simplified}
+\includegraphics[scale=0.65]{figures/graph_essential}
+\caption{{\bf Top}: Detailed factor graph for the initial keyframe and two steps. Orange: initial pose factor. Red: leg kinematic factor. Green: IMU's delta pre-integration factor. Blue: bias drift factor. Cyan: bias absolute factor. Purple: zero-velocity factor. {\bf Mid}: Simplified factor graph where aggregate state blocks $x=(p,q,v)$ and biases $b=(a_b,\omega_b)$ are used. {\bf Bottom}: Essential graph with one aggregate state block $x=(p,q,v,a_b,\omega_b)$ for each key-frame.}
 \label{default}
 \end{center}
 \end{figure}
+
+%\begin{figure}[htbp]
+%\begin{center}
+%\includegraphics[scale=0.65]{figures/graph_simplified}
+%\caption{default}
+%\label{default}
+%\end{center}
+%\end{figure}
+
