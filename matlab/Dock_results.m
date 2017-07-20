@@ -4,7 +4,8 @@ close all;
 addpath('./Rotations');
 
 traj_beforeOptim = load('./imu_dock_beforeOptim.dat');
-traj_afterOptim = load('./imu_dock_afterOptim.dat');
+res_afterOptim = load('./imu_dock_afterOptim.dat');
+traj_afterOptim = res_afterOptim(2:(size(res_afterOptim,1)-1),:);
 
 t_before = traj_beforeOptim(:,1);
 p_before = traj_beforeOptim(:,2:4);
@@ -20,9 +21,14 @@ v_after = traj_afterOptim(:,9:11);
 ab_after = traj_afterOptim(:,12:14);
 wb_after = traj_afterOptim(:,15:17);
 
+KF1_stdev = res_afterOptim(1,2:17);
+KF1_ts    = res_afterOptim(size(res_afterOptim,1),1);
+est_KF1   = res_afterOptim(size(res_afterOptim,1),2:17);
+
 exp_KF0 = [0 0 0 0 0 0 1];
 exp_KF1 = [0 -0.06 0 0 0 0 1];
-quat = traj_afterOptim(size(traj_afterOptim,1),5:8);
+quat = traj_afterOptim(size(traj_afterOptim,1),[8 5 6 7]);
+
 exp_KF1(1:3) = qRot(exp_KF1(1:3)',quat);
 
 
@@ -48,9 +54,15 @@ plot(t_after, p_after(:,3), 'r');
 plot(t_after(size(t_after,1)), exp_KF1(1), 'b*');
 plot(t_after(size(t_after,1)), exp_KF1(2), 'g*');
 plot(t_after(size(t_after,1)), exp_KF1(3), 'r*');
+plot(KF1_ts, est_KF1(1), 'bd');
+plot(KF1_ts, est_KF1(2), 'gd');
+plot(KF1_ts, est_KF1(3), 'rd');
+errorbar(KF1_ts, est_KF1(1), est_KF1(1) - KF1_stdev(1), est_KF1(1) + KF1_stdev(1),'bx');
+errorbar(KF1_ts, est_KF1(2), est_KF1(2) - KF1_stdev(2), est_KF1(2) + KF1_stdev(2),'gx');
+errorbar(KF1_ts, est_KF1(3), est_KF1(3) - KF1_stdev(3), est_KF1(3) + KF1_stdev(3),'rx');
 xlabel('time (ms)');
 ylabel('Estimated P');
-legend('Px after optim', 'Py after optim', 'Pz after optim', 'expected PX_{KF1}', 'expected PY_{KF1}', 'expected PZ_{KF1}');
+legend('Px after optim', 'Py after optim', 'Pz after optim', 'expected PX_{KF1}', 'expected PY_{KF1}', 'expected PZ_{KF1}', 'estimated PX_{KF1}', 'estimated PY_{KF1}', 'estimated PZ_{KF1}');
 title('position estimation after optimization wrt time');
 
 subplot(2,2,3);
