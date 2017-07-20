@@ -1,6 +1,8 @@
 clear all;
 close all;
 
+addpath('./Rotations');
+
 traj_beforeOptim = load('./imu_dock_beforeOptim.dat');
 traj_afterOptim = load('./imu_dock_afterOptim.dat');
 
@@ -20,6 +22,9 @@ wb_after = traj_afterOptim(:,15:17);
 
 exp_KF0 = [0 0 0 0 0 0 1];
 exp_KF1 = [0 -0.06 0 0 0 0 1];
+quat = traj_afterOptim(size(traj_afterOptim,1),5:8);
+exp_KF1(1:3) = qRot(exp_KF1(1:3)',quat);
+
 
 figure('Name','Estimated position and velocity','NumberTitle','off');
 subplot(2,2,1);
@@ -67,3 +72,4 @@ xlabel('time (ms)');
 ylabel('Estimated P');
 legend('Vx after optim', 'Vy  after optim', 'Vz  after optim');
 title('Velocity estimation after optimization wrt time');
+
