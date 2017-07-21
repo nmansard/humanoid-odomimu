@@ -61,7 +61,7 @@ plot(t_before, v_before(:,1), 'b');
 plot(t_before, v_before(:,2), 'g');
 plot(t_before, v_before(:,3), 'r');
 xlabel('time (ms)');
-ylabel('Estimated P');
+ylabel('Estimated V');
 legend('Vx before optim', 'Vy  before optim', 'Vz  before optim');
 title('Velocity estimation before optimization wrt time');
 grid
@@ -73,7 +73,9 @@ plot(t_after, v_after(:,2), 'g');
 plot(t_after, v_after(:,3), 'r');
 xlabel('time (ms)');
 ylabel('Estimated V');
-title('Velocity estimation after optimization wrt time');grid
+title('Velocity estimation after optimization wrt time');
+grid
+
 % fh=figure(2);
 % set(fh,'Name','Estimated quaternion','NumberTitle','off');
 % subplot(2,1,1);
