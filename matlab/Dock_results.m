@@ -1,5 +1,9 @@
-clear all;
-close all;
+% clear all;
+% close all;
+figure(1)
+clf
+
+addpath('./Rotations');
 
 traj_beforeOptim = load('./imu_dock_beforeOptim.dat');
 traj_afterOptim = load('./imu_dock_afterOptim.dat');
@@ -21,7 +25,8 @@ wb_after = traj_afterOptim(:,15:17);
 exp_KF0 = [0 0 0 0 0 0 1];
 exp_KF1 = [0 -0.06 0 0 0 0 1];
 
-figure('Name','Estimated position and velocity','NumberTitle','off');
+fh=figure(1);
+set(fh,'Name','Estimated position and velocity','NumberTitle','off');
 subplot(2,2,1);
 hold on;
 plot(t_before, p_before(:,1), 'b');
@@ -34,6 +39,7 @@ xlabel('time (ms)');
 ylabel('Estimated P');
 legend('Px before optim', 'Py  before optim', 'Pz  before optim', 'expected PX_{KF1}', 'expected PY_{KF1}', 'expected PZ_{KF1}');
 title('position estimation before optimization wrt time');
+grid
 
 subplot(2,2,2);
 hold on;
@@ -47,6 +53,7 @@ xlabel('time (ms)');
 ylabel('Estimated P');
 legend('Px after optim', 'Py after optim', 'Pz after optim', 'expected PX_{KF1}', 'expected PY_{KF1}', 'expected PZ_{KF1}');
 title('position estimation after optimization wrt time');
+grid
 
 subplot(2,2,3);
 hold on;
@@ -57,6 +64,7 @@ xlabel('time (ms)');
 ylabel('Estimated P');
 legend('Vx before optim', 'Vy  before optim', 'Vz  before optim');
 title('Velocity estimation before optimization wrt time');
+grid
 
 subplot(2,2,4);
 hold on;
@@ -64,6 +72,17 @@ plot(t_after, v_after(:,1), 'b');
 plot(t_after, v_after(:,2), 'g');
 plot(t_after, v_after(:,3), 'r');
 xlabel('time (ms)');
-ylabel('Estimated P');
-legend('Vx after optim', 'Vy  after optim', 'Vz  after optim');
-title('Velocity estimation after optimization wrt time');
+ylabel('Estimated V');
+title('Velocity estimation after optimization wrt time');grid
+% fh=figure(2);
+% set(fh,'Name','Estimated quaternion','NumberTitle','off');
+% subplot(2,1,1);
+% hold on;
+% plot(t_before, 2*q_after(:,1), 'r');
+% plot(t_before, 2*q_after(:,2), 'g');
+% plot(t_before, 2*q_after(:,3), 'b');
+% xlabel('time (ms)');
+% ylabel('Estimated Q');
+% % legend('Qx before optim', 'Qy  before optim', 'Qz  before optim', 'expected PX_{KF1}', 'expected PY_{KF1}', 'expected PZ_{KF1}');
+% title('quaternion estimation after optimization wrt time');
+% grid
