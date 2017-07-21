@@ -46,7 +46,7 @@ plot(t_before(size(t_before,1)), exp_final(2), 'g*');
 plot(t_before(size(t_before,1)), exp_final(3), 'r*');
 xlabel('time (ms)');
 ylabel('Estimated P');
-legend('Px before optim', 'Py  before optim', 'Pz  before optim', 'expected PX_{KF2}', 'expected PY_{KF2}', 'expected PZ_{KF2}');
+% legend('Px before optim', 'Py  before optim', 'Pz  before optim', 'expected PX_{KF2}', 'expected PY_{KF2}', 'expected PZ_{KF2}');
 title('position estimation before optimization wrt time');
 grid
 
@@ -64,9 +64,10 @@ plot(KF_ts, est_KF(:,3), 'rd');
 errorbar(KF_ts, est_KF(:,1), - KF_stdev(:,1), KF_stdev(:,1),'bx');
 errorbar(KF_ts, est_KF(:,2), - KF_stdev(:,2), KF_stdev(:,2),'gx');
 errorbar(KF_ts, est_KF(:,3), - KF_stdev(:,3), KF_stdev(:,3),'rx');
+xlim([0,KF_ts(end)])
 xlabel('time (ms)');
 ylabel('Estimated P');
-legend('Px after optim', 'Py after optim', 'Pz after optim', 'expected PX_{KF2}', 'expected PY_{KF2}', 'expected PZ_{KF2}', 'estimated PX_{KF2}', 'estimated PY_{KF2}', 'estimated PZ_{KF2}');
+% legend('Px after optim', 'Py after optim', 'Pz after optim', 'expected PX_{KF2}', 'expected PY_{KF2}', 'expected PZ_{KF2}', 'estimated PX_{KF2}', 'estimated PY_{KF2}', 'estimated PZ_{KF2}');
 title('position estimation after optimization wrt time');
 grid
 
@@ -77,7 +78,7 @@ plot(t_before, v_before(:,2), 'g');
 plot(t_before, v_before(:,3), 'r');
 xlabel('time (ms)');
 ylabel('Estimated V');
-legend('Vx before optim', 'Vy  before optim', 'Vz  before optim');
+% legend('Vx before optim', 'Vy  before optim', 'Vz  before optim');
 title('Velocity estimation before optimization wrt time');
 grid
 
@@ -88,7 +89,7 @@ plot(t_after, v_after(:,2), 'g');
 plot(t_after, v_after(:,3), 'r');
 xlabel('time (ms)');
 ylabel('Estimated V');
-title('Velocity estimation after optimization wrt time');
+% title('Velocity estimation after optimization wrt time');
 grid
 
 % fh=figure(2);
