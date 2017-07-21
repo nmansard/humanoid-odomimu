@@ -61,9 +61,9 @@ plot(t_after(size(t_after,1)), exp_final(3), 'r*');
 plot(KF_ts, est_KF(:,1), 'bd');
 plot(KF_ts, est_KF(:,2), 'gd');
 plot(KF_ts, est_KF(:,3), 'rd');
-errorbar(KF_ts, est_KF(:,1), - KF_stdev(:,1), KF_stdev(:,1),'bx');
-errorbar(KF_ts, est_KF(:,2), - KF_stdev(:,2), KF_stdev(:,2),'gx');
-errorbar(KF_ts, est_KF(:,3), - KF_stdev(:,3), KF_stdev(:,3),'rx');
+errorbar(KF_ts, est_KF(:,1), - 2*KF_stdev(:,1), 2*KF_stdev(:,1),'bx');
+errorbar(KF_ts, est_KF(:,2), - 2*KF_stdev(:,2), 2*KF_stdev(:,2),'gx');
+errorbar(KF_ts, est_KF(:,3), - 2*KF_stdev(:,3), 2*KF_stdev(:,3),'rx');
 xlim([0,KF_ts(end)])
 xlabel('time (ms)');
 ylabel('Estimated P');
