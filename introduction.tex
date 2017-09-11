@@ -2,8 +2,30 @@
 
 \section{Introduction}\label{sec:intro}
 
+One of the most common ways to describe the trajectory of a body in space is to use odometry that can be derived from a multitude of sensors, from encoders to GPS and cameras.
+The quality of this information is also known to be sensor specifications dependent and to accumulate measurement errors. The development of SLAM (Simultaneous Localization And Mapping) is today advanced enough to resolve 
+this dependency over time with loop closure strategies. However, other strategies are required to comply with the particularities of legged locomotion and physical interactions in unstructured environments. These requirements can be met in 
+different levels, e.g. actuator designs or control strategies.
 
-\cite{wensing2017proprioceptive}
+  \begin{itemize}
+   \item Actuator design  \cite{wensing2017proprioceptive}
+   \item Control strategies
+    \begin{itemize}
+     \item Control in position
+     \item Torque Control
+     \item other ?
+    \end{itemize}
+  \end{itemize}
+
+However, a good pose estimation of the robot in its environment is still needed to make interactions with the environment effective. This estimation can then be used to compute the commands that will be sent to actuators.
+Fusion strategies with information coming from different sensors can be used to achieve this goal. 
+
+\begin{description}
+ \item [IMU] \hfill \\ Inertial Measurement Units are used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics. IMU = gyroscope + accelerometer enabling the tracking of 3D mouvements. 
+			Talk about biases and noises in IMU measurements.
+ \item [Paper subject] \hfill \\ Use least square optimization to overcome the estimation of the trajectory using an IMU and odometry information. Need of a low frequency odometer to re-estimate biases during motions. Feet trajectory estimation.
+\end{description}
+
 
 \begin{figure}
 \centering
