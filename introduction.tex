@@ -18,11 +18,14 @@ different levels, e.g. actuator designs or control strategies.
   \end{itemize}
 
 However, a good pose estimation of the robot in its environment is still needed to make interactions with the environment effective. This estimation can then be used to compute the commands that will be sent to actuators.
-Fusion strategies with information coming from different sensors can be used to achieve this goal. 
+Fusion strategies with information coming from different sensors can be used to achieve this goal. Considering the application in a real environment, we can fuse the odometer with a high frequency proprioceptive sensor 
+to get better predictions of robot poses by improving integration points.
+
+Using an IMU (Inertial Measurement Unit) allows us get acceleration and angular velocity measurement that can be used to compute the pose of the robot and get information similar to odometry by integration for the fusion step.
+These sensors are now used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics.
+
 
 \begin{description}
- \item [IMU] \hfill \\ Inertial Measurement Units are used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics. IMU = gyroscope + accelerometer enabling the tracking of 3D mouvements. 
-			Talk about biases and noises in IMU measurements.
  \item [Paper subject] \hfill \\ Use least square optimization to overcome the estimation of the trajectory using an IMU and odometry information. Need of a low frequency odometer to re-estimate biases during motions. Feet trajectory estimation.
 \end{description}
 
