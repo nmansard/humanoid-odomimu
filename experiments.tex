@@ -7,11 +7,26 @@ one can find those systems for a range of price going from low cost to thousands
 The performances of an IMU are caracterized by several factors from which we can mainly cite biases random walk and noises standard deviation
 as examples.
 
-We chose to use a low-cost IMU in our application to realize the feasability of our method. For this purpose we selected the 
+We chose to use a low-cost IMU in our application to realize the feasibility of our method. For this purpose we selected the 
 MPU6050 from invensense combining both an accelerometer and a gyroscope and extensively used in the open source community.
 
 Several experiments were designed to check that the trajectory estimation is feasible.
 
 \subsection{Method}
+\subsubsection{bias auto-calibration}
+A naive way to estimate the trajectory is to simply integrate measurements on top of the initial state vector whose variables would all be optimized. 
+This may be theoretically possible with a well characterized IMU, meaning that the bias components will be known and parts of the state vector.
+However, since we want our experiment to allow a calibration of the sensor, this solution is not accepted and we need a setup allowing a correct calibration of the sensor.
+
+The parameters we need to calibrate for a correct integration are the biases on top of which we integrate the incoming data of the IMU.
+The time varying property of the bias is a critical point to consider in order to avoid large deviations. This calibration is made possible
+by dependencies of the delta pre-integration ($\Delta P(ab), \Delta V(ab), \Delta Q(\omega b)$). We understand that the fusion of the IMU with another odometer giving both
+orientation and position increments helps to determine the biases. However, the least squares formulation makes possible the transfer of some parts
+of the velocities in the biases or the opposite operation during the residual minimization phase. One way to get rid of these is to use experimental conditions to constrain the states, in the case of legged
+locomotion we use the property of having null velocity for the feet once they reach the ground. Adding this knowledge t the graph allows for a
+better estimation of the biases and trajectory.
+
+\subsubsection{Experimental procedures}
+
 
 \subsection{Results}
