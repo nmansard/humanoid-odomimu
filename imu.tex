@@ -56,113 +56,61 @@ We define the quaternion-by-vector product $\od$ so that
 %
 \begin{align}
 \bfq\od\bfv \te \bfq\ot\bfv\ot\bfq^*
+~,
 \end{align}
 %
 where the symbol $\ot$ indicates the quaternion product.
-That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotations. This product satisfies,
-%
-\begin{align*}
-\bfq_2\od(\bfq_1\od\bfv) &= (\bfq_2\ot\bfq_1)\od\bfv
-\end{align*}
-%
-that is, the group of quaternions $(\bfq\in\bbH,\ot)$ is a transformation group acting on 3D vectors through the rotation action $\od$.
-Notice the equivalences,
-%
-\begin{align*}
-\bfq\od\bfv &= \bfR\,\bfv
-&
-\bfq^*\od\bfv &= \bfR\tr\,\bfv
-\end{align*}
-%
-where $\bfR=\bfR\{\bfq\}$ is the rotation matrix equivalent to the quaternion $\bfq$\,. In practice, the operator $\od$ may be implemented as ~$\bfq\od\bfv = \bfq\ot\bfv\ot\bfq^*$ ~or~ $\bfq\od\bfv = \bfR\,\bfv$, whichever is faster.
+That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotations. 
+%This product satisfies,
+%%
+%\begin{align*}
+%\bfq_2\od(\bfq_1\od\bfv) &= (\bfq_2\ot\bfq_1)\od\bfv
+%\end{align*}
+%%
+%that is, the group of quaternions $(\bfq\in\bbH,\ot)$ is a transformation group acting on 3D vectors through the rotation action $\od$.
+Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then $\bfq\od\bfv = \bfR\,\bfv$ and $\bfq^*\od\bfv = \bfR\tr\,\bfv$. 
+In practice, the operator $\od$ may be implemented as ~$\bfq\od\bfv = \bfq\ot\bfv\ot\bfq^*$ ~or~ $\bfq\od\bfv = \bfR\,\bfv$, whichever is faster.
 
 \subsection{Exp and Log maps}
 
-We use vectorized versions of the exponential and logarithmic maps in $S3$ and $SO(3)$, and mark them with capitalized names $\Exp()$ and $\Log()$. They operate directly on the vector space $\bbR^3$, and use either quaternions or rotation matrices as the representation of $S3$ and $SO(3)$ ---their exact form (q or R) is always clear by the context, 
+We use vectorized versions of the exponential and logarithmic maps in $S3$ (the group of unit quaternions) and $SO(3)$ (the group of rotation 3-matrices), and mark them with capitalized names $\Exp()$ and $\Log()$. They operate directly on the vector space $\bbR^3$, and use either quaternions as the representation of $S3$,
 %
 \begin{subequations}
 \begin{align}
-\bfq\{\bth\} &= \Exp(\bth) \te \exp(\bth/2)\\ 
-\bth &= \Log(\bfq) \te 2\log(\bfq)
+\bfq
+%\{\bth\} 
+&= \Exp(\bth) \te \begin{bmatrix}
+\cos(\theta/2) \\ \bfu\sin(\theta/2)
+\end{bmatrix}\\ 
+\theta\bfu &= \Log(\bfq) \te 2\,\qv\frac{\arctan({\norm{\qv},q_w})}{\norm{\qv}}
 ~,
 \end{align}
 \end{subequations}
 %
-\begin{subequations}
-\begin{align}
-\bfR\{\bth\} &= \Exp(\bth) \te \exp(\hatx{\bth}) \\ 
-\bth &= \Log(\bfR) \te \log(\bfR)^\vee 
-~.
-\end{align}
-\end{subequations}
-%
-where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$, that is, 
-%
-\begin{align*}
-(\hatx{\bfv})^\vee &= \bfv \in \bbR^3 & \hatx{\bfV^\vee} &= \bfV \in \so(3)
-~.
-\end{align*}
-
-\subsubsection{Implementation using quaternions}
-
-For their implementation it is convenient to factor the rotation vector as angle-axis, $\bth=\theta\bfu$, where $\theta=\nth$ is the angle, and $\bfu=\bth/\nth$ is the axis. Then, we have the quaternion forms,
+or rotation matrices as the representation of $SO(3)$, 
 %
 \begin{subequations}
 \begin{align}
-\bfq\{\bth\} = \Exp(\theta\bfu) &= \begin{bmatrix}
-\cos(\theta/2) \\ \bfu\sin(\theta/2)
-\end{bmatrix} \\
-\theta\bfu = \Log(\bfq) &= 2\,\qv\frac{\arctan({\norm{\qv},q_w})}{\norm{\qv}} \\
-&\approx 2\,\frac{\qv}{q_w} \left(1 - \frac{\norm{\qv}^2}{3q_w^2}\right) \label{equ:log_q_small}
+\bfR
+%\{\bth\} 
+&= \Exp(\bth) \te \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\ 
+\theta\bfu &= \Log(\bfR) \te \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} 
+~,
 \end{align}
 \end{subequations}
 %
-%where in \eqRef{equ:log_q_small} we wrote the small angle approximation that avoids division by zero by expanding the Taylor series of $\arctan(x)$ and truncating.\footnote{Remind that $\arctan(x) = x - x^3/3 + x^5/5 + \cdots$.}
-%%
-%\subsubsection{Implementation using rotation matrices}
-%We also have the rotation matrix forms, with the Rodrigues formula and its inverse,
-and the rotation matrix forms,
-%
-\begin{subequations}
-\begin{align}
-\bfR\{\bth\} = \Exp(\theta\bfu) &= \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\
-\theta\bfu = \Log(\bfR) &= \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} \\
-%, \qquad
-\textrm{ with ~~~~~~~~~~~~} &\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right) 
-\end{align}
-\end{subequations}
+with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
+and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
+Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
 
-\subsection{Integration in continuous time}
 
-We define the world-referenced states of position, velocity, and orientation quaternion, $(\bfp,\bfv,\bfq)$. 
-%%
-%\begin{align*}
-%\bfp &\te {}^W\bfp \\
-%\bfv &\te {}^W\bfv \\
-%\bfq &\te {}^W\bfq 
-%\end{align*}
-%
-To express their time evolution, we use a world-referenced acceleration, ${}^W\bfa$, and a body-referenced angular rate, ${}^B\bw$. 
-We have
-%
-\begin{align}\label{equ:cont_basic}
-\dot\bfp &= \bfv \\
-\dot\bfv &= {}^W\bfa \\
-\dot\bfq &= \frac12\bfq\ot{}^B\bw 
-\end{align}
-%
 
-%In the following chapters, these expressions are integrated to discrete time using different assumptions about gravity, and also different approximation orders for the integral.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\newpage
-%\section{Discrete time. Gravity}
 
 \subsection{Delta definitions}
 
-The deltas $(\Dp,\Dv,\Dq)$ represent the motion (position, velocity, orientation) of a body \wrt a non-rotating frame that is free-falling at the acceleration of gravity $\bfg$. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, and moving at velocity $\bfv_i$,
+The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt a non-rotating frame that is free-falling at the acceleration of gravity $\bfg$. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, and moving at velocity $\bfv_i$. From this definition, deltas $\D_{ij}$ from time $t=t_i$ to $t=t_j$ respond to the expression,
 %
 \begin{align}
 \begin{split}
@@ -172,35 +120,69 @@ The deltas $(\Dp,\Dv,\Dq)$ represent the motion (position, velocity, orientation
 \end{split}
 \end{align}
 %
-where $\Dt_{ij} \te t_j - t_i$.
-
-\subsection{Body magnitudes $(\bfa,\bw)$}%
-
+where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the composition operator $\D_{ik}\te\D_{ij}\oplus\D_{jk}$ defined by,
+%
+\begin{align} \label{equ:g_composition}
+\begin{split}
+\Dp_{ik} 
+&= \Dp_{ij} + \Dv_{ij}\Dt_{jk} + \Dq_{ij}\od\Dp_{jk} \\
+\Dv_{ik} 
+&= \Dv_{ij} + \Dq_{ij}\od\Dv_{jk} \\
+\Dq_{ik} 
+&= \Dq_{ij}\ot\Dq_{jk} 
+\end{split}
+\end{align}
+%
+with identity $\D_1=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ defined by,
+%
 \begin{align}
 \begin{split}
-{}^W\bfa &= \bfq_j\od\bfa + \bfg \\
-{}^B\bw &= \bw
+\Dp_{ji} 
+&= -\Dq_{ij}^*\od(\Dp_{ij} - \Dv_{ij}\Dt_{ij}) \\
+\Dv_{ji} 
+&= -\Dq_{ij}^*\od\Dv_{ij} \\
+\Dq_{ji} 
+&= \Dq_{ij}^*
+~.
 \end{split}
 \end{align}
 
+%\subsection{Body magnitudes $(\bfa,\bw)$}%
+%
+%\begin{align}
+%\begin{split}
+%{}^W\bfa &= \bfq_j\od\bfa + \bfg \\
+%{}^B\bw &= \bw
+%\end{split}
+%\end{align}
 
-%\subsection{2nd order integration}
 
 \subsection{State integration}
 
+We define the world-referenced states of position, velocity, and orientation quaternion, $(\bfp,\bfv,\bfq)$. 
+Their time evolution is governed by the kinematic equation,
+%
+\begin{align}\label{equ:cont_basic}
+\dot\bfp &= \bfv \\
+\dot\bfv &= \bfq\od\bfa + \bfg \\
+\dot\bfq &= \frac12\bfq\ot\bw 
+\end{align}
+%
+where we identify $(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame.
+Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have the discrete-time relation
+%
 \begin{align}\label{equ:g_second_order_integration}
 \begin{split}
-\bfp_{j} &= \bfp_i + \bfv_i\dt  + \frac12{}^W\bfa_i\dt^2 \\
-\bfv_{j} &= \bfv_i + {}^W\bfa_i\dt \\
-\bfq_{j} &= \bfq_i\ot\Exp({}^B\bw_i\dt/2) 
+\bfp_{k} &= \bfp_j + \bfv_j\dt  + \frac12\bfg\dt^2 + \frac12\bfq_j\od\bfa_j\dt^2 \\
+\bfv_{k} &= \bfv_j + \bfg\dt + \bfq_j\odot\bfa_j\dt \\
+\bfq_{k} &= \bfq_j\ot\Exp(\bw_j\dt/2) 
 \end{split}
 \end{align}
-
 
 
 \subsection{Incremental delta pre-integration}
 %
-Substituting all definitions in the integration equation, we obtain,
+Substituting the delta definitions in the integration equation, we obtain the incremental delta pre-integration,
 %
 \begin{align}\label{equ:g_second_order_pre-integration}
 \begin{split}
@@ -213,8 +195,9 @@ Substituting all definitions in the integration equation, we obtain,
 \end{split}
 \end{align}
 %
-which is akin to \eqRef{equ:g_second_order_integration}, that is, the motion equation of a body in an inertial frame.
-
+%which is akin to \eqRef{equ:g_second_order_integration}, that is, the motion equation of a body in an inertial frame.
+%
+which can be expressed as a delta composition $\D_{ik}=\D_{ij}\oplus\delta_{jk}$ using \eqRef{equ:g_composition}
 
 
 \subsection{State reconstruction}
@@ -255,18 +238,18 @@ We define the composition operator $\D_{ik} = \D_{ij}\oplus\D_{jk}$, and develop
 %%
 %this leads to
 %
-\begin{align} \label{equ:g_composition}
-\begin{split}
-\Dp_{ik} 
-&= \Dp_{ij} + \Dv_{ij}\Dt_{jk} + \Dq_{ij}\od\Dp_{jk} \\
-\Dv_{ik} 
-&= \Dv_{ij} + \Dq_{ij}\od\Dv_{jk} \\
-\Dq_{ik} 
-&= \Dq_{ij}\ot\Dq_{jk} 
-\end{split}
-\end{align}
-%
-which is akin to \eqRef{equ:g_second_order_pre-integration}, that is, we can define a small delta $\delta_{jk}$ representing the last IMU step as
+%\begin{align} \label{equ:g_composition}
+%\begin{split}
+%\Dp_{ik} 
+%&= \Dp_{ij} + \Dv_{ij}\Dt_{jk} + \Dq_{ij}\od\Dp_{jk} \\
+%\Dv_{ik} 
+%&= \Dv_{ij} + \Dq_{ij}\od\Dv_{jk} \\
+%\Dq_{ik} 
+%&= \Dq_{ij}\ot\Dq_{jk} 
+%\end{split}
+%\end{align}
+%%
+%which is akin to \eqRef{equ:g_second_order_pre-integration}, that is, we can define a small delta $\delta_{jk}$ representing the last IMU step as
 %
 \begin{align}
 \begin{split}
@@ -279,22 +262,22 @@ which is akin to \eqRef{equ:g_second_order_pre-integration}, that is, we can def
 and then perform the pre-integration with $\D_{ik} = \D_{ij}\oplus\delta_{jk}$, using \eqRef{equ:g_composition} with $\delta_{jk}$ instead of $\D_{jk}$.
 
 
-\subsection{Delta substraction}
-
-Just invert the composition above to get  $\D_{jk} = \D_{ik}\ominus\D_{ij}$,
+%\subsection{Delta substraction}
 %
-\begin{align} 
-\begin{split}
-\Dp_{jk} 
-&= \Dq_{ij}^*\od(\Dp_{ik} - \Dp_{ij} - \Dv_{ij}\Dt_{jk}) \\
-\Dv_{jk} 
-&= \Dq_{ij}^*\od(\Dv_{ik} - \Dv_{ij}) \\
-\Dq_{jk} 
-&= \Dq_{ij}^*\ot\Dq_{ik} 
-\end{split}
-\end{align}
-%
-with $\Dt_{jk} = \Dt_{ik}-\Dt_{ij} = t_k-t_j$.
+%Just invert the composition above to get  $\D_{jk} = \D_{ik}\ominus\D_{ij}$,
+%%
+%\begin{align} 
+%\begin{split}
+%\Dp_{jk} 
+%&= \Dq_{ij}^*\od(\Dp_{ik} - \Dp_{ij} - \Dv_{ij}\Dt_{jk}) \\
+%\Dv_{jk} 
+%&= \Dq_{ij}^*\od(\Dv_{ik} - \Dv_{ij}) \\
+%\Dq_{jk} 
+%&= \Dq_{ij}^*\ot\Dq_{ik} 
+%\end{split}
+%\end{align}
+%%
+%with $\Dt_{jk} = \Dt_{ik}-\Dt_{ij} = t_k-t_j$.
 
 %\subsection{Delta zero (group identity)}
 %
@@ -354,10 +337,10 @@ with $\Dt_{jk} = \Dt_{ik}-\Dt_{ij} = t_k-t_j$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Jacobians}
+%\newpage
+\subsection{Jacobians of the body magnitudes}
 
-Uncertainties and perturbed magnitudes are respectively marked by the prefix $\partial$ and the tilde\, $\widetilde\cdot$\,, and are represented as follows,
+Note: Uncertainties and perturbed magnitudes are respectively marked by the prefix $\partial$ and the tilde\, $\widetilde\cdot$\,, and are represented as follows,
 %
 \begin{align*}
 \widetilde\Dp &= \Dp + \partial\Dp & \partial\Dp &= \widetilde\Dp-\Dp \\
@@ -368,9 +351,9 @@ Uncertainties and perturbed magnitudes are respectively marked by the prefix $\p
 
 %We proceed in two steps: creation of the delta covariance from the data covariance, and integration of the delta covariance. For this, we need to develop the Jacobians of data2delta() and deltaPlusDelta().
 
-\subsection{Jacobians of the body magnitudes}
 
-We consider noisy body magnitudes, with the noise terms added,\footnote{The noise sign should be negative according to its definition, \eg~$\bfa_m = \bfa+\ab+\bfa_n$, but since noise is zero-mean Gaussian this sign has no real impact, and changing it makes our formulas simpler.}
+
+We consider noisy body magnitudes, with the noise terms added,%\footnote{The noise sign should be negative according to its definition, \eg~$\bfa_m = \bfa+\ab+\bfa_n$, but since noise is zero-mean Gaussian this sign has no real impact, and changing it makes our formulas simpler.}
 %
 \begin{align*}
 \bfa &= \bfa_m - \ab + \bfa_n \\
@@ -735,266 +718,7 @@ Also by the chain rule with $\bfA_{\bfa_b}=-\bfI$ and $\bfOmega_{\bw_b}=-\bfI$, 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\section{Biases}
 
-\subsection{Body magnitudes $(\bfa,\bw)$ and real measurements $(\bfa_m,\bw_m)$}
-
-Accelerometer and gyrometer readings measure the body magnitudes with unknown additive biases $(\ab,\wb)$,
-%
-\begin{align}
-\begin{split}
-\bfa_m &= \bfa + \ab \\
-\bw_m &= \bw + \wb
-\end{split}
-\end{align}
-%
-so that the body magnitudes can be obtained,
-%
-\begin{align}
-\begin{split}
-\bfa &= \bfa_m - \ab \\
-\bw &= \bw_m - \wb
-\end{split}
-\end{align}
-%
-and also,
-%
-\begin{align*}
-{}^W\bfa &= \bfq_j\od(\bfa_m-\ab) + \bfg \\
-{}^B\bw &= \bw_m-\wb
-\end{align*}
-
-All the results obtained so far with $\bfa$ and $\bw$ are valid for real measurements with bias. All we need to do is substitute $\bfa$ by $(\bfa_m-\ab)$, and $\bw$ by $(\bw_m-\wb)$.
-
-
-\subsection{Bias-corrected deltas}
-
-We indicate here with a bar, $\ol\bullet$, the pre-integrated deltas $(\ol\Dp,\ol\Dv,\ol\Dq)$, and the biases $(\ol\ab,\ol\wb)$ used during pre-integration.
-%
-Upon changes on the estimated values of the biases, the pre-integrated deltas are corrected according to the linear approximation,
-%
-\begin{align}
-\begin{split}
-\Dp &= \ol\Dp + \DP_{\ab}\D\ab  + \DP_{\wb}\D\wb  \\ 
-\Dv &= \ol\Dv + \DV_{\ab}\D\ab  + \DV_{\wb}\D\wb  \\
-\Dq &= \ol\Dq\ot\Exp(\DTH_{\bfw_b}\D\wb)
-\end{split}
-\end{align}
-%
-with 
-%
-\begin{align}
-\begin{split}
-\D\ab &= \ab - \ol\ab \\
-\D\wb &= \wb - \ol\wb 
-\end{split}
-\end{align}
-%
-and where $\DP_{\ab},\DP_{\wb},\DV_{\ab},\DV_{\wb},\DTH_{\bfw_b}$ are the Jacobians of the deltas \wrt the biases, which are computed via the chain rule,
-%
-\begin{align}
-\D^+_{\bfb_b} = \D^+_\D\D_{\bfb_b}+\D^+_\delta\delta_\bfb\bfB_{\bfb_b}
-\end{align}
-%
-\begin{align}
-\DP^+_{\bfa_b} &= \DP_\Dp\DP_{\bfa_b} + \DP_\dpp\dP_\bfa\bfA_{\bfa_b}
-\end{align}
-
-
-\subsection{Jacobians of pre-integrated Deltas \wrt the biases}
-
-We developed all these Jacobians based on the chain rule in the previous chapter. Here, we follow a new approach from scratch. The reults should match, also with those in \cite{FORSTER-16-techrep}
-
-
-We are interested in finding the Jacobians of the pre-integrated Deltas \wrt the accelerometer and gyrometer biases, $(\ab,\wb)$. These are defined as
-%
-\begin{align*}
-\DP_{\ab} &\te \dpar{\Dp}{\ab} & \DP_{\wb} &\te \dpar{\Dp}{\wb} \\
-\DV_{\ab} &\te \dpar{\Dv}{\ab} & \DV_{\wb} &\te \dpar{\Dv}{\wb} \\
-&& \DTH_{\wb} &\te \dpar{\Dth}{\wb} 
-\end{align*}
-%
-where $\Dth = \Log(\Dq)$. These Jacobians admit a recursive computation as shown hereafter.
-
-
-\subsubsection{Orientation}
-
-For convenience, we write the recursive expression of the orientation delta in matrix form,
-%
-\begin{align}\label{equ:recursiveDq}
-\DR_{ik}=\DR_{ij}\Exp((\bw_j-\wb)\dt)
-\end{align}
-%
-Its Jacobian \wrt the accelerometer bias is trivially zero,
-%
-\begin{align}
-\DTH_{\ab} &\te \dpar{\Dth}{\ab} = \bf0_{3\times3}
-\end{align}
-%
-For the Jacobian \wrt the gyrometer bias, $\DTH_{\wb}$, we proceed as follows. We define for the sake of economy,
-%
-\begin{align}
-\ol\dR_{jk} &= \Exp((\bw_j-\ol\wb)\dt) \\
-\bfJ_j &= \bfJ_r((\bw_j-\ol\wb)\dt)
-\end{align}
-%
-Then, we write the expression of the new delta as a function of the pre-integrated delta $\ol\DR_{ik}$, desired Jacobian $\DTH_{\wb}|_{ik}$ and the bias change $\D\wb$,
-%
-\begin{align}\label{equ:delta_correct_bias}
-\DR_{ik} &\te \ol\DR_{ik}\Exp(\DTH_{\wb}|_{ik}\D\wb) 
-\end{align}
-%
-This is developed\footnote{We use helper keys in the form of $\com{key}$to indicate the property used for each step of the development. See the explanations for all these keys in \appRef{sec:DosDonts}.} using the recursive Delta update \eqRef{equ:recursiveDq} as,
-%
-\begin{align*}
-\DR_{ik} &= \DR_{ij}\Exp((\bw_j-\wb)\dt) \\
-\cexpand
-&= \ol\DR_{ij}\Exp(\DTH_{\wb}|_{ij}\D\wb)\Exp((\bw_j-\ol\wb)\dt - \Dw_b\dt) \\
-\cJr
-&\approx \ol\DR_{ij}\Exp(\DTH_{\wb}|_{ij}\D\wb)\Exp((\bw_j-\ol\wb)\dt)\Exp( - \bfJ_r((\bw_j-\ol\wb)\dt)\,\Dw_b\dt) \\
-\com{subst}
-&= \ol\DR_{ij}\Exp(\DTH_{\wb}|_{ij}\D\wb)\ol\dR_{jk}\Exp( - \bfJ_j\,\Dw_b\dt) \\
-\cswap
-&= \ol\DR_{ij}\ol\dR_{jk}\Exp(\ol\dR_{jk}\tr\DTH_{\wb}|_{ij}\D\wb)\Exp( - \bfJ_j\,\Dw_b\dt) \\
-\csmall
-&\approx \ol\DR_{ik}\Exp(\ol\dR_{jk}\tr\DTH_{\wb}|_{ij}\D\wb - \bfJ_j\,\Dw_b\dt) \\
-\end{align*}
-%
-from which we extract the recursive expression of the Jacobian,
-%
-\begin{align}
-\DTH_{\wb}|_{ik} 
-&= \ol\dR_{jk}\tr\,\DTH_{\wb}|_{ij} - \bfJ_r((\bw_j-\ol\wb)\dt)\dt
-\end{align}
-%
-where we start with
-%
-\begin{align*}
-\DTH_{\wb}|_{ii} = \bf0_{3\times3}
-\end{align*}
-
-\subsubsection{Position and velocity}
-
-We write one step of the delta pre-integration equations \eqRef{equ:g_second_order_pre-integration} with explicit biases,
-%
-\begin{align*} 
-\begin{split}
-\Dp_{ik} 
-&= \Dp_{ij} + \Dv_{ij}\dt + \frac12\Dq_{ij}\od(\bfa_{m,j}-\ab)\dt^2 \\
-\Dv_{ik} 
-&= \Dv_{ij} + \Dq_{ij}\od(\bfa_{m,j}-\ab)\dt 
-\end{split}
-\end{align*}
-%
-The Jacobians \wrt the acceleration bias $\ab$ are quite obvious (see Example 2 in \appRef{sec:DosDonts}),
-%
-\begin{align*}
-\DP_\ab &= \frac12\DR_{ij}\dt^2 & 
-\DV_\ab &= \DR_{ij}\dt   
-\end{align*}
-%
-Those \wrt the gyro bias can be developed using  \eqRef{equ:delta_correct_bias} by noticing that, for any vector $\bfh\in\bbR^3$,
-%
-\begin{align*}
-\Dq(\wb)\od\bfh 
-= \DR(\wb)\,\bfh 
-&\te \DR(\ol\wb+\D\wb)\,\bfh \\
-\com{\eqRef{equ:delta_correct_bias}}
-&\approx \ol\DR\Exp(\DTH_{\bfw_b}\D\wb)\,\bfh \\
-\csmall
-&\approx \ol\DR(\bfI+\hatx{\DTH_{\bfw_b}\D\wb})\bfh \\
-\ccross
-&= \ol\DR\,\bfh-\ol\DR\hatx{\bfh}\DTH_{\bfw_b}\D\wb 
-~.
-\end{align*}
-%
-which leads to
-%
-\begin{align*}
-\dpar{(\Dq(\wb)\od\bfh)}{\wb} 
-= \dpar{(\DR(\wb)\,\bfh)}{\wb} = -\ol\DR\,\hatx{\bfh}\DTH_{\bfw_b}
-\end{align*}
-%
-Therefore, starting with the null Jacobians,
-%
-\begin{equation}
-\DP_{\ab}|_{ii} = \DV_{\ab}|_{ii} = \DP_{\wb}|_{ii} = \DV_{\wb}|_{ii} = {\bf0}_{3\times3}
-\end{equation}
-%
-we can update them at each iteration
-%
-\begin{align} 
-\begin{split}
-\DP_{\ab} |_{ik}
-&= \DP_{\ab}|_{ij} + \DV_{\ab}|_{ij}\dt -\frac12\DR_{ij}\dt^2 \\
-\DV_{\ab}|_{ik} 
-&= \DV_{\ab}|_{ij} - \DR_{ij}\dt \\ 
-\DP_{\wb} |_{ik}
-&= \DP_{\wb}|_{ij} + \DV_{\wb}|_{ij}\dt -\frac12\DR_{ij}\hatx{\bfa_{m,j}-\ab}\DTH_{\wb}|_{ij}\,\dt^2 \\
-\DV_{\wb}|_{ik} 
-&= \DV_{\wb}|_{ij} - \DR_{ij}\hatx{\bfa_{m,j}-\ab}\DTH_{\wb}|_{ij}\,\dt 
-\end{split}
-\end{align}
-%
-
-%\subsection{Direct method through the chain rule}
-%
-%We have,
-%%
-%\begin{align}
-%\D_{ik} = \D_{ij} \oplus \delta_{jk}
-%\end{align}
-%%
-%with
-%%
-%\begin{align}
-%\delta = \begin{bmatrix}
-%\frac12\bfa\dt^2 \\
-%\bfa\dt \\
-%\bw\dt
-%\end{bmatrix}
-%\end{align}
-%%
-%and
-%%
-%\begin{align}
-%\bfa = \bfa_m - \bfa_b \\
-%\bw = \bw_m - \bw_b
-%\end{align}
-%%
-%so defining the measurement, the bias, and the body magnitude vectors as
-%%
-%\begin{align}
-%\bfm &= \begin{bmatrix}
-%\bfa_m \\ \bw_m
-%\end{bmatrix} 
-%&
-%\bfm_b &= \begin{bmatrix}
-%\bfa_b \\ \bw_b
-%\end{bmatrix}
-%&
-%\bfb &= \begin{bmatrix}
-%\bfa \\ \bw
-%\end{bmatrix} = \bfm-\bfm_b
-%\end{align}
-%%
-%we use the chain rule,
-%%
-%\begin{align}
-%\dpar{\D_{ik}}{\bfm_b} 
-%%&= \dpar{\D_{ik}}{\D_{ij}}\dpar{\D_{ij}}{\bfm_b} + \dpar{\D_{ik}}{\delta_{jk}}\dpar{\delta_{jk}}{\bfm_b} \\
-%&= \dpar{(\D_{ij}\oplus\delta_{jk})}{\D_{ij}}\dpar{\D_{ij}}{\bfm_b} + \dpar{(\D_{ij}\oplus\delta_{jk})}{\delta_{jk}}\dpar{\delta_{jk}}{\bfb}\dpar{\bfb}{\bfm_b}
-%\end{align}
-%
-%
-%Now, realizing that we already have $\dpar{(\D_{ij}\oplus\delta_{jk})}{\D_{ij}}$ through \secRef{sec:jac_first_delta}, $\dpar{(\D_{ij}\oplus\delta_{jk})}{\delta_{jk}}$ through \secRef{sec:jac_second_delta} and $\dpar{\delta_{jk}}{\bfb}$ through \secRef{sec:jac_data}, and that $\dpar{\bfb}{\bfm_b}=-\bfI$, the recursive expressions are obtained easily.
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
 \section{Summary -- 2nd order, with gravity}
 \label{sec:summary-gravity-2nd}
 
