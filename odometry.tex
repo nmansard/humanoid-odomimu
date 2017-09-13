@@ -27,7 +27,7 @@ The optimal states are computed so that the overall residual is minimized in a l
 {\bf Top}: Detailed factor graph for the initial keyframe and two steps. \emph{Circles}: state blocks for position ($p$), orientation quaternion ($q$), velocity ($v$), accelerometer bias ($a_b$), gyrometer bias ($\omega_b$). \emph{Orange}: initial pose factor. \emph{Red}: leg kinematic factor. \emph{Green}: IMU's delta pre-integration factor. 
 \emph{Blue}: bias drift factor. \emph{Cyan}: bias absolute factor. \emph{Purple}: zero-velocity factor. 
 %{\bf Mid}: Simplified factor graph where aggregate state blocks $x=(p,q,v)$ and biases $b=(a_b,\omega_b)$ are used. 
-{\bf Bottom}: Equivalent factor graph with one aggregate state block $x=(p,q,v,a_b,\omega_b)$ for each key-frame. All factors are affecting exactly the same variables as in the Top graph.
+{\bf Bottom}: Equivalent factor graph exhibiting one aggregate state block $x=(p,q,v,a_b,\omega_b)$ for each key-frame. All factors are affecting exactly the same variables as in the Top graph.
 }
 \label{default}
 \end{center}
