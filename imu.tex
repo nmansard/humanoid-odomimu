@@ -120,7 +120,7 @@ The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity,
 \end{split}
 \end{align}
 %
-where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the composition operator $\D_{ik}\te\D_{ij}\oplus\D_{jk}$ defined by,
+where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the composition operator $\D_{ik}\te\D_{ij}\oplus\D_{jk}$, defined by,
 %
 \begin{align} \label{equ:g_composition}
 \begin{split}
@@ -146,15 +146,6 @@ with identity $\D_1=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}
 ~.
 \end{split}
 \end{align}
-
-%\subsection{Body magnitudes $(\bfa,\bw)$}%
-%
-%\begin{align}
-%\begin{split}
-%{}^W\bfa &= \bfq_j\od\bfa + \bfg \\
-%{}^B\bw &= \bw
-%\end{split}
-%\end{align}
 
 
 \subsection{State integration}
@@ -195,9 +186,15 @@ Substituting the delta definitions in the integration equation, we obtain the in
 \end{split}
 \end{align}
 %
-%which is akin to \eqRef{equ:g_second_order_integration}, that is, the motion equation of a body in an inertial frame.
+which can be expressed as a delta composition $\D_{ik}=\D_{ij}\oplus\delta_{jk}$ using \eqRef{equ:g_composition}, and defining the new delta $\delta_{jk}$ from the body magnitudes at time $t_j$,
 %
-which can be expressed as a delta composition $\D_{ik}=\D_{ij}\oplus\delta_{jk}$ using \eqRef{equ:g_composition}
+\begin{align}\label{equ:delta_creation}
+\begin{split}
+\dpp_{jk} &= \frac12\bfa_j\dt^2 \\
+\dv_{jk} &= \bfa_j\dt \\
+\dq_{jk} &= \Exp(\bw_j\dt)
+\end{split}
+\end{align}
 
 
 \subsection{State reconstruction}
@@ -212,147 +209,26 @@ It follows from the Delta definitions
 \end{split}
 \end{align}
 
-\subsection{Delta composition}
-
-We define the composition operator $\D_{ik} = \D_{ij}\oplus\D_{jk}$, and develop it as follows,
-%
-%\begin{align*}
-%\Dp_{ik} 
-%&\te \bfq_i^*\od\Big(\bfp_k - \bfp_i - \bfv_i\Dt_{ik} - \frac12\bfg\Dt_{ik}^2\Big) \\
-%&= \bfq_i^*\od\Big((\bfp_j + \bfv_j\Dt_{jk} + \frac12\bfg\Dt_{jk}^2 + \bfq_j\od\Dp_{jk}) \\
-%&~~~ - \bfp_i - \bfv_i(\Dt_{ij}+\Dt_{jk}) - \frac12\bfg(\Dt_{ij}+\Dt_{jk})^2\Big) \\
-%&= \bfq_i^*\od\Big(\bfp_j + \bfv_j\Dt_{jk} + \frac12\bfg\Dt_{jk}^2 + \bfq_j\od\Dp_{jk} \\
-%&~~~ - \bfp_i - \bfv_i\Dt_{ij} - \bfv_i\Dt_{jk} - \frac12\bfg\Dt_{ij}^2 - \bfg\Dt_{ij}\Dt_{jk} - \frac12\bfg\Dt_{jk}^2\Big) \\
-%&= \bfq_i^*\od\Big((\bfp_j - \bfp_i - \bfv_i\Dt_{ij} - \frac12\bfg\Dt_{ij}^2) + (\bfv_j - \bfv_i - \bfg\Dt_{ij})\Dt_{jk} + \bfq_j\od\Dp_{jk}\Big) \\
-%&= \Dp_{ij} + \Dv_{ij}\Dt_{jk} + \Dq_{ij}\od\Dp_{jk} \\
-%\Dv_{ik} 
-%&\te \bfq_i^*\od(\bfv_k - \bfv_i - \bfg\Dt_{ik}) \\
-%&= \bfq_i^*\od(\bfv_j + \bfg\Dt_{jk} + \bfq_j\od\Dv_{jk} - \bfv_i - \bfg(\Dt_{ij}+\Dt_{jk})) \\
-%&= \bfq_i^*\od(\bfv_j - \bfv_i - \bfg\Dt_{ij} + \bfq_j\od\Dv_{jk}) \\
-%&= \Dv_{ij} + \Dq_{ij}\od\Dv_{jk}\dt \\
-%\Dq_{ik} 
-%&\te \bfq_i^*\ot\bfq_k \\
-%&= \bfq_i^*\ot\bfq_j\ot\Dq_{jk} \\
-%&= \Dq_{ij}\ot\Dq_{jk} 
-%\end{align*}
-%%
-%this leads to
-%
-%\begin{align} \label{equ:g_composition}
-%\begin{split}
-%\Dp_{ik} 
-%&= \Dp_{ij} + \Dv_{ij}\Dt_{jk} + \Dq_{ij}\od\Dp_{jk} \\
-%\Dv_{ik} 
-%&= \Dv_{ij} + \Dq_{ij}\od\Dv_{jk} \\
-%\Dq_{ik} 
-%&= \Dq_{ij}\ot\Dq_{jk} 
-%\end{split}
-%\end{align}
-%%
-%which is akin to \eqRef{equ:g_second_order_pre-integration}, that is, we can define a small delta $\delta_{jk}$ representing the last IMU step as
-%
-\begin{align}
-\begin{split}
-\dpp_{jk} &= \frac12\bfa_j\dt^2 \\
-\dv_{jk} &= \bfa_j\dt \\
-\dq_{jk} &= \Exp(\bw_j\dt)
-\end{split}
-\end{align}
-%
-and then perform the pre-integration with $\D_{ik} = \D_{ij}\oplus\delta_{jk}$, using \eqRef{equ:g_composition} with $\delta_{jk}$ instead of $\D_{jk}$.
-
-
-%\subsection{Delta substraction}
-%
-%Just invert the composition above to get  $\D_{jk} = \D_{ik}\ominus\D_{ij}$,
-%%
-%\begin{align} 
-%\begin{split}
-%\Dp_{jk} 
-%&= \Dq_{ij}^*\od(\Dp_{ik} - \Dp_{ij} - \Dv_{ij}\Dt_{jk}) \\
-%\Dv_{jk} 
-%&= \Dq_{ij}^*\od(\Dv_{ik} - \Dv_{ij}) \\
-%\Dq_{jk} 
-%&= \Dq_{ij}^*\ot\Dq_{ik} 
-%\end{split}
-%\end{align}
-%%
-%with $\Dt_{jk} = \Dt_{ik}-\Dt_{ij} = t_k-t_j$.
-
-%\subsection{Delta zero (group identity)}
-%
-%It is noted $\Dzero$ and defined by
-%%
-%\begin{align*}
-%\Dp^0 &= \bf0 \te \begin{bmatrix}
-%0&0&0
-%\end{bmatrix}\tr \\
-%\Dv^0 &= \bf0 \te \begin{bmatrix}
-%0&0&0
-%\end{bmatrix}\tr \\
-%\Dq^0 &= \bf1 \te \begin{bmatrix}
-%1&0&0&0
-%\end{bmatrix}\tr
-%\end{align*}
-%%
-%We have that, for any index $i$,
-%%
-%\begin{align*}
-%\Dp_{ii} &= \Dp^0 \\
-%\Dv_{ii} &= \Dv^0 \\
-%\Dq_{ii} &= \Dq^0 
-%\end{align*}
-
-%\subsection{Delta negated (group inverse)}
-%%
-%It is that delta $\D_{ji}$ such that $\D_{ji} \oplus \D_{ij} = \D_{ij} \oplus \D_{ji} = \Dzero$.
-%We develop it from $\D_{ij} \oplus \D_{ji} = \Dzero$,
-%%
-%\begin{align}
-%\begin{split}
-%\Dp_{ji} 
-%&= -\Dq_{ij}^*\od(\Dp_{ij} - \Dv_{ij}\Dt_{ij}) \\
-%\Dv_{ji} 
-%&= -\Dq_{ij}^*\od\Dv_{ij} \\
-%\Dq_{ji} 
-%&= \Dq_{ij}^*
-%\end{split}
-%\end{align}
-%%
-
-
-%\subsection{Minimal delta (in tangent space)}
-%
-%This returns a delta in minimal form: position and velocity remain the same, and the orientation is provided in the tangent space,
-%%
-%\begin{align}
-%\begin{split}
-%\tan{\Dp} &= \Dp \\
-%\tan{\Dv} &= \Dp \\
-%\tan{\Dq} &= \Log(\Dq) = \bfu\theta 
-%\end{split}
-%\end{align}
-%%
-
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\newpage
 \subsection{Jacobians of the body magnitudes}
+
 
 Note: Uncertainties and perturbed magnitudes are respectively marked by the prefix $\partial$ and the tilde\, $\widetilde\cdot$\,, and are represented as follows,
 %
 \begin{align*}
 \widetilde\Dp &= \Dp + \partial\Dp & \partial\Dp &= \widetilde\Dp-\Dp \\
 \widetilde\Dv &= \Dv + \partial\Dv & \partial\Dv &= \widetilde\Dv-\Dv \\
-\widetilde\Dq &= \Dq \ot \Exp( \partial\Dth ) & \partial\Dth &= \Log(\Dq^*\ot\widetilde\Dq) \\
-\widetilde\DR &= \DR  \Exp( \partial\Dth ) & \partial\Dth &= \Log(\DR\tr\widetilde\DR) 
+\widetilde\Dq &= \Dq \ot \Exp( \partial\Dth ) & \partial\Dth &= \Log(\Dq^*\ot\widetilde\Dq) 
+%\\
+%\widetilde\DR &= \DR  \Exp( \partial\Dth ) & \partial\Dth &= \Log(\DR\tr\widetilde\DR) 
 \end{align*}
 
 %We proceed in two steps: creation of the delta covariance from the data covariance, and integration of the delta covariance. For this, we need to develop the Jacobians of data2delta() and deltaPlusDelta().
 
 
-
+\subsubsection{Jacobians \wrt the body magnitudes}
 We consider noisy body magnitudes, with the noise terms added,%\footnote{The noise sign should be negative according to its definition, \eg~$\bfa_m = \bfa+\ab+\bfa_n$, but since noise is zero-mean Gaussian this sign has no real impact, and changing it makes our formulas simpler.}
 %
 \begin{align*}
@@ -387,17 +263,7 @@ We have immediately
 %
 %so that derivatives \wrt $\{\bfa_n,\bw_n\}$ coincide with those \wrt $\{\bfa,\bw\}$.
 %
-The involved operations are the delta creation, $\delta_{jk} \gets (\bfa_j,\bw_j,\dt)$,
-%
-\begin{align*}
-\begin{split}
-\dpp_{jk} &= \frac12\bfa_j\dt^2 \\
-\dv_{jk} &= \bfa_j\dt \\
-\dq_{jk} &= \Exp(\bw_j\dt)
-\end{split}
-\end{align*}
-%
-We obtain most of the Jacobians by simple inspection,
+The involved operations are the delta creation \eqRef{equ:delta_creation} whose Jacobians are mostly obteined by simple inspection,
 %
 \begin{align*}
 \dP_\bfa &= \frac12\bfI\dt^2 	& \dP_\bw &= \bf0 \\
