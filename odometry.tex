@@ -6,11 +6,15 @@ We describe the inertial-kinematic odometry for legged robots, based on a graph 
 
 \subsection{Graph-based estimation through non-linear least squares optimization}
 
+Estimation is realized with a tool in ongoing development \textbf{(cite WOLF ?)} and using Google Ceres non-linear least squares optimizer. This optimization is run on data given by the front-end part of the framework,
+which aim is to formalize the problem according to the graph-based model for aforementioned reasons. This representation, given in \ref{figures/graph_essential}, 
+gives a human-readable way to easily visualize optimized states (circles) linked to constraining information during the optimization process (factors drawn as squares). Constraints are set by the front-end process using measurements from sensors.
+Thus, it is possible to constrain states with several factors provided by different sensors leading to a fusion. Factor play a key role since they are used on top of previous states to predict next ones and compute the error with the current states.
+The optimal states are computed so that the overall residual is minimized in a least squares meaning.
+
 \subsection{The inertial-kinematic odometry}
-
 \subsubsection{Inertial pre-integration}
-
-\subsubsection{Grahical model}
+\subsubsection{Graphical model}
 
 \begin{figure}[tb]
 \begin{center}

@@ -1,5 +1,67 @@
 % !TEX root = main.tex
 
-\section{Results} \label{sec:results}
+\section{Experiments} \label{sec:experiments}
+
+Trajectory estimation is naturally more effective with the use of a good IMU. IMU technology is advanced at such point that 
+one can find those systems for a range of price going from low cost to thousands of dollars for space-navigation or military purposes.
+The performances of an IMU are caracterized by several factors from which we can mainly cite biases random walk and noises standard deviation
+as examples.
+
+We chose to use a low-cost IMU in our application to realize the feasibility of our method. For this purpose we selected the 
+MPU6050 from invensense combining both an accelerometer and a gyroscope and extensively used in the open source community.
+
+Several experiments were designed to check that the trajectory estimation is feasible and online auto-calibration of the IMU is possible given particularities of the motion.
+Furthermore, for applications using an IMU, it is easy to define the starting point as the application's origin frame. However, giving an initial orientation is subject to errors since this state parameter should be expressed in world frame.
+We want to estimate the initial orientation in the world frame to make this auto-calibration easy to realize. 
+
+\textit{Keywords : low-cost IMU, MPU6050, experiment conditions, 1 KHz IMU} \\
+\textit{TODO : add factor graph for experiment visualization}
+
+\subsection{Method}
+\subsubsection{auto-calibration}
+A naive way to estimate the trajectory is to simply integrate measurements on top of the initial state vector whose variables would all be optimized. 
+This may be theoretically possible with a well characterized IMU, meaning that the bias components will be known and parts of the state vector.
+However, since we want our experiment to allow a calibration of the sensor, this solution is not accepted and we need a setup allowing a correct calibration of the sensor.
+
+The parameters we need to calibrate for a correct integration are the biases on top of which we integrate the incoming data of the IMU.
+The time varying property of the bias is a critical point to consider in order to avoid large deviations. This calibration is made possible
+by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). We understand that the fusion of the IMU with another odometer giving both
+orientation and position increments helps to determine the biases. However, the least squares formulation makes possible the transfer of some parts
+of the velocities in the biases or the opposite operation during the residual minimization phase. One way to get rid of these is to use experimental conditions to constrain the states, in the case of legged
+locomotion we use the property of having null velocity for the feet once they reach the ground. Adding this knowledge to the graph allows for a
+better estimation of the biases and trajectory.
+
+The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run in observability problems. \textbf{add figure here (graph)}
+
+\subsubsection{Experimental procedures}
+
+We need to define a series of experimental procedures that will allow us to check different parts of the results :
+
+First of all, the final estimated position and orientation is checked using a 3D printed dock for the IMU containing two possible positions for the sensor.
+This is used as a unit test in which the final odometer is imposed by the printed structure. \textbf{add figure here}
+
+Then we need to make sure that the intermediate positions are correct, increasing this way our confidence on correct velocity estimations.
+Such a test implies the need of a ground truth to check our estimations against it. For this purpose we use a Motion Capture (abbreviated as MOCAP) system publishing both
+pose and orientation of the IMU in the system's frame at 120 Hz. The MOCAP is a tracking system looking for specific markers in space
+and trying to reconstruct previously defined objects with these. Once the object is identified, we then get the position and orientation of the barycenter defined from the markers.
+A first calibration process is used to make MOCAP's and IMU's axis match and to get the pose of the IMU instead of the barycenter of the object. \textbf{add figure here}
+
+Finally, we will run the application on HRP2 robot. \textbf{add figure here}
+
+\subsection{Results}
+
+The final position estimation is correct taking into account the uncertainties due to the printing part and the model of the odometry (1 mm error is accepted for 1m distance). We focus on doing an experiment that would be the shorter as possible
+so that we can neglect the random walking affecting the biases. 
+In all the following applications, we should also consider that the orientation estimation is expressed in IMU's world frame due to its measurement frames. \textbf{add figure here}
+
+Considering the trajectory estimation between both states, using the MOCAP experiment is still necessary. We do this by simulating the movement the feet of a robot could have when it is walking. However, as shown in figures \textbf{add figure here}, the final optimal state
+is not the expected one and acceleration biases are rapidly changing. The variation that we can see is not only due to some random walk and can be explained by the excitement of biases in a different axis.
+As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acceleration biases do not converge toward stable values during a motion exciting several axis of the sensor. This effect can be explained by time inconsistency since we fail
+to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motion do not use all the axis of the accelerometer as it should.
+We can suspect the performances of the sensor to be partially responsible of these results but we can also suppose that, even if the estimated values of the biases are incoherent, the estimation is locally consistent and the optimal solution actually
+returns a possible solution explaining the motion given the dynamics of the motion. The problem we still have here is the integration of all the data on top of a state that is no longer close enough to the actual sensor state.
+
+
+\textbf{TODO experiment : step motion + complex rotation, followed by MOCAP}
 
 
