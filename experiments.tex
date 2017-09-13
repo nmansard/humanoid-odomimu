@@ -23,10 +23,23 @@ The time varying property of the bias is a critical point to consider in order t
 by dependencies of the delta pre-integration ($\Delta P(ab), \Delta V(ab), \Delta Q(\omega b)$). We understand that the fusion of the IMU with another odometer giving both
 orientation and position increments helps to determine the biases. However, the least squares formulation makes possible the transfer of some parts
 of the velocities in the biases or the opposite operation during the residual minimization phase. One way to get rid of these is to use experimental conditions to constrain the states, in the case of legged
-locomotion we use the property of having null velocity for the feet once they reach the ground. Adding this knowledge t the graph allows for a
+locomotion we use the property of having null velocity for the feet once they reach the ground. Adding this knowledge to the graph allows for a
 better estimation of the biases and trajectory.
 
 \subsubsection{Experimental procedures}
+
+We need to define a series of experimental procedures that will allow us to check different parts of the results :
+
+First of all, the final estimated position and orientation is checked using a 3D printed dock for the IMU containing two possible positions for the sensor.
+This is used as a unit test in which the final odometer is imposed by the printed structure.
+
+Then we need to make sure that the intermediate positions are correct, increasing this way our confidence on correct velocity estimations.
+Such a test implies the need of a ground truth to check our estimations against it. For this purpose we use a Motion Capture (abbreviated as MOCAP) system publishing both
+pose and orientation of the IMU in the system's frame at 120 Hz. The MOCAP is a tracking system looking for specific markers in space
+and trying to reconstruct previously defined objects with these. Once the object is identified, we then get the position and orientation of the barycenter defined from the markers.
+A first calibration process was used to make MOCAP's and IMU's axis match and to get the pose of the IMU instead of the barycenter of the object.
+
+Finally, we will run the application on HRP2 robot.
 
 
 \subsection{Results}
