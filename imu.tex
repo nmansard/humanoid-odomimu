@@ -49,7 +49,7 @@
 \newcommand{\cexpand}{\com{expand}}
 \newcommand{\csubst}{\com{subst}}
 
-\section{IMU pre-integration in the S3 manifold}
+\section{IMU pre-integration in S3 and SO(3)}
 \subsection{Quaternion rotations}
 
 We define the quaternion-by-vector product $\od$ so that
@@ -117,10 +117,11 @@ For their implementation it is convenient to factor the rotation vector as angle
 \end{align}
 \end{subequations}
 %
-where in \eqRef{equ:log_q_small} we wrote the small angle approximation that avoids division by zero by expanding the Taylor series of $\arctan(x)$ and truncating.\footnote{Remind that $\arctan(x) = x - x^3/3 + x^5/5 + \cdots$.}
-%
-\subsubsection{Implementation using rotation matrices}
-We also have the rotation matrix forms, with the Rodrigues formula and its inverse,
+%where in \eqRef{equ:log_q_small} we wrote the small angle approximation that avoids division by zero by expanding the Taylor series of $\arctan(x)$ and truncating.\footnote{Remind that $\arctan(x) = x - x^3/3 + x^5/5 + \cdots$.}
+%%
+%\subsubsection{Implementation using rotation matrices}
+%We also have the rotation matrix forms, with the Rodrigues formula and its inverse,
+and the rotation matrix forms,
 %
 \begin{subequations}
 \begin{align}
