@@ -3,56 +3,39 @@
 \section{Experiments} \label{sec:experiments}
 
 The confidence one can have on the encoders of the robot depends on several factors from actuators design to control strategies. in the legged locomotion case, this can also depend on the general design of the robot.
-Thus during walking phases with humanoid robot HRP2, one can notice sliding phenomenon when the foot hits the ground whom occurences is a problem for navigation in unstructured environment. Trials aiming to measure these sliding from encoders give
-unsatisfying results. In this context, we show that measuring this slide and getting a better estimation of both real trajectories and real position of the foot is possible with an IMU fixed on the sliding member.
+Thus during walking phases with humanoid robot HRP2, one can notice sliding phenomenon when the foot hits the ground. If this effect is not measured, their occurences can turn to be a problem for navigation in unstructured environment. 
+Furthermore, we cannot anticipate the slidding, meaning that we do not know what actually causes this to happen. 
+In this context, we show that measuring this slide and getting a better estimation of both real trajectories and real position of the foot is possible with an IMU fixed on the sliding member, the foot of the robot in our case.
 
-Trajectory estimation is naturally more effective with the use of a high quality IMU. IMU technology is advanced at such point that 
-one can find those systems for a range of price going from low cost to thousands of dollars for space-navigation or military purposes.
-The performances of an IMU are caracterized by several factors from which we can mainly cite biases random walk and noises standard deviation
-as examples.
+In order to get to that point, we first want to check whether our fusion method of both IMUs and odometer is able to get a correct estimation of one's foot during walking.
+Then we show that using an IMU on the foot of te robot leads to a better estimation of the real position of the member compared to encoder based odometry.
 
 We chose to use a low-cost IMU in our application to realize the feasibility of our method. For this purpose we selected the 
 MPU6050 from invensense combining both an accelerometer and a gyroscope and extensively used in the open source community.
 
-Several experiments were designed to show that trajectory estimation and sliding obsrevation are feasible with online auto-calibration of the IMU.
-Furthermore, for applications using an IMU, it is easy to define the starting point as the application's origin frame. However, giving an initial orientation is subject to errors since this state parameter should be expressed in world frame.
-We want to estimate the initial orientation in the world frame to make this auto-calibration easy to realize. 
 
 %\textit{Keywords : low-cost IMU, MPU6050, experiment conditions, 1 KHz IMU} \\
 %\textit{TODO : add factor graph for experiment visualization}
 
 \subsection{Method}
 \subsubsection{auto-calibration}
-A naive way to estimate the trajectory is to simply integrate measurements on top of the initial state vector whose variables would all be optimized. 
-This may be theoretically possible with a well characterized IMU, meaning that the bias components will be known and parts of the state vector.
-However, since we want our experiment to allow a calibration of the sensor, this solution is not accepted and we need a setup allowing a correct calibration of the sensor.
 
 The parameters we need to calibrate for a correct integration are the biases on top of which we integrate the incoming data of the IMU.
 The time varying property of the bias is a critical point to consider in order to avoid large deviations. This calibration is made possible
-by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). We understand that the fusion of the IMU with another odometer giving both
-orientation and position increments helps to determine the biases. However, the least squares formulation makes possible the transfer of some parts
-of the velocities in the biases or the opposite operation during the residual minimization phase. One way to get rid of these is to use experimental conditions to constrain the states, in the case of legged
-locomotion we use the property of having null velocity for the feet once they reach the ground. Adding this knowledge to the graph allows for a
-better estimation of the biases and trajectory.
+by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). Fusing both odometer and IMU provides constriaints on position and orientation parts of
+the state vector. However, velocity is still not observable and is affected by the bias estimation. In the case of legged locomotion, we fix the observability problem by adding a zero velocity constraint when the foot is on the ground.
 
 The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run in observability problems. \textbf{add figure here (graph)}
 
-\subsubsection{Experimental procedures}
+\subsection{Results}
+\subsubsection{Trajectory reconstruction}
 
-We need to define a serie of experimental procedures that will allow us to check different parts of the results :
+We check the feasibility of the trajectory reconstruction using a 1Khz IMU attached to one's foot tracked with a motion capture (MOCAP) system. 
 
-%First of all, the final estimated position and orientation is checked using a 3D printed dock for the IMU containing two possible positions for the sensor.
-%This is used as a unit test in which the final odometer is imposed by the printed structure. \textbf{add figure here}
-
-Then we need to make sure that the intermediate positions are correct, increasing this way our confidence on correct velocity estimations.
-Such a test implies the need of a ground truth to check our estimations against it. For this purpose we use a Motion Capture (abbreviated as MOCAP) system publishing both
-pose and orientation of the IMU in the system's frame at 120 Hz. The MOCAP is a tracking system looking for specific markers in space
-and trying to reconstruct previously defined objects with these. Once the object is identified, we then get the position and orientation of the barycenter defined from the markers.
-A first calibration process is used to make MOCAP's and IMU's axis match and to get the pose of the IMU instead of the barycenter of the object. \textbf{add figure here}
-
+\subsubsection{Legged-Locomotion's undesired behaviour measurement}
 Finally, we will run the application on HRP2 robot. \textbf{add figure here}
 
-\subsection{Results}
+
 
 %The final position estimation is correct taking into account the uncertainties due to the printing part and the model of the odometry (1 mm error is accepted for 1m distance). We focus on doing an experiment that would be the shorter as possible
 %so that we can neglect the random walking affecting the biases. 
