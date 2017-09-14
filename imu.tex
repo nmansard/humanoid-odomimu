@@ -161,7 +161,7 @@ Their time evolution is governed by the kinematic equation,
 \dot\bfq &= \frac12\bfq\ot\bw 
 \end{align}
 %
-where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame.
+where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame \wrt the free-falling frame.
 Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have the discrete-time relation
 %
 \begin{align}\label{equ:g_second_order_integration}
@@ -205,7 +205,7 @@ the integration \eqRef{equ:g_second_order_pre-integration} can be expressed as t
 ~.
 \end{align}
 %
-
+In the following, we will identify $\delta$ with the current delta and $\D$ with the pre-integrated delta.
 
 %\subsection{State reconstruction}
 %
@@ -225,14 +225,7 @@ the integration \eqRef{equ:g_second_order_pre-integration} can be expressed as t
 
 \newcommand{\jac}[2]{{\bfJ^{#1}_{#2}}}
 
-Notation: %Uncertainties and perturbed magnitudes are respectively marked by the prefix $\partial$ and the tilde\, $\widetilde\cdot$\,, and are represented as follows,
-%%
-%\begin{align*}
-%\widetilde\Dp &= \Dp + \partial\Dp & \partial\Dp &= \widetilde\Dp-\Dp \\
-%\widetilde\Dv &= \Dv + \partial\Dv & \partial\Dv &= \widetilde\Dv-\Dv \\
-%\widetilde\Dq &= \Dq \ot \Exp( \partial\Dth ) & \partial\Dth &= \Log(\Dq^*\ot\widetilde\Dq) 
-%\end{align*}
-%
+Notation: 
 We %also 
 note the Jacobians $\jac{y}{x}\te\dpar{y}{x}$. 
 
@@ -272,12 +265,6 @@ The involved operations are the delta creation \eqRef{equ:delta_creation} whose 
 \end{bmatrix}
 \end{align}
 %
-%\begin{align*}
-%\jac{\dpp}{\bfa} &= \frac12\bfI\dt^2 	& \jac{\dpp}{\bw} &= \bf0 \\
-%\jac{\dv}{\bfa} &= \bfI\dt 			& \jac{\dv}{\bw} &= \bf0 \\
-%\jac{\dth}{\bfa} &= \bf0 				& \jac{\dth}{\bw} &= \bfJ_r(\bw\dt)\dt ~~,\textrm{ (see below)} 
-%\end{align*}
-%
 We develop $\bfJ^\dth_\bw$ as follows,
 %
 \begin{align*}
@@ -295,12 +282,9 @@ and thus the result above.
 
 
 
-\subsubsection{Jacobians of $\D^+=\D\op\delta$ \wrt $\D$}
-\label{sec:jac_first_delta}
+\subsubsection{Jacobians of the commposition $\D^+=\D\op\delta$}
 
 The involved operations are the delta composition \eqRef{equ:composition_compact} detailed in \eqRef{equ:g_composition}.
-%, that we note here $\D^+=\D\op\delta$.
-Again by simple inspection we can obtain a number of Jacobians,
 %
 \begin{align}
 \jac{\D^+}{\D} = \begin{bmatrix}
@@ -310,70 +294,6 @@ Again by simple inspection we can obtain a number of Jacobians,
 \end{bmatrix}
 \end{align}
 %
-%\begin{align*}
-%\jac{\Dp^+}{\Dp}   &= \bfI  & \jac{\Dp^+}{\Dv} &= \bfI\dt & \jac{\Dp^+}{\Dth}  &= - \DR_{ij}  \hatx{\dpp_{jk}}  \\
-%\jac{\Dv^+}{\Dp}   &= \bf0  & \jac{\Dv^+}{\Dv} &= \bfI & \jac{\Dv^+}{\Dth}  &= - \DR_{ij}  \hatx{\dv_{jk}} \\
-%\jac{\Dth^+}{\Dp}  &= \bf0  & \jac{\Dth^+}{\Dv} &= \bf0 & \jac{\Dth^+}{\Dth} &= \dR_{jk}\tr 
-%~.
-%\end{align*}
-%
-%We develop $\DP_\Dth$ as follows
-%%
-%\begin{align*}
-%\widetilde\Dp_{ik} \te \Dp_{ik}+\partial\Dp_{ik} 
-%&= \Dp_{ij} + \Dv_{ij}\dt + \widetilde\DR_{ij}\dpp_{jk} \\
-%&= \Dp_{ij} + \Dv_{ij}\dt + \DR_{ij}\Exp(\partial\Dth_{ij})\dpp_{jk} \\
-%\csmall
-%&= \Dp_{ij} + \Dv_{ij}\dt + \DR_{ij}(\bfI+\hatx{\partial\Dth_{ij}})\dpp_{jk} \\
-%&= \underbrace{\Dp_{ij} + \Dv_{ij}\dt + \DR_{ij}\dpp_{jk}} + \DR_{ij}\hatx{\partial\Dth_{ij}}\dpp_{jk} \\
-%\com{subst, cross}
-%&= ~~~~~~~~~~~~~~~\Dp_{ik} ~~~~~~~~~~~~~  - \DR_{ij}\hatx{\dpp_{jk}}\partial\Dth_{ij} 
-%\end{align*}
-%%
-%therefore,
-%%
-%\begin{align}
-%\DP^+_\Dth \te \dpar{\Dp_{ik}}{\Dth_{ij}} = - \DR_{ij}\hatx{\dpp_{jk}}
-%\end{align}
-%%
-%Similarly for the velocity,
-%%
-%\begin{align}
-%\DV^+_\Dth \te \dpar{\Dv_{ik}}{\Dth_{ij}} = - \DR_{ij}\hatx{\dv_{jk}}
-%\end{align}
-%%
-%Finally for the orientation,
-%%
-%\begin{align*}
-%\widetilde\DR_{ik} \te \DR_{ik}\Exp(\partial\Dth_{ik}) 
-%&= \widetilde\DR_{ij}\dR_{jk} \\
-%&= \DR_{ij}\Exp(\partial\Dth_{ij})\dR_{jk}  \\
-%\cswap
-%&= \DR_{ij}\dR_{jk}\Exp(\dR_{jk}\tr\partial\Dth_{ij})  \\
-%&= \DR_{ik}\Exp(\dR_{jk}\tr\partial\Dth_{ij})  
-%\end{align*}
-%%
-%which leads to
-%%
-%\begin{align*}
-%\Dth_{ik} &= \dR_{jk}\tr\partial\Dth_{ij}
-%\end{align*}
-%%
-%therefore,
-%%
-%\begin{align}
-%\DTH^+_\Dth \te \dpar{\Dth_{ik}}{\Dth_{ij}} = \dR_{jk}\tr
-%\end{align}
-
-
-
-
-\subsubsection{Jacobians of $\D^+=\D\op\delta$ \wrt $\delta$}
-\label{sec:jac_second_delta}
-
-By simple inspection of \eqRef{equ:g_composition} we obtain,
-% we can obtain a number of Jacobians,
-%
 \begin{align}
 \jac{\D^+}{\delta} = \begin{bmatrix}
 \DR_{ij} & \bf0     & \bf0 \\
@@ -381,68 +301,6 @@ By simple inspection of \eqRef{equ:g_composition} we obtain,
 \bf0     & \bf0     & \bfI  
 \end{bmatrix}
 \end{align}
-%
-%\begin{align*}
-%\jac{\Dp^+}{\dpp} &= \DR_{ij} & \jac{\Dp^+}{\dv} &= \bf0     & \jac{\Dp^+}{\dth} &= \bf0 \\
-%\jac{\Dv^+}{\dpp} &= \bf0     & \jac{\Dv^+}{\dv} &= \DR_{ij} & \jac{\Dv^+}{\dth} &= \bf0 \\
-%\jac{\Dth^+}{\dpp} &= \bf0    & \jac{\Dth^+}{\dv} &= \bf0    & \jac{\Dth^+}{\dth} &= \bfI  
-%~.
-%\end{align*}
-%
-%We develop $\DTH_\dth$ as follows,
-%%
-%\begin{align*}
-%\widetilde\DR_{ik} = \DR_{ik}\Exp(\partial\Dth_{ik}) 
-%&= \DR_{ij}\widetilde\dR_{jk} \\
-%&= \DR_{ij}\dR_{jk}\Exp(\partial\dth_{jk}) \\ 
-%&= \DR_{ik}\Exp(\partial\dth_{jk}) 
-%\end{align*}
-%%
-%which leads to
-%%
-%\begin{align*}
-%\partial\Dth_{ik} &= \partial\dth_{jk}
-%\end{align*}
-%%
-%therefore,
-%%
-%\begin{align}
-%\DTH^+_\dth \te \dpar{\Dth_{ik}}{\dth_{jk}} = \bfI
-%\end{align}
-
-
-
-
-
-%\subsection{Jacobians of the direct integration}
-%
-%By chaining the three steps of computation of the body magnitudes, delta creation and delta composition, we encounter the Jacobians of the direct integration. The operations of direct integration are 
-%%
-%\begin{align*}
-%\Dp_{ik} 
-%&= \Dp_{ij} + \Dv_{ij}\dt + \frac12\Dq_{ij}\od(\bfa_{m,j}-\bfa_b)\dt^2 \\
-%\Dv_{ik} 
-%&= \Dv_{ij} + \Dq_{ij}\od(\bfa_{m,j}-\bfa_b)\dt \\
-%\Dq_{ik} 
-%&= \Dq_{ij}\ot\Exp((\bw_{m,j}-\bw_b, \dt)\dt) 
-%\end{align*}
-%%
-%which boils down to
-%%
-%\begin{align*}
-%\D_{ik} &= \D_{ij} \oplus \delta( (\bfa_{m,j}-\bfa_b), (\bw_{m,j}-\bw_b, \dt) )
-%\end{align*}
-%%
-%
-%\subsubsection{Jacobians \wrt the previous delta $\D_{ij}$}
-%
-%These are the ones detailed before, that we rewrite here,
-%%
-%\begin{align*}
-%\DP^+_\Dp &= \bfI  & \DP^+_\Dv &= \bfI\dt & \DP^+_\Dth &= - \DR_{ij}  \hatx{\dpp_{jk}} \\
-%\DV^+_\Dp &= \bf0  & \DV^+_\Dv &= \bfI & \DV^+_\Dth &= - \DR_{ij}  \hatx{\dv_{jk}}  \\
-%\DTH^+_\Dp &= \bf0  & \DTH^+_\Dv &= \bf0 & \DTH^+_\Dth &= \dR_{jk}\tr 
-%\end{align*}
 
 \subsubsection{Jacobians \wrt noise}
 
@@ -485,61 +343,83 @@ The Jacobians \wrt the noise $\bfb_n=(\bfa_n,\bw_n)$ are obtained through the ch
 
 \subsubsection{Jacobians \wrt the biases}
 
-The Jacobians \wrt the biases $\bfb_b=(\bfa_b,\bw_b)$ are obtained through the chain rule,
+The recursive integration of the Jacobians \wrt the biases $\bfb_b=(\bfa_b,\bw_b)$ is also obtained through the chain rule,
+%
+\begin{align*}
+\jac{\D_{ik}}{\bfb_b} 
+&= 
+\jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
++ 
+\jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} \\
+&= \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb_b} - \jac{\D_{ik}}{\delta} \cdot \jac{\delta}{\bfb}
+~.
+\end{align*}
+%
+which we might note for clarity,
 %
 \begin{align}
-\jac{\D^+}{\bfb_b} = \jac{\D^+}{\delta} \cdot \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_b} = - \jac{\D^+}{\delta} \cdot \jac{\delta}{\bfb}
-~.
+\jac{\D}{\bfb_b}|_{ik} = \jac{\D^+}{\D}\jac{\D}{\bfb_b}|_{ij} - \jac{\D^+}{\delta}\jac{\delta}{\bfb}
 \end{align}
 
 
-
+\subsection{Delta covariance integration}
+Let $\bfQ$ be the covariance of the pre-integrated delta, and $\bfN$ that of the measurement noise. We have simply,
+%
+\begin{align}
+\bfQ^+ = \jac{\D^+}{\D}\bfQ\,\,\jac{\D^+}{\D}\tr + \jac{\D^+}{\bfb_n}\bfN\,\jac{\D^+}{\bfb_n}\tr
+\end{align}
 
 \subsection{Delta correction with new bias}
 
-\subsubsection{Before integration}
-
-Initialize the Jacobians
-%
-\begin{equation}
-\DP_{\ab}|_{ii} = \DV_{\ab}|_{ii} = \DP_{\wb}|_{ii} = \DV_{\wb}|_{ii} = \DTH_{\bfw_b}|_{ii} = {\bf0}_{3\times3}
-\end{equation}
-%
-
-\subsubsection{During integration}
-
-Update the Jacobians,
-%
-\begin{align} 
-\begin{split}
-\DP_{\ab} |_{ik}
-&= \DP_{\ab}|_{ij} + \DV_{\ab}|_{ij}\dt -\frac12\DR_{ij}\dt^2 \\
-\DV_{\ab}|_{ik} 
-&= \DV_{\ab}|_{ij} - \DR_{ij}\dt \\ 
-\DP_{\wb} |_{ik}
-&= \DP_{\wb}|_{ij} + \DV_{\wb}|_{ij}\dt -\frac12\DR_{ij}\hatx{\bfa_{mj}-\ab}\DTH_{\bfw_b}|_{ij}\,\dt^2 \\
-\DV_{\wb}|_{ik} 
-&= \DV_{\wb}|_{ij} - \DR_{ij}\hatx{\bfa_{mj}-\ab}\DTH_{\bfw_b}|_{ij}\,\dt \\
-\DTH_{\bfw_b}|_{ik} 
-&= \ol\dR_{jk}\tr\,\DTH_{\wb}|_{ij} - \bfJ_r((\bw_j-\ol\wb)\,\dt)\,\dt
-\end{split}
-\end{align}
-%
-
-
-
-
-\subsubsection{When using the Deltas}
-
-Correct the Deltas according to variations in the bias estimates,
+Let $\ol\D$ and $\ol{\bfb_b}$ be the pre-integrated delta and the bias values used during pre-integration. Should the bias estimate be updated with new values $\bfb_b$, we need to update the delta accordingly. We do so with the linearized update,
 %
 \begin{align}
-\begin{split}
-\Dp &= \ol\Dp + \DP_{\ab}\D\ab  + \DP_{\wb}\D\wb  \\ 
-\Dv &= \ol\Dv + \DV_{\ab}\D\ab  + \DV_{\wb}\D\wb  \\
-\Dq &= \ol\Dq\ot\Exp(\DTH_{\bfw_b}\D\wb)
-\end{split}
+\D = \ol\D + \jac{\D}{\bfb_b}(\bfb_b - \ol{\bfb_b})
 \end{align}
+
+%\subsubsection{Before integration}
+%
+%Initialize the Jacobians
+%%
+%\begin{equation}
+%\DP_{\ab}|_{ii} = \DV_{\ab}|_{ii} = \DP_{\wb}|_{ii} = \DV_{\wb}|_{ii} = \DTH_{\bfw_b}|_{ii} = {\bf0}_{3\times3}
+%\end{equation}
+%%
+%
+%\subsubsection{During integration}
+%
+%Update the Jacobians,
+%%
+%\begin{align} 
+%\begin{split}
+%\DP_{\ab} |_{ik}
+%&= \DP_{\ab}|_{ij} + \DV_{\ab}|_{ij}\dt -\frac12\DR_{ij}\dt^2 \\
+%\DV_{\ab}|_{ik} 
+%&= \DV_{\ab}|_{ij} - \DR_{ij}\dt \\ 
+%\DP_{\wb} |_{ik}
+%&= \DP_{\wb}|_{ij} + \DV_{\wb}|_{ij}\dt -\frac12\DR_{ij}\hatx{\bfa_{mj}-\ab}\DTH_{\bfw_b}|_{ij}\,\dt^2 \\
+%\DV_{\wb}|_{ik} 
+%&= \DV_{\wb}|_{ij} - \DR_{ij}\hatx{\bfa_{mj}-\ab}\DTH_{\bfw_b}|_{ij}\,\dt \\
+%\DTH_{\bfw_b}|_{ik} 
+%&= \ol\dR_{jk}\tr\,\DTH_{\wb}|_{ij} - \bfJ_r((\bw_j-\ol\wb)\,\dt)\,\dt
+%\end{split}
+%\end{align}
+%%
+%
+%
+%
+%
+%\subsubsection{When using the Deltas}
+%
+%Correct the Deltas according to variations in the bias estimates,
+%%
+%\begin{align}
+%\begin{split}
+%\Dp &= \ol\Dp + \DP_{\ab}\D\ab  + \DP_{\wb}\D\wb  \\ 
+%\Dv &= \ol\Dv + \DV_{\ab}\D\ab  + \DV_{\wb}\D\wb  \\
+%\Dq &= \ol\Dq\ot\Exp(\DTH_{\bfw_b}\D\wb)
+%\end{split}
+%\end{align}
 
 \subsection{State reconstruction}
 
