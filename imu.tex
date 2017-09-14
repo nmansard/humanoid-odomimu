@@ -65,8 +65,6 @@ We define the quaternion-by-vector product $\od$ so that
 where the symbol $\ot$ indicates the quaternion product.
 That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotations. 
 Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then $\bfq\od\bfv = \bfR\,\bfv$. 
-%and $\bfq^*\od\bfv = \bfR\tr\,\bfv$. 
-%In practice, the operator $\od$ may be implemented as ~$\bfq\od\bfv = \bfq\ot\bfv\ot\bfq^*$ ~or~ $\bfq\od\bfv = \bfR\,\bfv$, whichever is faster.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -171,20 +169,7 @@ where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the
 \end{split}
 \end{align}
 %
-with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (the inverse expression is not given for space reasons).%, given by,
-%
-%\begin{align}
-%\begin{split}
-%\Dp_{ji} 
-%&= -\Dq_{ij}^*\od(\Dp_{ij} - \Dv_{ij}\Dt_{ij}) \\
-%\Dv_{ji} 
-%&= -\Dq_{ij}^*\od\Dv_{ij} \\
-%\Dq_{ji} 
-%&= \Dq_{ij}^*
-%~.
-%\end{split}
-%\end{align}
-
+with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (the inverse expression is not given for space reasons).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -236,7 +221,7 @@ Please refer to \appRef{sec:derivatives_SO3} for details on the development of a
 
 \subsubsection{Jacobians of the body magnitudes}
 
-We have from \eqRef{equ:body},% immediately
+We have from \eqRef{equ:body},
 %
 \begin{align}
 \jac{\bfb}{\bfb_m}&=\bfI_6 & \jac{\bfb}{\bfb_b}&=-\bfI_6 & \jac{\bfb}{\bfb_n}&=\bfI_6
@@ -246,7 +231,7 @@ We have from \eqRef{equ:body},% immediately
 \subsubsection{Jacobians of the current delta}
 \label{sec:jac_data}
 
-We have from \eqRef{equ:delta_creation},% whose Jacobians are mostly obtained by simple inspection,
+We have from \eqRef{equ:delta_creation},
 %
 \begin{align}\label{equ:jacobian_current_delta}
 \jac{\delta}{\bfb} =
@@ -258,20 +243,7 @@ We have from \eqRef{equ:delta_creation},% whose Jacobians are mostly obtained by
 \end{align}
 %
 where we develop the lower-right block as in \appRef{sec:jac_R3toSO3}.
-%
-%as follows,
-%%
-%\begin{align*}
-%\widetilde\dq \te \dq\ot\Exp(\partial\dth) 
-%&= \Exp((\bw+\partial\bw)\dt) \\
-%\cJr &= \Exp(\bw\dt)\ot\Exp(\bfJ_r(\bw\dt)\partial\bw\dt) \\
-%&= \dq \ot \Exp(\bfJ_r(\bw\dt)\partial\bw\dt)
-%~,
-%\end{align*}
-%%
-%which leads to 
-%$\partial\dth = \bfJ_r(\bw\dt)\partial\bw\dt$ 
-%and thus \eqRef{equ:jacobian_current_delta}.
+
 
 
 
@@ -310,12 +282,6 @@ Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfN$ that of 
 \end{align}
 %
 where $\jac{\delta}{\bfb_n} = \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_n} = \jac{\delta}{\bfb}$ is the noise Jacobian, obtained with the chain rule.
-%,
-%%
-%\begin{align}
-%\jac{\delta}{\bfb_n} = \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_n} = \jac{\delta}{\bfb}
-%\end{align}
-%
 Then,
 %
 \begin{align}

@@ -8,10 +8,6 @@
 
 \subsection{The additive and subtractive operators in $SO(3)$}
 
-%In vector spaces $\bbR^n$, the addition and subtraction operations are performed with the regular sum `$+$' and minus `$-$' operations.
-%In $SO(3)$ this is not possible, but equivalent operators are needed for establishing a proper calculus corpus. 
-%
-%We thus define the plus and minus operators, $\oplus,\ominus$, between elements $\sR\in SO(3)$, and elements $\bth\in\bbR^3$ of the tangent space at $\sR$, as follows.
 
 \paragraph{The plus operator.}
 The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ in the vector space tangent to the $SO(3)$ manifold at the reference element $\sR$,
@@ -20,7 +16,7 @@ The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ produces an element $\sS
 \sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
 \end{align}
 %
-Notice that this operator may be defined for any representation of $SO(3)$. In particular, %for the quaternion and rotation matrix we have,
+Notice that this operator may be defined for any representation of $SO(3)$. In particular, 
 %
 \begin{align}
 \bfq\oplus\bth &= \bfq\ot\Exp(\bth) \\
@@ -36,15 +32,13 @@ The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the 
 \end{align}
 %
 and in particular,
-%which for the quaternion and rotation matrix reads,
 %
 \begin{align}
 \bth &= \bfq\ominus\bfp = \Log(\bfp^*\ot\bfq)                      \\
 \bth &= \bfS\ominus\bfR = \Log(\bfR\tr\,\bfS)                         
 \end{align}
 
-%\bigskip
-%In both cases, notice that even though the vector difference $\bftheta$ is typically supposed to be small, the definitions above hold for any value of $\bftheta$ (up to the first coverage of the $SO(3)$ manifold, that is, for angles $\norm{\bth}<\pi$).
+
 
 \subsection{The four possible derivative definitions}
 
@@ -65,8 +59,6 @@ We use $\{\oplus,\ominus\}$ to define the derivative as
 \begin{align}
 \dpar{f(\sR)}{\bth} 
 &\te \lim_{\delta\bth\to0}\frac{f(\sR\oplus\delta\bth)\ominus f(\sR)}{\delta\bth}  && \in \bbR^{3\times 3}
-%\\
-%&= \lim_{\delta\bth\to0}\frac{\Log\big(f\inv(\sR)\,f(\sR\Exp(\delta\bth))\big)}{\delta\bth} 
 \label{equ:derivative_SO3}
 \end{align}
 
@@ -76,36 +68,18 @@ We use `+' for the vector perturbations, and `$\ominus$' for the $SO(3)$ differe
 %
 \begin{align}
 \dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ f(\bfx+\delta\bfx)\ominus f(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} \label{equ:dif_RtoSO3}
-%\\
-%&= \lim_{\delta\bfx\to0} \frac{\Log(f\inv(\bfx) f(\bfx+\delta\bfx))}{\delta\bfx}
 \end{align}
-%
-%Euler integration produces expressions of the form,
-%%
-%\begin{align*}
-%f(\bfx+\Delta\bfx) &\approx f(\bfx)\,\oplus\,\dpar{f(\bfx)}{\bfx}\,\Delta\bfx
-% \te f(\bfx)\,\Exp\left(\dpar{f(\bfx)}{\bfx}\Delta\bfx\right)
-% & \in SO(3)
-%\end{align*}
+
 
 \subsubsection{Functions from $SO(3)$ to vector space}
 
-%For the case of a function $f: SO(3)\to\bbR^n$, we 
+
 We use `$\oplus$' for the $SO(3)$ perturbations, and `$-$' for the vector difference,
 %
 \begin{align}
 \dpar{f(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{f(\sR\oplus\delta\bth) - f(\sR)}{\delta\bth} && \in \bbR^{n\times 3} \label{equ:jacobian_SO3_Rn}
-%\\
-%&= \lim_{\delta\bth\to0} \frac{f(\sR\Exp(\delta\bth)) - f(\sR)}{\delta\bth}
 \end{align}
-%
-%Euler integration produces expressions of the form,
-%%
-%\begin{align*}
-%f(\sR\oplus\delta\bth) &\approx f(\sR)+\dpar{f(\sR)}{\bth}\,\Delta\bth
-% \te f(\sR)+\Exp\left(\dpar{f(\sR)}{\bth}\Delta\bth\right)
-% & \in SO(3)
-%\end{align*}
+
 
 
 \subsection{Right Jacobian of $SO(3)$ }
@@ -118,14 +92,6 @@ We define the right Jacobian of $SO(3)$ as,
 %
 Since the exponential $\Exp()$ is an application $\bbR^3\to SO(3)$,
 we implement this derivative using \eqRef{equ:dif_RtoSO3}.
-%
-%\begin{align}
-%\bfJ_r(\bth) &= \lim_{\dth\to0}\frac{\Exp(\bth+\dth)\ominus\Exp(\bth)}{\dth} \\
-% &= \lim_{\dth\to0}\frac{\Log(\Exp(\bth)\tr\Exp(\bth+\dth))}{\dth} && \textrm{if using $\bfR$} \\
-% &= \lim_{\dth\to0}\frac{\Log(\Exp(\bth)^*\ot\Exp(\bth+\dth))}{\dth} && \textrm{if using $\bfq$} 
-% ~.
-%\end{align}
-%
 The right Jacobian and its inverse can be computed in closed form with
 %
 \begin{align}
@@ -144,13 +110,6 @@ The right Jacobian and its inverse can be computed in closed form with
 
 We provide a collection of rules which come very handy to develop Jacobians. They come organized under helper \com{keys}\!\!\!\!, which we use to refer to each of these properties in our developments.
 
-%\subsection{Useful properties: Do's}
-
-%\paragraph{\cchain : Chain rule}
-%
-%\begin{align}
-%\dpar{\bfz}{\bfx} = \dpar{\bfz}{\bfy}\cdot\dpar{\bfy}{\bfx}
-%\end{align}
 
 \paragraph{\ccross : Cross product and skew-symmetric matrix}
 %
@@ -181,54 +140,16 @@ Let $\dth$ be a small angle vector. Then,
 %
 \begin{align}
 \Exp(\dth) &\approx \bfI + \hatx{\dth} \\
-%\Exp(\dth)\tr &\approx \bfI - \hatx{\dth} \\
-%\Exp(\dth_1)\Exp(\dth_2) &\approx \Exp(\dth_1+\dth_2) \\
-%\textstyle\prod_i \Exp(\dth_i) &\approx \Exp\!\big(\textstyle\sum_i\dth_i\big) \\
 \bfJ_r(\dth) &\approx \bfI - \frac12\hatx{\dth} 
-%\\
-%\bfJ_r\inv(\dth) &\approx \bfI + \frac12\hatx{\dth} 
 \end{align}
-%%
-%Example: we often use $\Exp(\bfJ_r(\bth)\dth)\approx \bfI + \hatx{\bfJ_r(\bth)\dth}$.
 
-%\paragraph{\cswap : Reversing product order}
-%
-%Since 
-%$$
-%\bfR\Exp(\bth)\bfR\tr 
-%%= \bfR\exp(\hatx{\bth})\bfR\tr
-%= \exp(\bfR\hatx{\bth}\bfR\tr)
-%%= \exp(\hatx{\bfR\bth})
-%= \Exp(\bfR\bth),
-%$$ 
-%then
-%%
-%\begin{align}
-%\Exp(\bth)\bfR &= \bfR\Exp(\bfR\tr\bth) \\
-%\bfR\tr\Exp(\bth)\bfR &= \Exp(\bfR\tr\bth) \\
-%\Exp(\bth)\Exp(\bphi) &= \Exp(\bphi)\Exp(\Exp(\bphi)\tr\bth) 
-%\end{align}
 
 
 \paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel} This happens when we expand or substitute a previously defined term, or when we cancel terms.
-%
-%\paragraph{\tcom{$\oplus$}, \tcom{$\ominus$}, \tcom{(1)} : Apply definition :} This happens when we apply a particular definition or equation number.
 
-%\subsection{Common mistakes: Don'ts}
-%
-%\begin{align}
-%\Exp(\bth_1+\bth_2) &\ne \Exp(\bth_1)\Exp(\bth_2) \\
-%\Log(\bfR_1\bfR_2) &\ne \Log(\bfR_1) + \Log(\bfR_2) \\
-%\bfJ_r(\bth) &\ne \bfI - \frac12\hatx{\bth} \\
-%\bfJ_r\inv(\bth) &\ne \bfI + \frac12\hatx{\bth} 
-%\end{align}
-%%
-%however, these hold approximately true for small angle vectors. See \csmall above.
 
 
 \subsection{Examples}
-
-
 
 \subsubsection{Function $SO(3)\times\bbR^3\to SO(3)$} 
 \label{sec:jac_R3toSO3}
