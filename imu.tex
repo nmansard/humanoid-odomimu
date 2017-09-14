@@ -304,7 +304,7 @@ Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the b
 ~,
 \end{align}
 %
-where $\jac{\D}{\bfb_b}$ is the bias Jacobian, obtained recursively using also the chain rule,
+where $\jac{\D}{\bfb_b}$ is the integrated bias Jacobian, which starts at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$, and is obtained recursively using also the chain rule,
 %
 \begin{align*}
 \jac{\D_{ik}}{\bfb_b} 
@@ -320,9 +320,10 @@ which we might note for extra clarity,
 %
 \begin{align}
 \jac{\D}{\bfb_b}|_{ik} = \jac{\D^+}{\D}\jac{\D}{\bfb_b}|_{ij} - \jac{\D^+}{\delta}\jac{\delta}{\bfb}
+~.
 \end{align}
 %
-starting at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
