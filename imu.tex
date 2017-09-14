@@ -115,7 +115,7 @@ Their time evolution is governed by the kinematic equation,
 \dot\bfq &= \frac12\bfq\ot\bw 
 \end{align}
 %
-where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame \wrt the free-falling frame.
+where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame.
 Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have the discrete-time relation
 %
 \begin{align}\label{equ:g_second_order_integration}
@@ -155,19 +155,19 @@ where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the
 \end{split}
 \end{align}
 %
-with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$, given by,
+with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (whose expression not given for space reasons).%, given by,
 %
-\begin{align}
-\begin{split}
-\Dp_{ji} 
-&= -\Dq_{ij}^*\od(\Dp_{ij} - \Dv_{ij}\Dt_{ij}) \\
-\Dv_{ji} 
-&= -\Dq_{ij}^*\od\Dv_{ij} \\
-\Dq_{ji} 
-&= \Dq_{ij}^*
-~.
-\end{split}
-\end{align}
+%\begin{align}
+%\begin{split}
+%\Dp_{ji} 
+%&= -\Dq_{ij}^*\od(\Dp_{ij} - \Dv_{ij}\Dt_{ij}) \\
+%\Dv_{ji} 
+%&= -\Dq_{ij}^*\od\Dv_{ij} \\
+%\Dq_{ji} 
+%&= \Dq_{ij}^*
+%~.
+%\end{split}
+%\end{align}
 
 
 
@@ -187,7 +187,7 @@ Substituting the integration equation \eqRef{equ:g_second_order_integration} in 
 \end{split}
 \end{align}
 %
-which, interestingly, expresses the motion of a body in an inertial frame under constant acceleration and rotation rate.
+which, interestingly, expresses the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
 Noticing that we can define a proper delta $\delta_{jk}$ from the body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
@@ -198,14 +198,14 @@ Noticing that we can define a proper delta $\delta_{jk}$ from the body magnitude
 \end{split}
 \end{align}
 %
-the integration \eqRef{equ:g_second_order_pre-integration} can be expressed as the composition \eqRef{equ:g_composition}, 
+and therefore the integration \eqRef{equ:g_second_order_pre-integration} can be expressed as, 
 %
 \begin{align}\label{equ:composition_compact}
 \D_{ik}=\D_{ij}\oplus\delta_{jk}
-~.
+~,
 \end{align}
 %
-In the following, we will identify $\delta$ with the current delta and $\D$ with the pre-integrated delta.
+using  the composition \eqRef{equ:g_composition}. In the following, we will identify $\D$ with the pre-integrated delta and $\delta$ with the current delta.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -354,14 +354,17 @@ At any time $j$ we can recover the state estimate $\bfx_j$ given the state estim
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Residual}
 
-Residual computation for the optimization in factor graphs is best understood if split into smaller steps. We require the state estimates $\bfx_i$ and $\bfx_j$, the pre-integrated delta $\ol{\D_{ij}}$, the bias used during pre-integration $\ol{\bfb_{b,i}}$, the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$, and the current bias estimates, $\bfb_{b,i}$. We first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}, then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}, and finally compute the residual with
+Residual computation for the optimization in factor graphs requires (see \figRef{fig:factor_graph}) the state estimates $\bfx_i$ and $\bfx_j$, the pre-integrated delta $\ol{\D_{ij}}$, the bias used during pre-integration $\ol{\bfb_{b,i}}$, the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$, and the current bias estimates, $\bfb_{b,i}$. The process is best understood if split into smaller steps. We first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
 %
 \begin{align}
-\bfr_{ij} = \begin{bmatrix}
+\bfr_{ij} 
+= \begin{bmatrix}
 \Dp_{ij}-\widehat\Dp_{ij} \\
 \Dv_{ij}-\widehat\Dv_{ij} \\
 \Log(\widehat\Dq_{ij}^*\ot\Dq_{ij})
-\end{bmatrix} \in \bbR^9
+\end{bmatrix} 
+\in \bbR^9
+~.
 \end{align}
 
 
