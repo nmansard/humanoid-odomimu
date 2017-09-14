@@ -281,8 +281,10 @@ Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfN$ that of 
 ~,
 \end{align}
 %
-where $\jac{\delta}{\bfb_n} = \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_n} = \jac{\delta}{\bfb}$ is the noise Jacobian, obtained with the chain rule.
-Then,
+where $\jac{\delta}{\bfb_n} = \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_n}
+% = \jac{\delta}{\bfb}
+$ is the noise Jacobian, obtained with the chain rule.
+The delta covariance is then integrated with
 %
 \begin{align}
 \bfQ_\D^+ = \jac{\D^+}{\D}\bfQ_\D\,\jac{\D^+}{\D}\tr + \jac{\D^+}{\delta}\bfQ_\delta\,\jac{\D^+}{\delta}\tr
@@ -314,11 +316,13 @@ where $\jac{\D}{\bfb_b}$ is the bias Jacobian, obtained recursively using also t
 ~,
 \end{align*}
 %
-which we might note for clarity,
+which we might note for extra clarity,
 %
 \begin{align}
 \jac{\D}{\bfb_b}|_{ik} = \jac{\D^+}{\D}\jac{\D}{\bfb_b}|_{ij} - \jac{\D^+}{\delta}\jac{\delta}{\bfb}
 \end{align}
+%
+starting at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -339,7 +343,7 @@ At any time $j$ we can recover the state estimate $\bfx_j$ given the state estim
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Residual}
 
-The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires the state estimates $\bfx_i$ and $\bfx_j$, the current bias estimates $\bfb_{b,i}$, the pre-integrated delta $\ol{\D_{ij}}$, the bias used during pre-integration $\ol{\bfb_{b,i}}$, and the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
+The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
 %
 \begin{align}
 \bfr_{ij} 
