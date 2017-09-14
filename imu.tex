@@ -64,8 +64,9 @@ We define the quaternion-by-vector product $\od$ so that
 %
 where the symbol $\ot$ indicates the quaternion product.
 That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotations. 
-Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then $\bfq\od\bfv = \bfR\,\bfv$ and $\bfq^*\od\bfv = \bfR\tr\,\bfv$. 
-In practice, the operator $\od$ may be implemented as ~$\bfq\od\bfv = \bfq\ot\bfv\ot\bfq^*$ ~or~ $\bfq\od\bfv = \bfR\,\bfv$, whichever is faster.
+Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then $\bfq\od\bfv = \bfR\,\bfv$. 
+%and $\bfq^*\od\bfv = \bfR\tr\,\bfv$. 
+%In practice, the operator $\od$ may be implemented as ~$\bfq\od\bfv = \bfq\ot\bfv\ot\bfq^*$ ~or~ $\bfq\od\bfv = \bfR\,\bfv$, whichever is faster.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +99,9 @@ or rotation matrices as the representation of $SO(3)$,
 with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
 and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
 Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
-Additionally, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$.
+
+The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp$ and $\Log$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
+Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
 
 
 
@@ -145,7 +148,7 @@ Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have 
 
 Consider a non-rotating reference frame that is free-falling at the acceleration of gravity. An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. Any non-null measurements would imply motion of the IMU \wrt this frame.
 
-The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt a non-rotating frame that is free-falling at the acceleration of gravity $\bfg$. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, and moving at velocity $\bfv_i$. Then, the deltas $\D_{ij}=\D(\bfx_i,\bfx_j)$ at time $t=t_j$ respond to the expression,
+The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt a non-rotating frame that is free-falling at the acceleration of gravity $\bfg$. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, and moving at velocity $\bfv_i$. The deltas $\D_{ij}=\D(\bfx_i,\bfx_j)$ at a later time $t=t_j$ respond to% the expression,
 %
 \begin{align}\label{equ:delta_definition}
 \begin{split}
@@ -168,7 +171,7 @@ where $\Dt_{ij} \te t_j - t_i$. Interestingly, the deltas form a group under the
 \end{split}
 \end{align}
 %
-with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (whose expression not given for space reasons).%, given by,
+with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (the inverse expression is not given for space reasons).%, given by,
 %
 %\begin{align}
 %\begin{split}
@@ -201,7 +204,7 @@ Substituting the integration equation \eqRef{equ:g_second_order_integration} in 
 \end{align}
 %
 which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} expresses the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
-Notice that we can define a proper delta $\delta_{jk}$ from the body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
+Notice that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
 \begin{split}
@@ -211,13 +214,13 @@ Notice that we can define a proper delta $\delta_{jk}$ from the body magnitudes 
 \end{split}
 \end{align}
 %
-and therefore the integration \eqRef{equ:g_second_order_pre-integration} can be expressed as 
+and therefore the integration \eqRef{equ:g_second_order_pre-integration} responds to the composition 
 %
 \begin{align}\label{equ:composition_compact}
 \D_{ik}=\D_{ij}\oplus\delta_{jk}
 \end{align}
 %
-using  the composition \eqRef{equ:g_composition}. In the following, we will identify $\D$ with the pre-integrated delta and $\delta$ with the current delta.
+defined in \eqRef{equ:g_composition}. In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -227,7 +230,7 @@ using  the composition \eqRef{equ:g_composition}. In the following, we will iden
 
 Notation: 
 We note all Jacobians with $\jac{y}{x}\te\dpar{y}{x}$. 
-See \appRef{sec:derivatives_SO3} for details on the development of all non-trivial Jacobian blocks.
+Please refer to \appRef{sec:derivatives_SO3} for details on the development of all non-trivial Jacobian blocks in this section.
 
 
 
@@ -243,7 +246,7 @@ We have from \eqRef{equ:body},% immediately
 \subsubsection{Jacobians of the current delta}
 \label{sec:jac_data}
 
-The involved operations are the delta creation \eqRef{equ:delta_creation} whose Jacobians are mostly obtained by simple inspection,
+We have from \eqRef{equ:delta_creation},% whose Jacobians are mostly obtained by simple inspection,
 %
 \begin{align}\label{equ:jacobian_current_delta}
 \jac{\delta}{\bfb} =
@@ -254,7 +257,7 @@ The involved operations are the delta creation \eqRef{equ:delta_creation} whose 
 \end{bmatrix}
 \end{align}
 %
-We develop the lower-right block $\bfJ^\dth_\bw$ as in \appRef{sec:jac_R3toSO3}.
+where we develop the lower-right block as in \appRef{sec:jac_R3toSO3}.
 %
 %as follows,
 %%
@@ -299,7 +302,7 @@ We develop the right-column blocks as in \appRef{sec:jac_SO3xR3toR3}.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Delta covariance integration}
 
-Let $\bfQ$ be the covariance of the pre-integrated delta, and $\bfN$ that of the measurement noise. For convenience, we first comute the covariance of the current delta,
+Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfN$ that of the measurement noise. For convenience, we first compute the covariance of the current delta,
 %
 \begin{align}
 \bfQ_\delta =  \jac{\delta}{\bfb_n}\bfN\,\jac{\delta}{\bfb_n}\tr
@@ -316,7 +319,7 @@ where $\jac{\delta}{\bfb_n} = \jac{\delta}{\bfb} \cdot \jac{\bfb}{\bfb_n} = \jac
 Then,
 %
 \begin{align}
-\bfQ^+ = \jac{\D^+}{\D}\bfQ\,\,\jac{\D^+}{\D}\tr + \jac{\D^+}{\delta}\bfQ_\delta\,\jac{\D^+}{\delta}\tr
+\bfQ_\D^+ = \jac{\D^+}{\D}\bfQ_\D\,\jac{\D^+}{\D}\tr + \jac{\D^+}{\delta}\bfQ_\delta\,\jac{\D^+}{\delta}\tr
 ~.
 \end{align}
 

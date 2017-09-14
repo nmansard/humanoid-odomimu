@@ -8,42 +8,43 @@
 
 \subsection{The additive and subtractive operators in $SO(3)$}
 
-In vector spaces $\bbR^n$, the addition and subtraction operations are performed with the regular sum `$+$' and minus `$-$' operations.
-In $SO(3)$ this is not possible, but equivalent operators are needed for establishing a proper calculus corpus. 
-
-We thus define the plus and minus operators, $\oplus,\ominus$, between elements $\sR\in SO(3)$, and elements $\bth\in\bbR^3$ of the tangent space at $\sR$, as follows.
+%In vector spaces $\bbR^n$, the addition and subtraction operations are performed with the regular sum `$+$' and minus `$-$' operations.
+%In $SO(3)$ this is not possible, but equivalent operators are needed for establishing a proper calculus corpus. 
+%
+%We thus define the plus and minus operators, $\oplus,\ominus$, between elements $\sR\in SO(3)$, and elements $\bth\in\bbR^3$ of the tangent space at $\sR$, as follows.
 
 \paragraph{The plus operator.}
-The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ in the vector space tangent to the reference element $\sR$,
+The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ in the vector space tangent to the $SO(3)$ manifold at the reference element $\sR$,
 %
 \begin{align}
 \sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
 \end{align}
 %
-Notice that this operator may be defined for any representation of $SO(3)$. In particular, for the quaternion and rotation matrix we have,
+Notice that this operator may be defined for any representation of $SO(3)$. In particular, %for the quaternion and rotation matrix we have,
 %
 \begin{align}
-\bfq_\sS &= \,\bfq_\sR\oplus\bth = \bfq_\sR\ot\Exp(\bth) \\
-\bfR_\cS &= \bfR_\sR\oplus \bth = \bfR_\sR\Exp(\bth) 
+\bfq\oplus\bth &= \bfq\ot\Exp(\bth) \\
+\bfR\oplus \bth &= \bfR\Exp(\bth) 
 \end{align}
 
 \paragraph{The minus operator.}
-The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the above. It returns the vectorial angular difference $\bth\in\bbR^3$ between two elements of $SO(3)$. This difference is expressed in the  vector space tangent to the reference element $\sR$, 
+The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the above. It returns the vectorial angular difference $\bth\in\bbR^3$ between two elements of $SO(3)$. This difference is expressed in the  vector space tangent to the manifold at the reference element $\sR$, 
 %
 \begin{align}
 \bth=\sS\ominus \sR
 &\te \Log(\sR\inv \circ \sS)     && \sR,\sS\in SO(3),~ \bth\in\bbR^3  
 \end{align}
 %
-which for the quaternion and rotation matrix reads,
+and in particular,
+%which for the quaternion and rotation matrix reads,
 %
 \begin{align}
-\bth &= \,\,\bfq_\sS\ominus\bfq_\sR\, = \Log(\bfq_\sR^*\ot\bfq_\sS)                      \\
-\bth &= \bfR_\sS\ominus\bfR_\sR = \Log(\bfR_\sR\tr\,\bfR_\sS)                         
+\bth &= \bfq\ominus\bfp = \Log(\bfp^*\ot\bfq)                      \\
+\bth &= \bfS\ominus\bfR = \Log(\bfR\tr\,\bfS)                         
 \end{align}
 
-\bigskip
-In both cases, notice that even though the vector difference $\bftheta$ is typically supposed to be small, the definitions above hold for any value of $\bftheta$ (up to the first coverage of the $SO(3)$ manifold, that is, for angles $\norm{\bth}<\pi$).
+%\bigskip
+%In both cases, notice that even though the vector difference $\bftheta$ is typically supposed to be small, the definitions above hold for any value of $\bftheta$ (up to the first coverage of the $SO(3)$ manifold, that is, for angles $\norm{\bth}<\pi$).
 
 \subsection{The four possible derivative definitions}
 
@@ -125,16 +126,6 @@ we implement this derivative using \eqRef{equ:dif_RtoSO3}.
 % ~.
 %\end{align}
 %
-This yields the properties, for any $\bth$ and small $\dth$,
-%
-\begin{align}
-\Exp(\bth+\dth) &\approx \Exp(\bth)\Exp(\bfJ_r(\bth)\dth) 
-\\
-\Exp(\bth)\Exp(\dth) &\approx \Exp(\bth+\bfJ_r\inv(\bth)\,\dth) 
-%\\
-%\Log(\Exp(\bth)\Exp(\dth)) &\approx \bth+\bfJ_r\inv(\bth)\,\dth 
-\end{align}
-
 The right Jacobian and its inverse can be computed in closed form with
 %
 \begin{align}
@@ -162,65 +153,64 @@ We provide a collection of rules which come very handy to develop Jacobians. The
 %\end{align}
 
 \paragraph{\ccross : Cross product and skew-symmetric matrix}
-
+%
 \begin{align}
-\hatx{\bfa}\bfb &= \bfa\times\bfb \\
-\hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa \\
-\bfR\tr\hatx{\bfR\bfa}\bfR &= \hatx{\bfa} \\
+\hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa 
+\\
 \hatx{\bfR\bfa} &= \bfR\hatx{\bfa}\bfR\tr 
 \end{align}
 
-%\paragraph{\cJr : Right Jacobian of $SO(3)$ }
+\paragraph{\cJr : Right Jacobian of $SO(3)$ }
+
+It has the properties, for any $\bth$ and small $\dth$,
 %
-%It has the properties, for any $\bth$ and small $\dth$,
-%%
-%\begin{align}
-%\Exp(\bth+\dth) &\approx \Exp(\bth)\Exp(\bfJ_r(\bth)\dth) \\
-%\Exp(\bth)\Exp(\dth) &\approx \Exp(\bth+\bfJ_r\inv(\bth)\,\dth) \\
-%\Log(\Exp(\bth)\Exp(\dth)) &\approx \bth+\bfJ_r\inv(\bth)\dth %\\
-%\end{align}
-%%
-
-
-
-
-
-
-%\paragraph{\csmall : Small angle approximations}
+\begin{align}
+\Exp(\bth+\dth) &\approx \Exp(\bth)\Exp(\bfJ_r(\bth)\dth) \\
+\Exp(\bth)\Exp(\dth) &\approx \Exp(\bth+\bfJ_r\inv(\bth)\,\dth) 
+\end{align}
 %
-%Let $\dth$ be a small angle vector. Then,
-%%
-%\begin{align}
-%\Exp(\dth) &\approx \bfI + \hatx{\dth} \\
+
+
+
+
+
+
+\paragraph{\csmall : Small angle approximations}
+
+Let $\dth$ be a small angle vector. Then,
+%
+\begin{align}
+\Exp(\dth) &\approx \bfI + \hatx{\dth} \\
 %\Exp(\dth)\tr &\approx \bfI - \hatx{\dth} \\
 %\Exp(\dth_1)\Exp(\dth_2) &\approx \Exp(\dth_1+\dth_2) \\
 %\textstyle\prod_i \Exp(\dth_i) &\approx \Exp\!\big(\textstyle\sum_i\dth_i\big) \\
-%\bfJ_r(\dth) &\approx \bfI - \frac12\hatx{\dth} \\
+\bfJ_r(\dth) &\approx \bfI - \frac12\hatx{\dth} 
+%\\
 %\bfJ_r\inv(\dth) &\approx \bfI + \frac12\hatx{\dth} 
-%\end{align}
+\end{align}
 %%
 %Example: we often use $\Exp(\bfJ_r(\bth)\dth)\approx \bfI + \hatx{\bfJ_r(\bth)\dth}$.
 
-\paragraph{\cswap : Reversing product order}
-
-Since 
-$$
-\bfR\Exp(\bth)\bfR\tr 
-%= \bfR\exp(\hatx{\bth})\bfR\tr
-= \exp(\bfR\hatx{\bth}\bfR\tr)
-%= \exp(\hatx{\bfR\bth})
-= \Exp(\bfR\bth),
-$$ 
-then
+%\paragraph{\cswap : Reversing product order}
 %
-\begin{align}
-\Exp(\bth)\bfR &= \bfR\Exp(\bfR\tr\bth) \\
-\bfR\tr\Exp(\bth)\bfR &= \Exp(\bfR\tr\bth) \\
-\Exp(\bth)\Exp(\bphi) &= \Exp(\bphi)\Exp(\Exp(\bphi)\tr\bth) 
-\end{align}
+%Since 
+%$$
+%\bfR\Exp(\bth)\bfR\tr 
+%%= \bfR\exp(\hatx{\bth})\bfR\tr
+%= \exp(\bfR\hatx{\bth}\bfR\tr)
+%%= \exp(\hatx{\bfR\bth})
+%= \Exp(\bfR\bth),
+%$$ 
+%then
+%%
+%\begin{align}
+%\Exp(\bth)\bfR &= \bfR\Exp(\bfR\tr\bth) \\
+%\bfR\tr\Exp(\bth)\bfR &= \Exp(\bfR\tr\bth) \\
+%\Exp(\bth)\Exp(\bphi) &= \Exp(\bphi)\Exp(\Exp(\bphi)\tr\bth) 
+%\end{align}
 
 
-%\paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel :} This happens when we expand or substitute a previously defined term, or when we cancel terms.
+\paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel} This happens when we expand or substitute a previously defined term, or when we cancel terms.
 %
 %\paragraph{\tcom{$\oplus$}, \tcom{$\ominus$}, \tcom{(1)} : Apply definition :} This happens when we apply a particular definition or equation number.
 
@@ -238,64 +228,12 @@ then
 
 \subsection{Examples}
 
-%\subsubsection{Example 1: $\bbR^3\times\bbR^3\to\bbR^3$} 
-%
-%The rotation $f(\bth,\bfv) = \bfR(\bth)\,\bfv = \Exp(\bth)\,\bfv \in \bbR^3$ produces vectors of $\bbR^3$ from vectors $\bth,\bfv$ in $\bbR^3$. Its Jacobians are defined by \eqRef{equ:derivative_vector} and developed as
-%%
-%\begin{align*}
-%\dpar{\bfR(\bth)\bfv}{\bth} 
-%&= \lim_{\delta\bth\to0}\frac{\Exp(\bth+\delta\bth)\bfv-\Exp(\bth)\bfv}{\delta\bth} \\
-%\cJr
-%&= \lim_{\delta\bth\to0}\frac{\Exp(\bth)\Exp(\bfJ_r(\bth)\delta\bth)\bfv-\Exp(\bth)\bfv}{\delta\bth} \\
-%\csmall
-%&= \lim_{\delta\bth\to0}\frac{\Exp(\bth)(\bfI+\hatx{\bfJ_r(\bth)\delta\bth})\bfv-\Exp(\bth)\bfv}{\delta\bth} \\
-%\ccancel
-%&= \lim_{\delta\bth\to0}\frac{\Exp(\bth)\hatx{\bfJ_r(\bth)\delta\bth}\bfv}{\delta\bth} \\
-%\ccross
-%&= \lim_{\delta\bth\to0}\frac{-\Exp(\bth)\hatx{\bfv}\bfJ_r(\bth)\delta\bth}{\delta\bth} \\
-%&= -\bfR(\bth)\hatx{\bfv}\bfJ_r(\bth) 
-%\end{align*}
-%%
-%and
-%%
-%\begin{align*}
-%\dpar{\bfR(\bth)\bfv}{\bfv} 
-%&= \lim_{\partial\bfv\to0}\frac{\bfR(\bth)(\bfv+\partial\bfv)-\bfR(\bth)\bfv}{\partial\bfv} \\
-%\com{cancel} 
-%&= \bfR(\bth)
-%\end{align*}
 
-\subsubsection{Function $SO(3)\times\bbR^3\to\bbR^3$} 
-\label{sec:jac_SO3xR3toR3}
-
-The rotation $f(\bfR,\bfv) = \bfR\,\bfv \in \bbR^3$ produces vectors of $\bbR^3$ from elements $\bfR\in SO(3)$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
-%
-\begin{align*}
-\dpar{\bfR\bfv}{\bth} 
-&\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-\com{$\oplus$}
-&= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-\csmall
-&= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
-\ccancel
-&= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} \\
-\ccross
-&= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} \\
-&= -\bfR\hatx{\bfv} 
-\end{align*}
-%
-The second  is defined by \eqRef{equ:derivative_vector} and trivially develops as,
-%
-\begin{align*}
-\dpar{\bfR\bfv}{\bfv} 
-&\te \lim_{\partial\bfv\to0}\frac{\bfR\tdot(\bfv+\partial\bfv)-\bfR\bfv}{\partial\bfv} 
-= \bfR
-\end{align*}
 
 \subsubsection{Function $SO(3)\times\bbR^3\to SO(3)$} 
 \label{sec:jac_R3toSO3}
 
-The function $f(\bfR,\bw) = \bfR\Exp(\bw\dt)\in SO(3)$ produces elements of $SO(3)$ from elements in $SO(3)$ and vectors $\bw$ in $\bbR^3$. 
+The function $f(\sR,\bw) = \bfq\od\Exp(\bw\dt) = \bfR\Exp(\bw\dt)\in SO(3)$ produces elements of $SO(3)$ from elements $\sR\in SO(3)$ and vectors $\bw\in\bbR^3$. 
 Its Jacobian \wrt $\bw$ is defined by \eqRef{equ:dif_RtoSO3} and develops as,
 %
 \begin{align*}
@@ -312,6 +250,33 @@ Its Jacobian \wrt $\bw$ is defined by \eqRef{equ:dif_RtoSO3} and develops as,
 \end{align*}
 %
 
+
+\subsubsection{Function $SO(3)\times\bbR^3\to\bbR^3$} 
+\label{sec:jac_SO3xR3toR3}
+
+The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv \in \bbR^3$ produces vectors of $\bbR^3$ from elements $\sR\in SO(3)$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
+%
+\begin{align*}
+\dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
+&\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
+\com{$\oplus$}
+&= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
+\csmall
+&= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
+\ccancel
+&= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} \\
+\ccross
+&= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} \\
+&= -\bfR\hatx{\bfv} 
+\end{align*}
+%
+The second  is defined by \eqRef{equ:derivative_vector} and trivially develops as,
+%
+\begin{align*}
+\dpar{\bfq\od\bfv}{\bfv} = \dpar{\bfR\bfv}{\bfv} 
+&\te \lim_{\partial\bfv\to0}\frac{\bfR\tdot(\bfv+\partial\bfv)-\bfR\bfv}{\partial\bfv} 
+= \bfR
+\end{align*}
 
 
 
