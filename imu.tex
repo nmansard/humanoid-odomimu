@@ -354,7 +354,7 @@ At any time $j$ we can recover the state estimate $\bfx_j$ given the state estim
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Residual}
 
-Residual computation for the optimization in factor graphs requires (see \figRef{fig:factor_graph}) the state estimates $\bfx_i$ and $\bfx_j$, the pre-integrated delta $\ol{\D_{ij}}$, the bias used during pre-integration $\ol{\bfb_{b,i}}$, the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$, and the current bias estimates, $\bfb_{b,i}$. The process is best understood if split into smaller steps. We first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
+Residual computation for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires the state estimates $\bfx_i$ and $\bfx_j$, the current bias estimates $\bfb_{b,i}$, the pre-integrated delta $\ol{\D_{ij}}$, the bias used during pre-integration $\ol{\bfb_{b,i}}$, and the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
 %
 \begin{align}
 \bfr_{ij} 
