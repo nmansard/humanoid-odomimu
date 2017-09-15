@@ -10,27 +10,29 @@ In this case assuming flat floor is not always possible, and being able to obser
 reactive locomotion strategies.
 
 In the DRC \cite{Johnson:jof:2016,Marion:jof:2017,Karumanchi:jof:2017} most of the teams used laser or RGB-D cameras to build a reconstruction of the floor surface in order to \emph{plan}
-the next feet pose. For some teams the level of accuracy was not always sufficient and may involve dramatic failures \cite{Kaneko:ichr:2015}
+the next feet pose. For some teams the level of accuracy was not always sufficient and involved dramatic failures \cite{Kaneko:ichr:2015}
 despite intensive training.
 On ther other hand the IHMC team \cite{Johnson:jof:2016} reported an important gain in terms of accuracy using their state estimator alone,
 reaching an impressive $1$\,cm drift per every three steps for the pelvis horizontal position,
 and $5$\,mm per every nine steps for the pelvis vertical position. Using a quite simple state estimator,
 it is very interesting to note the reported following factors for reaching this level of precision besides bug fixing:
 the redesign of Atlas coming with a significant reduction of backlash in the leg joints improving measurement
-using kinematics, a walking gait reducing the amout of foot slipping and bouncing.
+using kinematics, a walking gait reducing the amount of foot slipping and bouncing.
 Although the IHMC tested a localization algorithm \cite{Pomerlau:ar:2013}, occasional localization errors was
 a problem in the overall behavior and SLAM happened to be not necessary in this situation.
 
 \begin{figure}
 \centering
-\includegraphics[width=0.5\linewidth]{./figures/cover-figure.pdf}
-	\caption{The flying foot trajectory is reconstructed through an IMU set on the foot, and by fusing the information coming from the kinematic chain
-        from the support foot to the flying one.}
+\includegraphics[width=\linewidth]{./figures/cover-figure.pdf}
+	\caption{The flying foot trajectory is reconstructed through an IMU set on the foot (in blue), and by fusing the information coming from the kinematic chain
+        from the support foot to the flying one (in light brown). In the middle images (a)-(d) shows slippage while performing a multicontacts motion depicted on the
+        right (f) (from \cite{Carpentier:ICRA:2016}).
+ }
 	\label{fig:cover}
 \end{figure}
 
-For robots where the design choices introduces flexibilities such as HRP-2 \cite{Nakaoka:iros:2007}, or has backlashes,
-we need a state estimator being able to take into account this uncertainity.
+For robots where the design choices introduces flexibilities such as HRP-2 \cite{Nakaoka:iros:2007}, or backlashes,
+the system needs a state estimator being able to take into account this uncertainity.
 In addition a good pose estimation of the robot in its environment is still needed for effective interactions with the environment,
 and especially for behavior involving manipulation or multiple contact locomotion.
 This estimation can then be used to compute the commands that will be sent to actuators.
