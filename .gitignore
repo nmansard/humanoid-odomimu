@@ -1,7 +1,12 @@
 *~
-*log
-*pdf
-*bbl
-*blg
-*aux
+*.m
+*.log
+*.bbl
+*.blg
+*.aux
+main.pdf
 .#*
+*.graffle
+*.dat
+*.gz
+*.txt
