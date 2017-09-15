@@ -283,7 +283,7 @@ We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Delta covariance integration}
+\subsection{Incremental delta covariance integration}
 
 Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfQ_n$ that of the measurement noise. For convenience, we first compute the covariance of the current delta,
 %
@@ -315,7 +315,7 @@ Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the b
 ~,
 \end{align}
 %
-where $\jac{\D}{\bfb_b}$ is the integrated bias Jacobian, which starts at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$, and is obtained recursively using also the chain rule,
+where $\jac{\D}{\bfb_b}$ is the integrated bias Jacobian, which starts at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$, and is obtained incrementally using also the chain rule,
 %
 \begin{align*}
 \jac{\D_{ik}}{\bfb_b} 
@@ -339,21 +339,6 @@ which we might note for extra clarity,
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{State reconstruction}
-
-At any time $j$ we can recover the state estimate $\bfx_j$ given the state estimate $\bfx_i$ and the (corrected) delta $\D_{ij}$,
-%
-\begin{align} \label{equ:reconstruction}
-\begin{split}
-\bfp_j &= \bfp_i + \bfv_i\Dt_{ij} + \frac12\bfg\Dt_{ij}^2 + \bfq_i\od\Dp_{ij} \\
-\bfv_j &= \bfv_i + \bfg\Dt_{ij} + \bfq_i\od\Dv_{ij} \\
-\bfq_j &= \bfq_i\ot\Dq_{ij}   
-\end{split}
-\end{align}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Residual}
 
 The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
@@ -370,6 +355,21 @@ The computation of the residuals for the IMU delta factors (see \figRef{fig:fact
 \end{align}
 %
 The covariance of this residual is given by $\bfQ_\D$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{State reconstruction}
+
+At any time $j$ we can recover the state estimate $\bfx_j$ given the state estimate $\bfx_i$ and the (corrected) delta $\D_{ij}$,
+%
+\begin{align} \label{equ:reconstruction}
+\begin{split}
+\bfp_j &= \bfp_i + \bfv_i\Dt_{ij} + \frac12\bfg\Dt_{ij}^2 + \bfq_i\od\Dp_{ij} \\
+\bfv_j &= \bfv_i + \bfg\Dt_{ij} + \bfq_i\od\Dv_{ij} \\
+\bfq_j &= \bfq_i\ot\Dq_{ij}   
+\end{split}
+\end{align}
+
+
 
 
 

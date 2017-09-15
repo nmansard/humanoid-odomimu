@@ -82,37 +82,27 @@ These operators are defined for both $\bfq$ and $\bfR$,
 
 \subsection{The four possible derivative definitions}
 
-\subsubsection{Functions from vector space to vector space}
-
-We use the standard operators $\{+,-\}$ to define the derivative as
+For functions $\bbR^m\to\bbR^n$, we use the standard operators $\{+,-\}$ to define the derivative as
 %
 \begin{align}
 \dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0}\frac{f(\bfx+\delta\bfx)-f(\bfx)}{\delta\bfx} &&\in \bbR^{n\times m} \label{equ:derivative_vector}
 \end{align}
-
-\subsubsection{Functions from $SO(3)$ to $SO(3)$}
-
-We use the $SO(3)$ operators $\{\oplus,\ominus\}$ to define the derivative as
+%
+For functions $SO(3)\to SO(3)$, we use the $SO(3)$ operators $\{\oplus,\ominus\}$,
 %
 \begin{align}
 \dpar{f(\sR)}{\bth} 
 &\te \lim_{\delta\bth\to0}\frac{f(\sR\oplus\delta\bth)\ominus f(\sR)}{\delta\bth}  && \in \bbR^{3\times 3}
 \label{equ:derivative_SO3}
 \end{align}
-
-\subsubsection{Functions from vector space to $SO(3)$}
-
-We use `+' for the vector perturbations, and `$\ominus$' for the $SO(3)$ difference,
+%
+For functions $\bbR^m \to SO(3)$, we use $\{+,\ominus\}$,
 %
 \begin{align}
 \dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ f(\bfx+\delta\bfx)\ominus f(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} \label{equ:dif_RtoSO3}
 \end{align}
-
-
-\subsubsection{Functions from $SO(3)$ to vector space}
-
-
-We use `$\oplus$' for the $SO(3)$ perturbations, and `$-$' for the vector difference,
+%
+For functions $SO(3)\to\bbR^n$, we use $\{\oplus,-\}$,
 %
 \begin{align}
 \dpar{f(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{f(\sR\oplus\delta\bth) - f(\sR)}{\delta\bth} && \in \bbR^{n\times 3} \label{equ:jacobian_SO3_Rn}
@@ -126,13 +116,14 @@ We define the right Jacobian of $SO(3)$ as,
 %
 \begin{align}\label{equ:Jr}
 \bfJ_r(\bth) &\te \dpar{\Exp(\bth)}{\bth} 
+\in\bbR^{3\tcross3}
 \end{align}
 %
 Since the exponential $\Exp()$ is an application $\bbR^3\to SO(3)$,
 we implement this derivative using \eqRef{equ:dif_RtoSO3}.
 The right Jacobian 
 %and its inverse 
-can be computed in closed form with
+can be computed in closed form with \cite[pag.~40]{CHIRIKJIAN-12}
 %
 \begin{align}
 \bfJ_r(\bth) &= \bfI - \frac{1-\cos\nth}{\nth^2}\hatx{\bth} + \frac{\nth-\sin\nth}{\nth^3}\hatx{\bth}^2 
@@ -145,51 +136,21 @@ can be computed in closed form with
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Useful properties for Jacobian development}
-\label{sec:DosDonts}
-
-We provide a collection of rules which come very handy to develop Jacobians. They come organized under helper \com{keys}\!\!\!\!, which we use to refer to each of these properties in our developments.
-
-
-\paragraph{\ccross : Skew-symmetric matrix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Useful properties for Jacobian development}
+%\label{sec:DosDonts}
 %
-\begin{align}
-\hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa 
-\\
-\hatx{\bfR\bfa} &= \bfR\hatx{\bfa}\bfR\tr 
-\end{align}
-
-\paragraph{\cJr : Right Jacobian of $SO(3)$ }
-
-It has the properties, for any $\bth$ and small $\dth$,
-%
-\begin{align}
-\Exp(\bth+\dth) &\approx \Exp(\bth)\Exp(\bfJ_r(\bth)\dth) \\
-\Exp(\bth)\Exp(\dth) &\approx \Exp(\bth+\bfJ_r\inv(\bth)\,\dth) 
-\end{align}
-%
+%We provide a collection of rules which come very handy to develop Jacobians.
+%% 
+%\begin{align}
+%\hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa 
+%\\
+%\Exp(\dth) &\approx \bfI + \hatx{\dth} 
+%\end{align}
 
 
 
-
-
-
-\paragraph{\csmall : Small angle approximations}
-
-Let $\dth$ be a small angle vector. Then,
-%
-\begin{align}
-\Exp(\dth) &\approx \bfI + \hatx{\dth} \\
-\bfJ_r(\dth) &\approx \bfI - \frac12\hatx{\dth} 
-\end{align}
-
-
-
-%\paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel} This happens when we expand or substitute a previously defined term, or when we cancel terms.
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Examples}
 
 \subsubsection{Function $SO(3)\times\bbR^3\to SO(3)$} 
@@ -214,19 +175,20 @@ The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv \in \bbR^3$ produces vector
 \begin{align*}
 \dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
 &\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-\com{$\oplus$}
+%\com{$\oplus$}
 &= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-\csmall
+%\csmall
 &= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
-\ccancel
+%\ccancel
 &= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} \\
-\ccross
+%\ccross
 &= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} 
 %\\
 %&
 = -\bfR\hatx{\bfv} 
 \end{align*}
 %
+where we used the properties $\hatx{\bfa}\bfb = -\hatx{\bfb}\bfa$ and $\Exp(\dth) \approx \bfI + \hatx{\dth}$. 
 The second one is defined by \eqRef{equ:derivative_vector} and yields,
 %
 \begin{align*}
