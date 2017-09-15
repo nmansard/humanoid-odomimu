@@ -3,15 +3,15 @@
 \section{Experiments} \label{sec:experiments}
 
 The confidence one can have on the encoders of the robot depends on several factors from actuators design to control strategies. in the legged locomotion case, this can also depend on the general design of the robot.
-Thus during walking phases with humanoid robot HRP2, one can notice sliding phenomenon when the foot hits the ground. If this effect is not measured, their occurences can turn to be a problem for navigation in unstructured environment. 
-Furthermore, we cannot anticipate the slidding, meaning that we do not know what actually causes this to happen. 
+Thus during walking phases with humanoid robot HRP2, one can notice sliding phenomenon when the foot hits the ground. If this effect is not measured, their occurrences can turn to be a problem for navigation in unstructured environment. 
+Furthermore, we cannot anticipate the sliding, meaning that we do not know what actually causes this to happen. 
 In this context, we show that measuring this slide and getting a better estimation of both real trajectories and real position of the foot is possible with an IMU fixed on the sliding member, the foot of the robot in our case.
 
 In order to get to that point, we first want to check whether our fusion method of both IMUs and odometer is able to get a correct estimation of one's foot during walking.
-Then we show that using an IMU on the foot of te robot leads to a better estimation of the real position of the member compared to encoder based odometry.
+Then we show that using an IMU on the foot of the robot leads to a better estimation of the real position of the member compared to encoder based odometry.
 
 We chose to use a low-cost IMU in our application to realize the feasibility of our method. For this purpose we selected the 
-MPU6050 from invensense combining both an accelerometer and a gyroscope and extensively used in the open source community.
+MPU6050 from Invensense combining both an accelerometer and a gyroscope and extensively used in the open source community.
 
 
 %\textit{Keywords : low-cost IMU, MPU6050, experiment conditions, 1 KHz IMU} \\
@@ -22,7 +22,7 @@ MPU6050 from invensense combining both an accelerometer and a gyroscope and exte
 
 The parameters we need to calibrate for a correct integration are the biases on top of which we integrate the incoming data of the IMU.
 The time varying property of the bias is a critical point to consider in order to avoid large deviations. This calibration is made possible
-by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). Fusing both odometer and IMU provides constriaints on position and orientation parts of
+by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). Fusing both odometer and IMU provides constraints on position and orientation parts of
 the state vector. However, velocity is still not observable and is affected by the bias estimation. In the case of legged locomotion, we fix the observability problem by adding a zero velocity constraint when the foot is on the ground.
 
 The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run in observability problems. \textbf{add figure here (graph)}
@@ -44,10 +44,10 @@ This added KeyFrame reduces the integration time since last state optimization m
 
 %TODO : process mocap experiments
 
-\subsubsection{Legged-Locomotion's undesired behaviour measurement}
+\subsubsection{Legged-Locomotion's undesired behavior measurement}
 
 We use the approach presented above in the case of the humanoid robot HRP2 to better estimate the trajectory of the foot. This also results in a better estimation of the pose of the robot using its kinematic chain. 
-For this experiment, the robot is moving in open loop and some specificities are worth to be noted compared to previous experiment. 
+For this experiment, the robot is moving in open loop and some particularities are worth to be noted compared to previous experiment. 
 The structure of the robot produces vibrations that are measured by the IMU, thus explaining the over noisy aspect of the data. The foot's flying phase is set to last 800 ms. The double support phase lasts only 20 ms, thus it is difficult to observe
 even with the IMU working at 1 KHz because of the vibration it will measure on impacts.
 
