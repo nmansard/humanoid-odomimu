@@ -54,7 +54,7 @@ Since the quaternion implementation is one of our contributions, in the followin
 \begin{figure}[tb]
 \begin{center}
 \includegraphics{figures/manifold}
-\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space at the element $\bfq$ is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. (Likewise, these figures illustrate the $SO(3)$ manifold.)}
+\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space to the manifold is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. (Likewise, these figures illustrate the $SO(3)$ manifold.)}
 \label{fig:manifold}
 \end{center}
 \end{figure}
@@ -88,30 +88,33 @@ These operators are defined for both $\bfq$ and $\bfR$,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The four possible derivative definitions}
 
-For functions $f:\bbR^m\to\bbR^n$, we use the standard operators $\{+,-\}$ to define the derivative as
+For functions $f:\bbR^m\to\bbR^n$, the derivative is defined classically using the standard operators $\{+,-\}$,
 %
-\begin{align}
-\dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0}\frac{f(\bfx+\delta\bfx)-f(\bfx)}{\delta\bfx} &&\in \bbR^{n\times m} \label{equ:derivative_vector}
+\begin{align}\label{equ:derivative_vector}
+\dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0}\frac{f(\bfx+\delta\bfx)-f(\bfx)}{\delta\bfx} &&\in \bbR^{n\times m} 
+~;
 \end{align}
 %
-For functions $g:S3\to S3$, we use the operators $\{\oplus,\ominus\}$,
+for functions $g:S3\to S3$, we use the operators $\{\oplus,\ominus\}$,
 %
-\begin{align}
+\begin{align}\label{equ:derivative_SO3}
 \dpar{g(\sR)}{\bth} 
 &\te \lim_{\delta\bth\to0}\frac{g(\sR\oplus\delta\bth)\ominus g(\sR)}{\delta\bth}  && \in \bbR^{3\times 3}
-\label{equ:derivative_SO3}
+~;
 \end{align}
 %
-For functions $h:\bbR^m \to S3$, we use $\{+,\ominus\}$,
+for functions $h:\bbR^m \to S3$, we use $\{+,\ominus\}$,
 %
-\begin{align}
-\dpar{h(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ h(\bfx+\delta\bfx)\ominus h(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} \label{equ:dif_RtoSO3}
+\begin{align}\label{equ:dif_RtoSO3}
+\dpar{h(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ h(\bfx+\delta\bfx)\ominus h(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} 
+~;
 \end{align}
 %
-For functions $k:S3\to\bbR^n$, we use $\{\oplus,-\}$,
+and for functions $k:S3\to\bbR^n$, we use $\{\oplus,-\}$,
 %
-\begin{align}
-\dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} \label{equ:jacobian_SO3_Rn}
+\begin{align}\label{equ:jacobian_SO3_Rn}
+\dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} 
+~.
 \end{align}
 
 
@@ -123,9 +126,10 @@ We define the right Jacobian as,
 \begin{align}\label{equ:Jr}
 \bfJ_r(\bth) &\te \dpar{\Exp(\bth)}{\bth} 
 \in\bbR^{3\tcross3}
+~,
 \end{align}
 %
-We implement this derivative using \eqRef{equ:dif_RtoSO3}.
+and implement it using \eqRef{equ:dif_RtoSO3}.
 The right Jacobian can be computed in closed form  \cite[pag.~40]{CHIRIKJIAN-12} with
 %
 \begin{align}

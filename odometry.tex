@@ -6,6 +6,36 @@ We describe the inertial-kinematic odometry for legged robots, based on a graph 
 
 \subsection{Graph-based estimation through non-linear least squares optimization}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In graph-based optimization, the problem is represented as a graph where the nodes refer to the variables and the factors (or edges) represent the geometrical constraints between variables.
+%
+The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and includes, in our case (see \figRef{fig:factor_graph}), foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes (KF) along the trajectory.
+%
+For each factor, we can define an error or residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expectation,
+\begin{equation}
+    \bfr(\bfx) = h(\bfx) + \bfv - \bfz, \qquad \bfv \sim \mathcal \cN (0, \bfOmega\inv)\label{eq:error}
+\end{equation}
+%
+being $h(\bfx)$ the sensor measurement model and $\bfOmega$ the information matrix of the measurement Gaussian noise $\bfv$.
+%
+The maximum a posteriori estimation is obtained by iteratively minimizing the Mahalanobis squared norm of all linearized errors
+%
+\begin{align}
+  \Delta \bfx^* &= \argmin_{\Delta \bfx} \sum_k \norm{ \bfr_k(\breve\bfx) + \bfJ_k \Delta \bfx }_{\bfOmega_k^{-1}}^2 \label{eq:LeastSquares}
+\end{align}
+%
+being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual.
+In case of manifolds, (\ref{eq:error}) becomes $\bfr(\bfx) = (h(\bfx) \oplus \bfv) \ominus \bfz$, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. The $\oplus$ and $\ominus$ are the addition and subtraction operators on the manifold, as described for each state block intervening in the factor (see \cite{Smith_arv90} and \secRef{sec:imu}).
+%
+Current methods use Cholesky \cite{Kummerle_icra11,ila_ijrr17} or QR  \cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is used to update state. 
+The process is iterated until convergence.
+%
+Incremental methods \cite{Kaess_ijrr11,ila_ijrr17}, update the problem directly on the factorized matrix, obtaining important speed-ups.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 Estimation is realized with a tool in ongoing development \textbf{(cite WOLF ?)} and using Google Ceres non-linear least squares optimizer. This optimization is run on data given by the front-end part of the framework,
 which aim is to formalize the problem according to the graph-based model for aforementioned reasons. This representation, illustrated in \figRef{fig:factor_graph}, 
 gives a human-readable way to easily visualize optimized states (circles) linked to constraining information during the optimization process (factors drawn as squares). Constraints are set by the front-end process using measurements from sensors.
@@ -24,10 +54,9 @@ The optimal states are computed so that the overall residual is minimized in a l
 \par\vspace{4mm}
 \includegraphics[scale=0.65]{figures/graph_essential}
 \caption{
-{\bf Top}: Detailed factor graph for the initial keyframe and two steps. \emph{Circles}: state blocks for position ($p$), orientation quaternion ($q$), velocity ($v$), accelerometer bias ($a_b$), gyrometer bias ($\omega_b$). \emph{Orange}: initial pose factor. \emph{Red}: leg kinematic factor. \emph{Green}: IMU's delta pre-integration factor. 
+{\bf Top}: Detailed factor graph for the initial keyframe and two steps. \emph{Circles}: state blocks for position ($\bfp$), orientation quaternion ($\bfq$), velocity ($\bfv$), accelerometer bias ($\bfa_b$), gyrometer bias ($\bw_b$). \emph{Orange}: initial pose factor. \emph{Red}: leg kinematic factor. \emph{Green}: IMU's delta pre-integration factor. 
 \emph{Blue}: bias drift factor. \emph{Cyan}: bias absolute factor. \emph{Purple}: zero-velocity factor. 
-%{\bf Mid}: Simplified factor graph where aggregate state blocks $x=(p,q,v)$ and biases $b=(a_b,\omega_b)$ are used. 
-{\bf Bottom}: Equivalent factor graph exhibiting one aggregate state block $x=(p,q,v,a_b,\omega_b)$ for each key-frame. All factors are affecting exactly the same variables as in the Top graph.
+{\bf Bottom}: Equivalent factor graph exhibiting one aggregate state block $\bfx=(\bfp,\bfq,\bfv,\bfa_b,\bw_b)$ for each key-frame. All factors are affecting exactly the same variables as in the Top graph.
 }
 \label{fig:factor_graph}
 \end{center}
