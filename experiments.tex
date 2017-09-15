@@ -22,7 +22,7 @@ MPU6050 from Invensense combining both an accelerometer and a gyroscope and exte
 
 The parameters we need to calibrate for a correct integration are the biases on top of which we integrate the incoming data of the IMU.
 The time varying property of the bias is a critical point to consider in order to avoid large deviations. This calibration is made possible
-by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). Fusing both odometer and IMU provides constraints on position and orientation parts of
+by dependencies of the delta pre-integration (${\Dp}(\bfa_b, \bw_b), {\Dv}(\bfa_b, \bw_b), {\Dq}(\bw_b)$). Fusing both odometer and IMU provides constraints on position and orientation parts of
 the state vector. However, velocity is still not observable and is affected by the bias estimation. In the case of legged locomotion, we fix the observability problem by adding a zero velocity constraint when the foot is on the ground.
 
 The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run into observability problems. \textbf{add figure here (graph)}
@@ -45,7 +45,7 @@ to use the information of the entire motion to converge toward stable values as 
 \par\vspace{4mm}
 \includegraphics[scale=0.5]{figures/Result_bias}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous , dashed and dashed-dot lines are respectively : mocap recorded ground truth, 
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: mocap recorded ground truth, 
 estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
 {\bf Bottom}: Evolution of corresponding estimated IMU biases 
 }

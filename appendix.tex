@@ -41,7 +41,7 @@ or rotation matrices for $SO(3)$,
 with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
 and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
 Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
-Since the quaternion implementation is one of our contributions, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$, although everything applies equally to $SO(3)$. 
+Since the quaternion implementation is one of our contributions, in the following we will refer to the rotation groups $S3$ and $SO(3)$ with the unique name $S3$, although everything applies equally to $SO(3)$. 
 
 %The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $S3$ implementations.
 %Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$. 
@@ -62,13 +62,13 @@ Since the quaternion implementation is one of our contributions, in the followin
 
 
 
-The `plus' operator $\oplus:S3\times\bbR^3\to S3$ (see \figRef{fig:manifold}, right) composes a reference element $\sR\in S3$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $S3$ manifold at $\sR$, yielding an element $\sS\in S3$, 
+The `plus' operator, $\oplus:S3\times\bbR^3\to S3$, composes a reference element $\sR\in S3$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $S3$ manifold at $\sR$, yielding an element $\sS\in S3$ (see \figRef{fig:manifold}, right). 
 %
 %\begin{align*}
 %\sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in S3,~ \bth\in\bbR^3 
 %\end{align*}
 %
-The `minus' operator $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above,
+The `minus' operator, $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above.
 %
 %\begin{align*}
 %\bth=\sS\ominus \sR
@@ -80,7 +80,7 @@ These operators are defined for both $\bfq$ and $\bfR$,
 \begin{align}
 \bfq\oplus\bth  &= \bfq\ot\Exp(\bth) \\
 \bfR\oplus \bth &= \bfR\Exp(\bth) \\
-\bth = \bfq\ominus\bfp &= \Log(\bfp^*\ot\bfq) \\
+\bth = \bfp\ominus\bfq &= \Log(\bfq^*\ot\bfp) \\
 \bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)                         
 \end{align}
 
