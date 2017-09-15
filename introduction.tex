@@ -12,7 +12,7 @@ reactive locomotion strategies.
 In the DRC \cite{Johnson:jof:2016,Marion:jof:2017,Karumanchi:jof:2017} most of the teams used laser or RGB-D cameras to build a reconstruction of the floor surface in order to \emph{plan}
 the next feet pose. For some teams the level of accuracy was not always sufficient and involved dramatic failures \cite{Kaneko:ichr:2015}
 despite intensive training.
-On ther other hand the IHMC team \cite{Johnson:jof:2016} reported an important gain in terms of accuracy using their state estimator alone,
+On the other hand the IHMC team \cite{Johnson:jof:2016} reported an important gain in terms of accuracy using their state estimator alone,
 reaching an impressive $1$\,cm drift per every three steps for the pelvis horizontal position,
 and $5$\,mm per every nine steps for the pelvis vertical position. Using a quite simple state estimator,
 it is very interesting to note the reported following factors for reaching this level of precision besides bug fixing:
@@ -32,7 +32,7 @@ a problem in the overall behavior and SLAM happened to be not necessary in this 
 \end{figure}
 
 For robots where the design choices introduces flexibilities such as HRP-2 \cite{Nakaoka:iros:2007}, or backlashes,
-the system needs a state estimator being able to take into account this uncertainity.
+the system needs a state estimator being able to take into account this uncertainty.
 In addition a good pose estimation of the robot in its environment is still needed for effective interactions with the environment,
 and especially for behavior involving manipulation or multiple contact locomotion.
 This estimation can then be used to compute the commands that will be sent to actuators.
