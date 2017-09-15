@@ -67,11 +67,11 @@
 \def\ax_length{1.5}
 \path (cos_ori) ++ ( \ax_length * \coszaxis, \ax_length * \sinzaxis) coordinate (cos_z);
 
-\draw [->, very thick, blue!70] (cos_ori) -- (cos_x);
-\draw [->, very thick, blue!70] (cos_ori) -- (cos_y);
-\draw [->, very thick, blue!70] (cos_ori) -- (cos_z);
+\draw [->, very thick, green!70] (cos_ori) -- (cos_x);
+\draw [->, very thick, green!70] (cos_ori) -- (cos_y);
+\draw [->, very thick, green!70] (cos_ori) -- (cos_z);
 
-\node[draw=none,text=blue!70, above left]  at (cos_ori) {$\mathcal W_{IMU}$};
+\node[draw=none,text=green!70, above left]  at (cos_ori) {$\mathcal W_{IMU}$};
 
 \coordinate (right_ankle) at (4.3,2.6);
 \coordinate (right_knee) at (3.0,5.0);
