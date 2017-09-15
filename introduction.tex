@@ -27,28 +27,32 @@ a problem in the overall behavior and SLAM happened to be not necessary in this 
 	\label{fig:cover}
 \end{figure}
 
-For robots where the design choices introduces flexibilities such as HRP-2, or has backlashes,
+For robots where the design choices introduces flexibilities such as HRP-2 \cite{Nakaoka:iros:2007}, or has backlashes,
 we need a state estimator being able to take into account this uncertainity.
 In addition a good pose estimation of the robot in its environment is still needed for effective interactions with the environment,
 and especially for behavior involving manipulation or multiple contact locomotion.
 This estimation can then be used to compute the commands that will be sent to actuators.
-Fusion strategies with information coming from different sensors can be used to achieve this goal. 
-Considering the application in a real environment, we can fuse the odometer with a high frequency proprioceptive sensor 
-to get better predictions of robot poses by improving integration points.
-
-Using an IMU (Inertial Measurement Unit) allows us get acceleration and angular velocity measurement that can be used to 
-compute the pose of the robot and get information similar to odometry by integration for the fusion step.
-These sensors are now used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics.
-
-
-%\begin{description}
-% \item [Paper subject] \hfill \\ \textit{Use least square optimization to overcome the estimation of the trajectory using an IMU and odometry information. Need of a low frequency odometer to re-estimate biases during motions. Feet trajectory estimation.}
-%\end{description}
-
-
-
-Graphical methods have been extensively used for modeling estimation problems consisting of sparse networks of constraints. 
-In robotics, the problems of visual odometry, and simultaneous localization and mapping, have reached a high degree of maturity, in great part thanks of the graphical representation. 
+Localization can be used to perform real-time planning and model predictive control.
+To achieve this goal fusion strategies with information coming from different sensors is needed.
+Graphical methods have been extensively used to implement such fusion strategies \cite{Thrun:ijrr:2006,Kaess:itro:2008}.
+They have been used for large modeling estimation problems by means of sparse networks of constraints. 
+In robotics, the problems of visual odometry, and simultaneous localization and mapping, have reached a high degree of maturity, 
+in great part thanks of the graphical representation. 
 This is so, among other aspects, because of the power of the graphical representation to accurately model complex estimation problems. 
-These often involve dynamics, proprioceptive measures, exteroceptive measures, and self-calibration. 
-The graphical representation also allows for the design of powerful nonlinear estimation solvers, which can be built taking into account the needs for accuracy, robustness and CPU-performance.
+These often involve dynamics, proprioceptive measures, exteroceptive measures, and self-calibration.
+The graphical representation also allows for the design of powerful nonlinear estimation solvers, which can be built taking into account the needs for accuracy, 
+robustness and CPU-performance.
+In order to keep the problem tractable and maintain real-time performance a key point is to avoid the graph to be too large for a given time window.
+IMU is challenging in this regards, as its high frequency measurement creates large set of data. 
+ 
+For this reason it was proposed in \cite{forster2015imu} to preintegrate the IMU information over an horizon where IMU data are the only
+ones to be measured.
+A first contribution of this paper is to reformulate the method proposed in \cite{forster2015imu} from rotation matrix to quaternion
+and give a detailed algebraic derivation.
+The second contribution is to apply this method to the measurement of a humanoid robot flying foot pose.
+The level of accuracy obtained with this approach is allowing us to detect foot slippage. 
+Finally we described the implementation of this preintegration scheme in a software implementation of the graphical method.
+
+
+
+
