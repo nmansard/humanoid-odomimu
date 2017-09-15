@@ -43,14 +43,14 @@ Due to the different rates of IMU data and keyframe (KF) creation, hundreds of I
 The integration of the motion equations in an absolute reference frame strongly depends on the initial conditions of orientation, velocity and IMU bias.
 Therefore, the changes in the estimates of these magnitudes (inherent to the iterative nature of the optimization) affect the whole motion integral. 
 Delta pre-integration theory was developed \cite{LUPTON-09,FORSTER-16-techrep} to avoid the need of re-integrating all IMU data at each iteration. 
-On one hand, new motion magnitudes called \emph{deltas} are defined, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
+On one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
 On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori using pre-computed Jacobians. 
 
 In this section, we revise the IMU-preintegration theory, providing three contributions: 
 1) a segmentation of the computation pipeline (from measurements to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
-3) a simpler approach to all the algebra needed for a rigorous treatment in both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome Jacobians. 
+3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome \cite{FORSTER-16-techrep} Jacobians. 
 Important complements are provided in \appRef{sec:derivatives_SO3} for the sake of completeness.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,15 +116,15 @@ Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Delta definitions}
 
-Consider a non-rotating reference frame that is free-falling at the acceleration of gravity $\bfg$, and name it $\cF_g$. 
+Consider a non-rotating reference frame that is free-falling at the acceleration of gravity $\bfg$, and name it $\cG_t$. 
 An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. 
-Any non-null measurements would imply motion of the IMU \wrt  $\cF_g$.
+Any non-null measurements would imply motion of the IMU \wrt  $\cG_t$.
 
 %The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt this non-rotating free-falling frame. 
-At $t=t_i$, we associate $\cF_g$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
-At a later time $t=t_j$,  $\cF_g$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
+At $t=t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
+At a later time $t=t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
 The motion delta, denoted $\D_{ij}%=\D(\bfx_i,\bfx_j)
-$, is defined as the motion (position, velocity, orientation) of a body \wrt  $\cF_g$, that is,
+$, is defined as the motion (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
 %
 \begin{align}\label{equ:delta_definition}
 \begin{split}
@@ -135,7 +135,8 @@ $, is defined as the motion (position, velocity, orientation) of a body \wrt  $\
 \end{align}
 %
 where $\Dt_{ij} \te t_j - t_i$. 
-Interestingly, the deltas form a group under the composition operator, $\D_{ik}\te\D_{ij}\oplus\D_{jk}$, defined by,
+Notice that this definition is the same provided in \cite{LUPTON-09,FORSTER-16-techrep}, and that we have given it a clear physical meaning.
+Interestingly, the deltas form a group under the composition $\D_{ik}\te\D_{ij}\oplus\D_{jk}$, defined by,
 %
 \begin{align} \label{equ:g_composition}
 \begin{split}
@@ -187,7 +188,7 @@ Notice also that we can define a proper delta $\delta_{jk}$ from the current bod
 \end{split}
 \end{align}
 %
-and therefore the integration \eqRef{equ:g_second_order_pre-integration} responds to the composition 
+and write the integration \eqRef{equ:g_second_order_pre-integration} as the composition 
 %
 \begin{align}\label{equ:composition_compact}
 \D_{ik}=\D_{ij}\oplus\delta_{jk}
@@ -296,7 +297,7 @@ Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the b
 ~,
 \end{align}
 %
-where $\jac{\D}{\bfb_b}$ is the integrated bias Jacobian, computed incrementally using also the chain rule,
+where $\jac{\D}{\bfb_b}$ is the pre-integrated bias Jacobian, computed incrementally using also the chain rule,
 %
 \begin{align*}
 \jac{\D_{ik}}{\bfb_b} 
