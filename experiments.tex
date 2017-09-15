@@ -25,7 +25,7 @@ The time varying property of the bias is a critical point to consider in order t
 by dependencies of the delta pre-integration ($\boldsymbol{\Delta P}(ab, \omega b), \boldsymbol{\Delta V}(ab, \omega b), \boldsymbol{\Delta Q}(\omega b)$). Fusing both odometer and IMU provides constraints on position and orientation parts of
 the state vector. However, velocity is still not observable and is affected by the bias estimation. In the case of legged locomotion, we fix the observability problem by adding a zero velocity constraint when the foot is on the ground.
 
-The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run in observability problems. \textbf{add figure here (graph)}
+The initial orientation estimation is made possible by adding an absolute constraint on yaw part of the state vector, otherwise we would run into observability problems. \textbf{add figure here (graph)}
 
 \subsection{Results}
 \subsubsection{Trajectory reconstruction}
@@ -39,6 +39,19 @@ As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acce
 This effect can be explained by time inconsistency meaning that we fail
 to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motions do not use all the axis of the accelerometer as it should.
 
+\begin{figure}[tb]
+\begin{center}
+\includegraphics[scale=0.5]{figures/Result_position}
+\par\vspace{4mm}
+\includegraphics[scale=0.5]{figures/Result_bias}
+\caption{ 
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous , dashed and dashed-dot lines are respectively : mocap recorded ground truth, 
+estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
+{\bf Bottom}: Evolution of corresponding estimated IMU biases 
+}
+\label{fig:forward_walk_IRI}
+\end{center}
+\end{figure}
 We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
 This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
 
