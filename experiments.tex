@@ -30,24 +30,22 @@ The initial orientation estimation is made possible by adding an absolute constr
 \subsection{Results}
 \subsubsection{Trajectory reconstruction}
 
-We check the feasibility of the trajectory reconstruction using a 1Khz IMU attached to one's foot tracked with a motion capture (MOCAP) system. 
+We check the feasibility of the trajectory reconstruction using a 1Khz IMU attached to one's foot tracked with a motion capture (MOCAP) system. The MOCAP is used to get odometry between zero-velocity phases, i.e. when the foot is on the ground,
+and will be taken as the ground truth against which we compare the trajectory reconstruction.
+
+We reproduce the movements the feet of a robot could have when it is walking. However, as shown in figures \textbf{add figure here}, the final optimal state
+is not the expected one and acceleration biases are rapidly changing. The variation that we can see is not only due to some random walk and can be explained by the excitement of biases in a different axis.
+As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acceleration biases do not converge toward stable values during a motion exciting several axis of the sensor. 
+This effect can be explained by time inconsistency meaning that we fail
+to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motions do not use all the axis of the accelerometer as it should.
 
 \subsubsection{Legged-Locomotion's undesired behaviour measurement}
-Finally, we will run the application on HRP2 robot. \textbf{add figure here}
+
+We use the approach presented above in the case of the humanoid robot HRP2 to better estimate the trajectory of the foot, and hence the position of the robot. For this experiment, the robot is moving in open loop and some specificities are worth to be
+noted compared to previous experiment. The structure of the robot produces vibrations that are measured by the IMU, thus explaining the over noisy aspect of the data. The foot's flying phase is set to last 800 ms. The double support phase lasts only 20 ms,
+thus it is difficult to observe.
 
 
-
-%The final position estimation is correct taking into account the uncertainties due to the printing part and the model of the odometry (1 mm error is accepted for 1m distance). We focus on doing an experiment that would be the shorter as possible
-%so that we can neglect the random walking affecting the biases. 
-%In all the following applications, we should also consider that the orientation estimation is expressed in IMU's world frame due to its measurement frames. \textbf{add figure here} 
-%Considering the trajectory estimation between both states, using the MOCAP experiment is still necessary.
-
-We do this by simulating the movement the feet of a robot could have when it is walking. However, as shown in figures \textbf{add figure here}, the final optimal state
-is not the expected one and acceleration biases are rapidly changing. The variation that we can see is not only due to some random walk and can be explained by the excitement of biases in a different axis.
-As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acceleration biases do not converge toward stable values during a motion exciting several axis of the sensor. This effect can be explained by time inconsistency since we fail
-to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motion do not use all the axis of the accelerometer as it should.
-We can suspect the performances of the sensor to be partially responsible of these results but we can also suppose that, even if the estimated values of the biases are incoherent, the estimation is locally consistent and the optimal solution actually
-returns a possible solution explaining the motion given the dynamics of the motion. The problem we still have here is the integration of all the data on top of a state that is no longer close enough to the actual sensor state.
 
 
 \textbf{TODO experiment : step motion + complex rotation, followed by MOCAP}
