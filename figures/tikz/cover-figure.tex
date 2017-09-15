@@ -1,0 +1,69 @@
+\documentclass[margin=2mm]{standalone}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.markings}
+
+\begin{document}
+
+\begin{tikzpicture}
+
+\node [inner sep=0pt,above right] {
+    \includegraphics{HRP2-setup.png}
+};
+%\draw[step=1.0,black,thin](0.0,-0.0) grid (10.0,10.0);
+
+
+\def\cosyaxis{0.866025403784}
+\def\sinyaxis{-0.5}
+\def\cosxaxis{-0.866025403784}
+\def\sinxaxis{-0.5}
+\def\coszaxis{-0.34202}
+\def\sinzaxis{0.93969}
+
+% define IMU Frame
+\coordinate (cos_ori) at (4.6, 3.0);
+%\fill[magenta] (cos_ori) circle (2pt); % show origin
+
+\def\ax_length{1.5}
+\path (cos_ori) ++ ( \ax_length * \cosxaxis, \ax_length * \sinxaxis) coordinate (cos_x);
+\def\ax_length{1.0}
+\path (cos_ori) ++ ( \ax_length * \cosyaxis, \ax_length * \sinyaxis) coordinate (cos_y);
+\def\ax_length{1.5}
+\path (cos_ori) ++ ( \ax_length * \coszaxis, \ax_length * \sinzaxis) coordinate (cos_z);
+
+\draw [->, very thick, blue!70] (cos_ori) -- (cos_x);
+\draw [->, very thick, blue!70] (cos_ori) -- (cos_y);
+\draw [->, very thick, blue!70] (cos_ori) -- (cos_z);
+
+\node[draw=none,text=blue!70, above left]  at (cos_ori) {$\mathcal W_{IMU}$};
+
+\coordinate (right_ankle) at (5.5,3.5);
+\coordinate (right_knee) at (4.0,6.6);
+\coordinate (right_hip_pitch) at (5.0,10.2);
+\coordinate (right_hip_roll) at (6.1,10.0);
+\coordinate (right_hip_yaw) at (6.1,11.0);
+
+\coordinate (left_hip_yaw) at (7.1,11.0);
+\coordinate (left_hip_roll) at (7.1,10.0);
+\coordinate (left_hip_pitch) at (7.5,10.0);
+\coordinate (left_knee) at (6.0,6.45);
+\coordinate (left_ankle) at (7.4,3.0);
+
+
+\draw [very thick, brown!70] (right_ankle) -- (right_knee);
+\draw [very thick, brown!70] (right_knee) -- (right_hip_pitch);
+\draw [very thick, brown!70] (right_hip_pitch) -- (right_hip_roll);
+\draw [very thick, brown!70] (right_hip_roll) -- (right_hip_yaw);
+\draw [very thick, brown!70] (left_hip_yaw) -- (right_hip_yaw);
+\draw [very thick, brown!70] (left_hip_yaw) -- (left_hip_roll);
+\draw [very thick, brown!70] (left_hip_roll) -- (left_hip_pitch);
+\draw [very thick, brown!70] (left_ankle) -- (left_knee);
+\draw [very thick, brown!70] (left_knee) -- (left_hip_pitch);
+
+
+\end{tikzpicture}
+
+\end{document}
