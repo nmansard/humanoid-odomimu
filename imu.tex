@@ -67,39 +67,42 @@ That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotatio
 Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then $\bfq\od\bfv = \bfR\,\bfv$. 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exp and Log maps}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\subsection{Exp and Log maps}
+%
+%We use vectorized versions of the exponential and logarithmic maps in $S3$ (the group of unit quaternions) and $SO(3)$ (the group of rotation 3-matrices), and mark them with capitalized names $\Exp()$ and $\Log()$. They operate directly on the vector space $\bbR^3$, and use either quaternions as the representation of $S3$,
+%%
+%\begin{subequations}
+%\begin{align}
+%\bfq
+%&= \Exp(\bth) \te \begin{bmatrix}
+%\cos(\theta/2) \\ \bfu\sin(\theta/2)
+%\end{bmatrix}\\ 
+%\theta\bfu &= \Log(\bfq) \te 2\,\qv\frac{\arctan({\norm{\qv},q_w})}{\norm{\qv}}
+%~,
+%\end{align}
+%\end{subequations}
+%%
+%or rotation matrices as the representation of $SO(3)$, 
+%%
+%\begin{subequations}
+%\begin{align}
+%\bfR
+%&= \Exp(\bth) \te \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\ 
+%%\theta &= \cos\inv\left(\frac{\trace(\bfR)-1}{2}\right) \\
+%\theta\bfu &= \Log(\bfR) \te \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} 
+%~,
+%\end{align}
+%\end{subequations}
+%%
+%with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
+%and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
+%Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
 
-We use vectorized versions of the exponential and logarithmic maps in $S3$ (the group of unit quaternions) and $SO(3)$ (the group of rotation 3-matrices), and mark them with capitalized names $\Exp()$ and $\Log()$. They operate directly on the vector space $\bbR^3$, and use either quaternions as the representation of $S3$,
-%
-\begin{subequations}
-\begin{align}
-\bfq
-&= \Exp(\bth) \te \begin{bmatrix}
-\cos(\theta/2) \\ \bfu\sin(\theta/2)
-\end{bmatrix}\\ 
-\theta\bfu &= \Log(\bfq) \te 2\,\qv\frac{\arctan({\norm{\qv},q_w})}{\norm{\qv}}
-~,
-\end{align}
-\end{subequations}
-%
-or rotation matrices as the representation of $SO(3)$, 
-%
-\begin{subequations}
-\begin{align}
-\bfR
-&= \Exp(\bth) \te \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\ 
-%\theta &= \cos\inv\left(\frac{\trace(\bfR)-1}{2}\right) \\
-\theta\bfu &= \Log(\bfR) \te \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} 
-~,
-\end{align}
-\end{subequations}
-%
-with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
-and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
-Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
-
-The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
+%The equivalence $\bfq\od\bfv=\bfR\bfv$ 
+%and the indistinct usage of the $\Exp()$ and $\Log()$ notations 
+This equivalence
+allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
 Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
 
 
@@ -192,7 +195,7 @@ Substituting the integration equation \eqRef{equ:g_second_order_integration} in 
 \end{align}
 %
 which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
-Notice that by letting the reference frame fall with gravity, we got rid of the dependence on gravity of the integration equations.
+Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity of the integration equations.
 Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
@@ -218,7 +221,7 @@ defined in \eqRef{equ:g_composition}. In the following, we will identify $\D$ wi
 \newcommand{\jac}[2]{{\bfJ^{#1}_{#2}}}
 
 Notation: 
-We note all Jacobians with $\jac{y}{x}\te\dpar{y}{x}$. 
+We note all Jacobians with $\jac{y}{x}\te\dparil{y}{x}$. 
 Please refer to \appRef{sec:derivatives_SO3} for details on the development of all non-trivial Jacobian blocks in this section.
 
 
@@ -243,7 +246,8 @@ We have from \eqRef{equ:delta_creation},
 \frac12\bfI\dt^2 	& \bf0 \\
 \bfI\dt 			& \bf0 \\
 \bf0 	          & \bfJ_r(\bw\dt)\dt
-\end{bmatrix}
+\end{bmatrix} 
+\in \bbR^{9\tcross6}
 \end{align}
 %
 where we develop the lower-right block as in \appRef{sec:jac_R3toSO3}.
@@ -256,32 +260,35 @@ where we develop the lower-right block as in \appRef{sec:jac_R3toSO3}.
 
 We differentiate the delta composition \eqRef{equ:composition_compact} detailed in \eqRef{equ:g_composition},
 %
+\begin{subequations}
 \begin{align}
-\begin{split}
 \jac{\D^+}{\D} &= \begin{bmatrix}
 \bfI  & \bfI\dt & - \DR_{ij}  \hatx{\dpp_{jk}}  \\
 \bf0  & \bfI    & - \DR_{ij}  \hatx{\dv_{jk}} \\
 \bf0  & \bf0    &   \dR_{jk}\tr 
-\end{bmatrix} \\
+\end{bmatrix} 
+\in \bbR^{9\tcross9}
+\\
 \jac{\D^+}{\delta} &= \begin{bmatrix}
 \DR_{ij} & \bf0     & \bf0 \\
 \bf0     & \DR_{ij} & \bf0 \\
 \bf0     & \bf0     & \bfI  
 \end{bmatrix}
-\end{split}
+~~~~~~~~~\in \bbR^{9\tcross9}
 \end{align}
+\end{subequations}
 %
 where $\DR$ and $\dR$ are the rotation matrix deltas corresponding to the respective quaternion deltas $\Dq$ and $\dq$. 
-We develop the right-column blocks as in \appRef{sec:jac_SO3xR3toR3}.
+We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Delta covariance integration}
 
-Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfN$ that of the measurement noise. For convenience, we first compute the covariance of the current delta,
+Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfQ_n$ that of the measurement noise. For convenience, we first compute the covariance of the current delta,
 %
 \begin{align}
-\bfQ_\delta =  \jac{\delta}{\bfb_n}\bfN\,\jac{\delta}{\bfb_n}\tr
+\bfQ_\delta =  \jac{\delta}{\bfb_n}\bfQ_n\,\jac{\delta}{\bfb_n}\tr
 ~,
 \end{align}
 %
@@ -315,15 +322,16 @@ where $\jac{\D}{\bfb_b}$ is the integrated bias Jacobian, which starts at $\jac{
 &= 
 \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
 + 
-\jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} \\
-&= \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb_b} - \jac{\D_{ik}}{\delta} \cdot \jac{\delta}{\bfb}
+\jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
+%\\
+%&= \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb_b} - \jac{\D_{ik}}{\delta} \cdot \jac{\delta}{\bfb}
 ~,
 \end{align*}
 %
 which we might note for extra clarity,
 %
 \begin{align}
-\jac{\D}{\bfb_b}|_{ik} = \jac{\D^+}{\D}\jac{\D}{\bfb_b}|_{ij} - \jac{\D^+}{\delta}\jac{\delta}{\bfb}
+\jac{\D}{\bfb_b}|_{ik} = \jac{\D^+}{\D}\jac{\D}{\bfb_b}|_{ij} - \jac{\D^+}{\delta}\jac{\delta}{\bfb_b}
 ~.
 \end{align}
 %

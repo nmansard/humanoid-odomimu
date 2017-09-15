@@ -6,46 +6,76 @@
 \section{Definition of the derivatives in $SO(3)$}
 \label{sec:derivatives_SO3}
 
+\subsection{Exp and Log maps}
+
+We use vectorized versions of the exponential and logarithmic maps in $SO(3)$ (or $S3$), and denote them with capitalized names $\Exp()$ and $\Log()$ (see \figRef{fig:manifold}). They operate directly on the vector space $\bbR^3$, and use either quaternions as the representation of $SO(3)$,
+%
+\begin{subequations}
+\begin{align}
+\bfq
+&= \Exp(\bth) \te \begin{bmatrix}
+\cos(\theta/2) \\ \bfu\sin(\theta/2)
+\end{bmatrix}\\ 
+\theta\bfu &= \Log(\bfq) \te 2\,\qv\frac{\arctan({\norm{\qv},q_w})}{\norm{\qv}}
+~,
+\end{align}
+\end{subequations}
+%
+or rotation matrices, 
+%
+\begin{subequations}
+\begin{align}
+\bfR
+&= \Exp(\bth) \te \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\ 
+%\theta &= \cos\inv\left(\frac{\trace(\bfR)-1}{2}\right) \\
+\theta\bfu &= \Log(\bfR) \te \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} 
+~,
+\end{align}
+\end{subequations}
+%
+with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
+and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
+Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
+
+%The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
+%Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
+
+
+
+
 \subsection{The additive and subtractive operators in $SO(3)$}
 
 \begin{figure}[tb]
 \begin{center}
 \includegraphics{figures/manifold}
-\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space at the element $\bfq$ is the hyperplane $\bbR^3$, here represented by a line (red). The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. The analogy may serve to illustrate also the $SO(3)$ manifold.}
+\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space at the element $\bfq$ is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. Likewise, these figures illustrate the $SO(3)$ manifold.}
 \label{fig:manifold}
 \end{center}
 \end{figure}
 
 
 
-\paragraph{The plus operator.}
-The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ (\figRef{fig:manifold}) produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $SO(3)$ manifold at the reference element $\sR$,
-%
-\begin{align}
-\sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
-\end{align}
-%
-Notice that this operator may be defined for any representation of $SO(3)$. In particular, 
-%
-\begin{align}
-\bfq\oplus\bth &= \bfq\ot\Exp(\bth) \\
-\bfR\oplus \bth &= \bfR\Exp(\bth) 
-\end{align}
 
-\paragraph{The minus operator.}
-The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ (\figRef{fig:manifold}) is the inverse of the above,
-%. It returns the  angular difference vector $\bth\in\bbR^3$ between two elements of $SO(3)$. This vector is tangent to the $SO(3)$ manifold at the reference element $\sR$, 
+The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ (\figRef{fig:manifold}) composes a reference element $\sR\in SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $SO(3)$ manifold at $\sR$, yielding an element $\sS\in SO(3)$, 
 %
-\begin{align}
+\begin{align*}
+\sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
+\end{align*}
+%
+The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the above,
+%
+\begin{align*}
 \bth=\sS\ominus \sR
 &\te \Log(\sR\inv \circ \sS)     && \sR,\sS\in SO(3),~ \bth\in\bbR^3  
-\end{align}
+\end{align*}
 %
-and in particular,
+These operators are defined for both $\bfq$ and $\bfR$,
 %
 \begin{align}
-\bth &= \bfq\ominus\bfp = \Log(\bfp^*\ot\bfq)                      \\
-\bth &= \bfS\ominus\bfR = \Log(\bfR\tr\,\bfS)                         
+\bfq\oplus\bth  &= \bfq\ot\Exp(\bth) \\
+\bfR\oplus \bth &= \bfR\Exp(\bth) \\
+\bth = \bfq\ominus\bfp &= \Log(\bfp^*\ot\bfq) \\
+\bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)                         
 \end{align}
 
 
@@ -94,17 +124,20 @@ We use `$\oplus$' for the $SO(3)$ perturbations, and `$-$' for the vector differ
 
 We define the right Jacobian of $SO(3)$ as, 
 %
-\begin{align}
+\begin{align}\label{equ:Jr}
 \bfJ_r(\bth) &\te \dpar{\Exp(\bth)}{\bth} 
 \end{align}
 %
 Since the exponential $\Exp()$ is an application $\bbR^3\to SO(3)$,
 we implement this derivative using \eqRef{equ:dif_RtoSO3}.
-The right Jacobian and its inverse can be computed in closed form with
+The right Jacobian 
+%and its inverse 
+can be computed in closed form with
 %
 \begin{align}
-\bfJ_r(\bth) &= \bfI - \frac{1-\cos\nth}{\nth^2}\hatx{\bth} + \frac{\nth-\sin\nth}{\nth^3}\hatx{\bth}^2 \\
-\bfJ_r\inv(\bth) &= \bfI + \frac12\hatx{\bth} + \left(\frac1{\nth^2} - \frac{1+\cos\nth}{2\nth\sin\nth}\right)\hatx{\bth}^2
+\bfJ_r(\bth) &= \bfI - \frac{1-\cos\nth}{\nth^2}\hatx{\bth} + \frac{\nth-\sin\nth}{\nth^3}\hatx{\bth}^2 
+%\\
+%\bfJ_r\inv(\bth) &= \bfI + \frac12\hatx{\bth} + \left(\frac1{\nth^2} - \frac{1+\cos\nth}{2\nth\sin\nth}\right)\hatx{\bth}^2
 \end{align}
 
 
@@ -153,7 +186,7 @@ Let $\dth$ be a small angle vector. Then,
 
 
 
-\paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel} This happens when we expand or substitute a previously defined term, or when we cancel terms.
+%\paragraph{\cexpand, \csubst, \ccancel : Expand, substitute, cancel} This happens when we expand or substitute a previously defined term, or when we cancel terms.
 
 
 
@@ -162,20 +195,13 @@ Let $\dth$ be a small angle vector. Then,
 \subsubsection{Function $SO(3)\times\bbR^3\to SO(3)$} 
 \label{sec:jac_R3toSO3}
 
-The function $f(\sR,\bw) = \bfq\od\Exp(\bw\dt) = \bfR\Exp(\bw\dt)\in SO(3)$ produces elements of $SO(3)$ from elements $\sR\in SO(3)$ and vectors $\bw\in\bbR^3$. 
-Its Jacobian \wrt $\bw$ is defined by \eqRef{equ:dif_RtoSO3} and develops as,
+The function $f(\bw) = \Exp(\bw\dt)\in SO(3)$ produces elements of $SO(3)$ from vectors $\bw\in\bbR^3$. 
+Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtained from \eqRef{equ:Jr} and the chain rule,
 %
 \begin{align*}
-\dpar{\bfR\Exp(\bw\dt)}{\bw} 
-&= \lim_{\delta\bw\to0}\frac{\bfR\Exp((\bw+\delta\bw)\dt) \ominus (\bfR\Exp(\bw\dt)) }{\delta\bw} \\
-\com{$\ominus$}
-&= \lim_{\delta\bw\to0}\frac{\Log\big((\bfR\Exp(\bw\dt))\inv \, \bfR\Exp(\bw\dt+\delta\bw\dt)\big)}{\delta\bw} \\
-\cJr
-&= \lim_{\delta\bw\to0}\frac{\Log\big((\bfR\Exp(\bw\dt))\inv \bfR\Exp(\bw\dt)\Exp(\bfJ_r(\bw\dt)\delta\bw\dt)\big)}{\delta\bw} \\
-\ccancel
-&= \lim_{\delta\bw\to0}\frac{\Log\big(\Exp(\bfJ_r(\bw\dt)\delta\bw\dt)\big)}{\delta\bw} \\
-\com{cancel}
-&= \bfJ_r(\bw\dt)\dt
+\dpar{\Exp(\bw\dt)}{\bw}
+= \dpar{\Exp(\bw\dt)}{(\bw\dt)}\dpar{(\bw\dt)}{\bw} 
+= \bfJ_r(\bw\dt)\dt
 \end{align*}
 %
 
@@ -195,16 +221,19 @@ The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv \in \bbR^3$ produces vector
 \ccancel
 &= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} \\
 \ccross
-&= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} \\
-&= -\bfR\hatx{\bfv} 
+&= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} 
+%\\
+%&
+= -\bfR\hatx{\bfv} 
 \end{align*}
 %
-The second  is defined by \eqRef{equ:derivative_vector} and trivially develops as,
+The second one is defined by \eqRef{equ:derivative_vector} and yields,
 %
 \begin{align*}
 \dpar{\bfq\od\bfv}{\bfv} = \dpar{\bfR\bfv}{\bfv} 
 &\te \lim_{\partial\bfv\to0}\frac{\bfR\tdot(\bfv+\partial\bfv)-\bfR\bfv}{\partial\bfv} 
 = \bfR
+~.
 \end{align*}
 
 
