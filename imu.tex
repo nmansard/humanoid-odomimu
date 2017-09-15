@@ -42,7 +42,7 @@
 Due to the different rates of IMU data and keyframe (KF) creation, hundreds of IMU measurements need to be integrated to generate a motion factor linking two consecutive KFs. 
 The integration of the motion equations in an absolute reference frame strongly depends on the initial conditions of orientation, velocity and IMU bias.
 Therefore, the changes in the estimates of these magnitudes (inherent to the iterative nature of the optimization) affect the whole motion integral. 
-Delta pre-integration theory was developed \cite{LUPTON-09,FORSTER-16-techrep} to avoid the need of re-integrating all IMU data at each iteration. 
+Delta pre-integration theory was developed \cite{LUPTON-09,forster2015imu} to avoid the need of re-integrating all IMU data at each iteration. 
 On one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
 On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori using pre-computed Jacobians. 
 
@@ -50,7 +50,7 @@ In this section, we revise the IMU-preintegration theory, providing three contri
 1) a segmentation of the computation pipeline (from measurements to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
-3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome \cite{FORSTER-16-techrep} Jacobians. 
+3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome \cite{forster2015imu} Jacobians. 
 Important complements are provided in \appRef{sec:derivatives_SO3} for the sake of completeness.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,7 +71,7 @@ $\bfq\od\bfv = \bfR\,\bfv$.
 %
 This straightforward equivalence
 allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ (quaternion) and $SO(3)$ (rotation matrix) implementations.
-Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
+%Since the quaternion implementation is one of the contributions, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$. 
 
 
 

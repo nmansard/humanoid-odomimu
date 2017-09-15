@@ -58,10 +58,10 @@ robustness and CPU-performance.
 In order to keep the problem tractable and maintain real-time performance a key point is to avoid the graph to be too large for a given time window.
 IMU is challenging in this regards, as its high frequency measurement creates large set of data. 
  
-For this reason it was proposed in \cite{forster2015imu} to preintegrate the IMU information over an horizon where IMU data are the only
+For this reason it was proposed in \cite{LUPTON-09,forster2015imu} to preintegrate the IMU information over an horizon where IMU data are the only
 ones to be measured.
 A first contribution of this paper is to reformulate the method proposed in \cite{forster2015imu} from rotation matrix to quaternion
-and give a detailed algebraic derivation.
+and give a detailed and simpler algebraic derivation.
 The second contribution is to apply this method to the measurement of a humanoid robot flying foot pose.
 The level of accuracy obtained with this approach is allowing us to detect foot slippage. 
 Finally we described the implementation of this preintegration scheme in a software implementation of the graphical method.

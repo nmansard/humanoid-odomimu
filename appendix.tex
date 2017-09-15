@@ -6,12 +6,14 @@
 
 \small
 
-\section{Definition of the derivatives in $SO(3)$}
+\section{Definition of the derivatives in $S3$ and $SO(3)$}
 \label{sec:derivatives_SO3}
 
-\subsection{Exp and Log maps}
 
-We use vectorized versions of the exponential and logarithmic maps in $SO(3)$ (or $S3$), and denote them with capitalized names $\Exp()$ and $\Log()$ (see \figRef{fig:manifold}). They operate directly on the vector space $\bbR^3$, and use either quaternions as the representation of $SO(3)$,
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Exp and Log maps in $S3$ and $SO(3)$}
+
+We use vectorized versions of the exponential and logarithmic maps in the rotation groups $S3$ (quaternion) and $SO(3)$ (rotation matrix), and denote them with capitalized names $\Exp()$ and $\Log()$ (see \figRef{fig:manifold}). They operate directly on the vector space $\bbR^3$, and use either quaternions for $S3$,%as the representation of $SO(3)$,
 %
 \begin{subequations}
 \begin{align}
@@ -24,7 +26,7 @@ We use vectorized versions of the exponential and logarithmic maps in $SO(3)$ (o
 \end{align}
 \end{subequations}
 %
-or rotation matrices, 
+or rotation matrices for $SO(3)$, 
 %
 \begin{subequations}
 \begin{align}
@@ -39,14 +41,15 @@ or rotation matrices,
 with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
 and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
 Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
+Since the quaternion implementation is one of the contributions, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$, although everything applies equally to $SO(3)$. 
 
-%The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
-%Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
+%The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $S3$ implementations.
+%Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$. 
 
 
 
-
-\subsection{The additive and subtractive operators in $SO(3)$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The additive and subtractive operators in $S3$ and $SO(3)$}
 
 \begin{figure}[tb]
 \begin{center}
@@ -59,18 +62,18 @@ Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
 
 
 
-The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ (\figRef{fig:manifold}) composes a reference element $\sR\in SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $SO(3)$ manifold at $\sR$, yielding an element $\sS\in SO(3)$, 
+The `plus' operator $\oplus:S3\times\bbR^3\to S3$ (\figRef{fig:manifold}) composes a reference element $\sR\in S3$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $S3$ manifold at $\sR$, yielding an element $\sS\in S3$, 
 %
-\begin{align*}
-\sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
-\end{align*}
+%\begin{align*}
+%\sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in S3,~ \bth\in\bbR^3 
+%\end{align*}
 %
-The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the above,
+The `minus' operator $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above,
 %
-\begin{align*}
-\bth=\sS\ominus \sR
-&\te \Log(\sR\inv \circ \sS)     && \sR,\sS\in SO(3),~ \bth\in\bbR^3  
-\end{align*}
+%\begin{align*}
+%\bth=\sS\ominus \sR
+%&\te \Log(\sR\inv \circ \sS)     && \sR,\sS\in S3,~ \bth\in\bbR^3  
+%\end{align*}
 %
 These operators are defined for both $\bfq$ and $\bfR$,
 %
@@ -82,84 +85,62 @@ These operators are defined for both $\bfq$ and $\bfR$,
 \end{align}
 
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The four possible derivative definitions}
 
-For functions $\bbR^m\to\bbR^n$, we use the standard operators $\{+,-\}$ to define the derivative as
+For functions $f:\bbR^m\to\bbR^n$, we use the standard operators $\{+,-\}$ to define the derivative as
 %
 \begin{align}
 \dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0}\frac{f(\bfx+\delta\bfx)-f(\bfx)}{\delta\bfx} &&\in \bbR^{n\times m} \label{equ:derivative_vector}
 \end{align}
 %
-For functions $SO(3)\to SO(3)$, we use the $SO(3)$ operators $\{\oplus,\ominus\}$,
+For functions $g:S3\to S3$, we use the operators $\{\oplus,\ominus\}$,
 %
 \begin{align}
-\dpar{f(\sR)}{\bth} 
-&\te \lim_{\delta\bth\to0}\frac{f(\sR\oplus\delta\bth)\ominus f(\sR)}{\delta\bth}  && \in \bbR^{3\times 3}
+\dpar{g(\sR)}{\bth} 
+&\te \lim_{\delta\bth\to0}\frac{g(\sR\oplus\delta\bth)\ominus g(\sR)}{\delta\bth}  && \in \bbR^{3\times 3}
 \label{equ:derivative_SO3}
 \end{align}
 %
-For functions $\bbR^m \to SO(3)$, we use $\{+,\ominus\}$,
+For functions $h:\bbR^m \to S3$, we use $\{+,\ominus\}$,
 %
 \begin{align}
-\dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ f(\bfx+\delta\bfx)\ominus f(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} \label{equ:dif_RtoSO3}
+\dpar{h(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ h(\bfx+\delta\bfx)\ominus h(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} \label{equ:dif_RtoSO3}
 \end{align}
 %
-For functions $SO(3)\to\bbR^n$, we use $\{\oplus,-\}$,
+For functions $k:S3\to\bbR^n$, we use $\{\oplus,-\}$,
 %
 \begin{align}
-\dpar{f(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{f(\sR\oplus\delta\bth) - f(\sR)}{\delta\bth} && \in \bbR^{n\times 3} \label{equ:jacobian_SO3_Rn}
+\dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} \label{equ:jacobian_SO3_Rn}
 \end{align}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Right Jacobian of $S3$ and $SO(3)$}
 
-\subsection{Right Jacobian of $SO(3)$ }
-
-We define the right Jacobian of $SO(3)$ as, 
+We define the right Jacobian as, 
 %
 \begin{align}\label{equ:Jr}
 \bfJ_r(\bth) &\te \dpar{\Exp(\bth)}{\bth} 
 \in\bbR^{3\tcross3}
 \end{align}
 %
-Since the exponential $\Exp()$ is an application $\bbR^3\to SO(3)$,
-we implement this derivative using \eqRef{equ:dif_RtoSO3}.
-The right Jacobian 
-%and its inverse 
-can be computed in closed form  \cite[pag.~40]{CHIRIKJIAN-12} with
+We implement this derivative using \eqRef{equ:dif_RtoSO3}.
+The right Jacobian can be computed in closed form  \cite[pag.~40]{CHIRIKJIAN-12} with
 %
 \begin{align}
 \bfJ_r(\bth) &= \bfI - \frac{1-\cos\nth}{\nth^2}\hatx{\bth} + \frac{\nth-\sin\nth}{\nth^3}\hatx{\bth}^2 
-%\\
-%\bfJ_r\inv(\bth) &= \bfI + \frac12\hatx{\bth} + \left(\frac1{\nth^2} - \frac{1+\cos\nth}{2\nth\sin\nth}\right)\hatx{\bth}^2
 \end{align}
-
-
-
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\subsection{Useful properties for Jacobian development}
-%\label{sec:DosDonts}
-%
-%We provide a collection of rules which come very handy to develop Jacobians.
-%% 
-%\begin{align}
-%\hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa 
-%\\
-%\Exp(\dth) &\approx \bfI + \hatx{\dth} 
-%\end{align}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Examples}
 
-\subsubsection{Function $\bbR^3\to SO(3)$} 
+\subsubsection{Function $\bbR^3\to S3$} 
 \label{sec:jac_R3toSO3}
 
-The function $f(\bw) = \Exp(\bw\dt)\in SO(3)$ produces elements of $SO(3)$ from vectors $\bw\in\bbR^3$. 
+The function $f(\bw) = \Exp(\bw\dt)$ produces elements of $S3$ from vectors $\bw\in\bbR^3$. 
 Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtained from \eqRef{equ:Jr} and the chain rule,
 %
 \begin{align*}
@@ -170,29 +151,23 @@ Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtai
 %
 
 
-\subsubsection{Function $SO(3)\times\bbR^3\to\bbR^3$} 
+\subsubsection{Function $S3\times\bbR^3\to\bbR^3$} 
 \label{sec:jac_SO3xR3toR3}
 
-The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv \in \bbR^3$ produces vectors of $\bbR^3$ from elements $\sR\in SO(3)$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
+The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv$ produces vectors of $\bbR^3$ from elements $\sR\in S3$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
 %
 \begin{align*}
 \dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
 &\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-%\com{$\oplus$}
-&= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-%\csmall
+= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} 
 &= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
-%\ccancel
-&= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} \\
-%\ccross
+= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} 
 &= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} 
-%\\
-%&
 = -\bfR\hatx{\bfv} 
 \end{align*}
 %
 where we used the properties $\hatx{\bfa}\bfb = -\hatx{\bfb}\bfa$ and $\Exp(\dth) \approx \bfI + \hatx{\dth}$. 
-The second one is defined by \eqRef{equ:derivative_vector} and yields,
+The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
 %
 \begin{align*}
 \dpar{\bfq\od\bfv}{\bfv} = \dpar{\bfR\bfv}{\bfv} 
