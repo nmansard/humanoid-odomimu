@@ -35,21 +35,13 @@ BIB_DIR   		=.
 # ---------------------------------------------
 
 OBJS	=	main
-OBJS_SEC = 	centroidal_dynamics \
-		com_proxy \
-		conclusion \
-		cone \
-		generic_formulation \
-		introduction \
-		proposed_formulation \
-		proxy \
-		results \
-		shortcuts \
-		solver \
-		validation
+OBJS_SEC = 	introduction \
+		odometry \
+		experiments \
+		conclusion
 
 
-BIB	=	references.bib
+BIB	=	bib.bib
 
 OBJS_TEX	=	$(OBJS:%=%.tex)
 OBJS_DVI	=	$(OBJS:%=%.dvi)
@@ -70,7 +62,7 @@ TGZ_FILE        =       ../icra10.tgz
 # --->
 
 .PHONY = all 
-all: main_tro.pdf
+all: main.pdf
 
 dvi: $(OBJS_DVI)
 

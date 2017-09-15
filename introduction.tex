@@ -4,37 +4,48 @@
 
 One of the most common ways to describe the trajectory of a body in space is to use odometry that can be derived from a multitude of sensors, from encoders to GPS and cameras.
 The quality of this information is also known to be sensor specifications dependent and to accumulate measurement errors. The development of SLAM (Simultaneous Localization And Mapping) is today advanced enough to resolve 
-this dependency over time with loop closure strategies. However, other strategies are required to comply with the particularities of legged locomotion and physical interactions in unstructured environments. These requirements can be met in 
-different levels, e.g. actuator designs or control strategies.
+this dependency over time with loop closure strategies. However, other strategies are required to comply with the particularities of legged locomotion and physical interactions in unstructured environments. 
+This is particularly necessary in outdoor or industrial applications with cluttered environment. 
+In this case assuming flat floor is not always possible, and being able to observe the foot pose allows to implement advanced
+reactive locomotion strategies.
 
-  \begin{itemize}
-   \item Actuator design  \cite{wensing2017proprioceptive}
-   \item Control strategies
-    \begin{itemize}
-     \item Control in position
-     \item Torque Control
-     \item other ?
-    \end{itemize}
-  \end{itemize}
-
-However, a good pose estimation of the robot in its environment is still needed for effective interactions with the environment. This estimation can then be used to compute the commands that will be sent to actuators.
-Fusion strategies with information coming from different sensors can be used to achieve this goal. Considering the application in a real environment, we can fuse the odometer with a high frequency proprioceptive sensor 
-to get better predictions of robot poses by improving integration points.
-
-Using an IMU (Inertial Measurement Unit) allows us get acceleration and angular velocity measurement that can be used to compute the pose of the robot and get information similar to odometry by integration for the fusion step.
-These sensors are now used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics.
-
-
-\begin{description}
- \item [Paper subject] \hfill \\ \textit{Use least square optimization to overcome the estimation of the trajectory using an IMU and odometry information. Need of a low frequency odometer to re-estimate biases during motions. Feet trajectory estimation.}
-\end{description}
-
+In the DRC \cite{Johnson:jof:2016,Marion:jof:2017,Karumanchi:jof:2017} most of the teams used laser or RGB-D cameras to build a reconstruction of the floor surface in order to \emph{plan}
+the next feet pose. For some teams the level of accuracy was not alway sufficient and may involve dramatic failures \cite{Kaneko:ichr:2015}
+despite intensive training.
+On ther other hand the IHMC team \cite{Johnson:jof:2016} reported an important gain in term of accuracy using their state estimator alone,
+reaching an impressive $1\; cm$ drift per every three steps for the pelvis horizontal position,
+and $5\; mm$ per every nine steps for the pelvis vertical position. Using a quite simple state estimator,
+it is very interesting to note the reported following factors for reaching this level of precision besides bug fixing:
+the redesign of Atlas coming with a significant reduction of backlash in the leg joints improving measurement
+using kinematics, a walking gait reducing the amout of foot slipping and bouncing.
+Although the IHMC tested a localization algorithm \cite{Pomerlau:ar:2013}, occasional localization errors was
+a problem in the overall behavior and SLAM happened to be not necessary in this situation.
 
 \begin{figure}
 \centering
 	\caption{Cover figure}
 	\label{fig:cover}
 \end{figure}
+
+For robots where the design choices introduces flexibilities such as HRP-2, or has backlashes,
+we need a state estimator being able to take into account this uncertainity.
+In addition a good pose estimation of the robot in its environment is still needed for effective interactions with the environment,
+and especially for behavior involving manipulation or multiple contact locomotion.
+This estimation can then be used to compute the commands that will be sent to actuators.
+Fusion strategies with information coming from different sensors can be used to achieve this goal. 
+Considering the application in a real environment, we can fuse the odometer with a high frequency proprioceptive sensor 
+to get better predictions of robot poses by improving integration points.
+
+Using an IMU (Inertial Measurement Unit) allows us get acceleration and angular velocity measurement that can be used to 
+compute the pose of the robot and get information similar to odometry by integration for the fusion step.
+These sensors are now used in a wide range of applications : aerospace, SLAM, human motion analysis, or robotics.
+
+
+%\begin{description}
+% \item [Paper subject] \hfill \\ \textit{Use least square optimization to overcome the estimation of the trajectory using an IMU and odometry information. Need of a low frequency odometer to re-estimate biases during motions. Feet trajectory estimation.}
+%\end{description}
+
+
 
 Graphical methods have been extensively used for modeling estimation problems consisting of sparse networks of constraints. 
 In robotics, the problems of visual odometry, and simultaneous localization and mapping, have reached a high degree of maturity, in great part thanks of the graphical representation. 
