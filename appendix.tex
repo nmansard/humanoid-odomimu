@@ -8,9 +8,18 @@
 
 \subsection{The additive and subtractive operators in $SO(3)$}
 
+\begin{figure}[tb]
+\begin{center}
+\includegraphics{figures/manifold}
+\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space at the element $\bfq$ is the hyperplane $\bbR^3$, here represented by a line (red). The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. The analogy may serve to illustrate also the $SO(3)$ manifold.}
+\label{fig:manifold}
+\end{center}
+\end{figure}
+
+
 
 \paragraph{The plus operator.}
-The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ in the vector space tangent to the $SO(3)$ manifold at the reference element $\sR$,
+The `plus' operator $\oplus:SO(3)\times\bbR^3\to SO(3)$ (\figRef{fig:manifold}) produces an element $\sS$ of $SO(3)$ which is the result of composing a reference element $\sR$ of $SO(3)$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $SO(3)$ manifold at the reference element $\sR$,
 %
 \begin{align}
 \sS = \sR\oplus \bth &\te \sR\circ\Exp(\bth) && \sR,\sS\in SO(3),~ \bth\in\bbR^3 
@@ -24,7 +33,8 @@ Notice that this operator may be defined for any representation of $SO(3)$. In p
 \end{align}
 
 \paragraph{The minus operator.}
-The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ is the inverse of the above. It returns the vectorial angular difference $\bth\in\bbR^3$ between two elements of $SO(3)$. This difference is expressed in the  vector space tangent to the manifold at the reference element $\sR$, 
+The `minus' operator $\ominus:SO(3)\times SO(3)\to\bbR^3$ (\figRef{fig:manifold}) is the inverse of the above,
+%. It returns the  angular difference vector $\bth\in\bbR^3$ between two elements of $SO(3)$. This vector is tangent to the $SO(3)$ manifold at the reference element $\sR$, 
 %
 \begin{align}
 \bth=\sS\ominus \sR
@@ -42,8 +52,6 @@ and in particular,
 
 \subsection{The four possible derivative definitions}
 
-
-
 \subsubsection{Functions from vector space to vector space}
 
 We use the standard operators $\{+,-\}$ to define the derivative as
@@ -54,7 +62,7 @@ We use the standard operators $\{+,-\}$ to define the derivative as
 
 \subsubsection{Functions from $SO(3)$ to $SO(3)$}
 
-We use $\{\oplus,\ominus\}$ to define the derivative as
+We use the $SO(3)$ operators $\{\oplus,\ominus\}$ to define the derivative as
 %
 \begin{align}
 \dpar{f(\sR)}{\bth} 
@@ -111,7 +119,7 @@ The right Jacobian and its inverse can be computed in closed form with
 We provide a collection of rules which come very handy to develop Jacobians. They come organized under helper \com{keys}\!\!\!\!, which we use to refer to each of these properties in our developments.
 
 
-\paragraph{\ccross : Cross product and skew-symmetric matrix}
+\paragraph{\ccross : Skew-symmetric matrix}
 %
 \begin{align}
 \hatx{\bfa}\bfb &= -\hatx{\bfb}\bfa 

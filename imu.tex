@@ -89,6 +89,7 @@ or rotation matrices as the representation of $SO(3)$,
 \begin{align}
 \bfR
 &= \Exp(\bth) \te \bfI + \sin\theta\hatx{\bfu} + (1-\cos\theta)\hatx{\bfu}^2~ \label{equ:rodrigues} \\ 
+%\theta &= \cos\inv\left(\frac{\trace(\bfR)-1}{2}\right) \\
 \theta\bfu &= \Log(\bfR) \te \frac{\theta(\bfR-\bfR\tr)^\vee}{2\sin\theta} 
 ~,
 \end{align}
@@ -98,7 +99,7 @@ with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
 and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
 Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
 
-The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp$ and $\Log$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
+The equivalence $\bfq\od\bfv=\bfR\bfv$ and the indistinct usage of the $\Exp()$ and $\Log()$ notations allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ and $SO(3)$ implementations.
 Therefore, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $SO(3)$. 
 
 
@@ -119,7 +120,7 @@ Their time evolution is governed by the kinematic equation,
 \end{split}
 \end{align}
 %
-where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate in the IMU reference frame. These are obtained from biased and noisy IMU measurements, \ie,
+where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate observed at the IMU reference frame. These are obtained from biased and noisy IMU measurements, \ie,
 %
 \begin{align}\label{equ:body}
 \begin{split}
@@ -144,9 +145,11 @@ Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Delta definitions}
 
-Consider a non-rotating reference frame that is free-falling at the acceleration of gravity. An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. Any non-null measurements would imply motion of the IMU \wrt this frame.
+Consider a non-rotating reference frame that is free-falling at the acceleration of gravity $\bfg$. 
+An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. 
+Any non-null measurements would imply motion of the IMU \wrt this frame.
 
-The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt a non-rotating frame that is free-falling at the acceleration of gravity $\bfg$. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, and moving at velocity $\bfv_i$. The deltas $\D_{ij}=\D(\bfx_i,\bfx_j)$ at a later time $t=t_j$ respond to% the expression,
+The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt this non-rotating free-falling frame. At $t=t_i$, this frame was at position $\bfp_i$ and orientation $\bfq_i$, with velocity $\bfv_i$. At a later time $t=t_j$ the deltas $\D_{ij}=\D(\bfx_i,\bfx_j)$ read
 %
 \begin{align}\label{equ:delta_definition}
 \begin{split}
@@ -188,8 +191,9 @@ Substituting the integration equation \eqRef{equ:g_second_order_integration} in 
 \end{split}
 \end{align}
 %
-which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} expresses the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
-Notice that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
+which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
+Notice that by letting the reference frame fall with gravity, we got rid of the dependence on gravity of the integration equations.
+Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j)$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
 \begin{split}
@@ -297,7 +301,7 @@ The delta covariance is then integrated with
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Delta correction with new bias}
 
-Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the bias values used during pre-integration. Should the bias estimates be updated to new values $\bfb_b$, we need to update the delta accordingly. We do so with the linearized update,
+Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the bias values used during pre-integration. Since the bias estimates change at each iteration of the optimizer, we need to update the delta according to the new bias values $\bfb_b$. We do so with the linearized update,
 %
 \begin{align}\label{equ:delta_correction}
 \D = \ol\D + \jac{\D}{\bfb_b}(\bfb_b - \ol{\bfb_b})
@@ -356,7 +360,8 @@ The computation of the residuals for the IMU delta factors (see \figRef{fig:fact
 \in \bbR^9
 ~.
 \end{align}
-
+%
+The covariance of this residual is given by $\bfQ_\D$.
 
 
 
