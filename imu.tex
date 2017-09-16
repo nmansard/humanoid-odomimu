@@ -147,9 +147,9 @@ Substituting the integration equation \eqRef{equ:integration_state} in the delta
 \end{split}
 \end{align}
 %
-which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
+which starts at $\D_{ii}=\D_0$, being $t_i$ the time of the last KF. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
 Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity of the integration equations, and the only magnitudes entering the integral are the body magnitudes.
-Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,j} - \bfb_{b,i} - \bfb_{n,j}$ at time $t_j$,
+Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,i} - \bfb_{b,j} - \bfb_{n,j}$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
 \begin{split}
@@ -159,13 +159,16 @@ Notice also that we can define a proper delta $\delta_{jk}$ from the current bod
 \end{split}
 \end{align}
 %
+%(notice that $\bfb_{b,j}=\bfb_{b,i}$) 
 and write the integration \eqRef{equ:g_second_order_pre-integration} as the composition 
 %
 \begin{align}\label{equ:composition_compact}
 \D_{ik}=\D_{ij}\oplus\delta_{jk}
 \end{align}
 %
-described in \eqRef{equ:composition}. In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
+described in \eqRef{equ:composition}. 
+Typically, we take the biases at KF time $t_i$, that is, $\bfb_{b,j} = \bfb_{b,i}$.
+In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
