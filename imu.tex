@@ -17,7 +17,7 @@ Delta pre-integration theory was developed \cite{LUPTON-09,forster2015imu} to av
 On one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
 On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori using pre-computed Jacobians. 
 
-In this section, we revise the IMU-preintegration theory, providing three contributions: 
+In this section, we revise the IMU pre-integration theory, providing three contributions: 
 1) a segmentation of the computation pipeline (from measurements to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
@@ -41,8 +41,7 @@ Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$
 $\bfq\od\bfv = \bfR\,\bfv$. 
 %
 This straightforward equivalence
-allows us to define all the forthcoming IMU-preintegration algebra in a way that allows a direct passage between the $S3$ (quaternion) and $SO(3)$ (rotation matrix) implementations.
-%Since the quaternion implementation is one of the contributions, in the following we will refer to the groups $S3$ and $SO(3)$ with the unique name $S3$. 
+allows us to define all the forthcoming IMU pre-integration algebra in a way that allows a direct passage between the $S3$ (quaternion) and $SO(3)$ (rotation matrix) implementations.
 
 
 
@@ -93,7 +92,7 @@ Any non-null measurements would imply motion of the IMU \wrt  $\cG_t$.
 
 At $t=t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
 At a later time $t=t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
-The motion delta, denoted $\D_{ij}%=\D(\bfx_i,\bfx_j)
+The motion delta, denoted $\D_{ij}
 $, is defined as the state (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
 %
 \begin{align}\label{equ:delta_definition}
@@ -275,8 +274,6 @@ where $\jac{\D}{\bfb_b}$ is the pre-integrated bias Jacobian, computed increment
 \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
 + 
 \jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
-%\\
-%&= \jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb_b} - \jac{\D_{ik}}{\delta} \cdot \jac{\delta}{\bfb}
 ~,
 \end{align*}
 %

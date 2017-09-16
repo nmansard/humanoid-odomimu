@@ -44,9 +44,6 @@ Incremental methods \cite{Kaess_ijrr11,ila_ijrr17}, update the problem directly 
 %Thus, it is possible to constrain states with several factors provided by different sensors leading to a fusion. Factor play a key role since they are used on top of previous states to predict next ones and compute the error with the current states.
 %The optimal states are computed so that the overall residual is minimized in a least squares meaning.
 
-%\subsection{The inertial-kinematic odometry}
-%\subsubsection{Inertial pre-integration}
-%\subsubsection{Graphical model}
 
 \begin{figure}[tb]
 \centering
@@ -128,9 +125,8 @@ These relate position and orientation between consecutive steps to the robot's k
 \end{bmatrix}
 \end{align}
 %
-where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternion measurements.
+where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternion measurements of the kinematic chain.
 
-\subsubsection{IMU preintegrated factors}
+\subsubsection{IMU pre-integrated factors}
 
-These factors are by far the most complex and the whole of the next section is devoted to describe them in detail.
-
+These factors are by far the most complex and are described in detail in the next section.
