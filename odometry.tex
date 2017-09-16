@@ -72,10 +72,10 @@ Incremental methods \cite{Kaess_ijrr11,ila_ijrr17}, update the problem directly 
 
 \subsection{Keyframe variables}
 
-During a biped walk, we take profit of certain situations where precise assumptions can be made. For example, the  foot velocity is null during the support phase. At these selected moments, we create the keyframes that will produce a chain of states. These are linked by the measurements, forming our factor graph. The KF state blocks are the foot's position, velocity and orientation quaternion, plus the IMU's accelerometer and gyrometer biases,
+During a biped walk, we take profit of certain situations where precise assumptions can be made. For example, the  foot velocity is null during the support phase. At these selected moments, we create the keyframes that will produce a chain of states. These are linked by the measurements, forming our factor graph (\figRef{fig:factor_graph}). Each KF $\bff_i$ contains the following state blocks: the foot's position, velocity and orientation quaternion, plus the IMU's accelerometer and gyrometer biases,
 %
 \begin{align}
-\bfx_i = \begin{bmatrix}
+\bff_i = \begin{bmatrix}
 \bfp_i & \bfv_i & \bfq_i & \bfa_{b,i} & \bw_{b,i}
 \end{bmatrix}\tr
 ~.
@@ -87,21 +87,21 @@ During a biped walk, we take profit of certain situations where precise assumpti
 \subsection{Description of factors}
 
 The types of factor considered in our graph are illustrated in \figRef{fig:factor_graph}. 
-Each factor requires its own information matrix $\bfOmega_k$, which is individually specified.
+Each factor $k$ requires its own information matrix~$\bfOmega_k$, and its residual function $\bfr_k(\bfx)$. These residuals are detailed hereafter.
 
 \subsubsection{Absolute factors}
 
-These include initial position and orientation (yellow in the figure), zero velocity (purple), and bias magnitude (cyan). They all define a residual which depends on a single state block, which is compared against a reference $\bfz_k$,
+These include initial position and orientation (yellow in the figure), zero velocity (purple), and bias magnitude (cyan). Each residual depends on a single state block, which is compared against a reference $\bfz_k$,
 %
 \begin{align}
-\bfr_k(\bfx) = \bfphi_i - \bfz_k
+\bfr_k(\bfphi_i) = \bfphi_i - \bfz_k
 \end{align}
 %
 where $\bfphi_i$ is one amongst $\{\bfp_i,\bfv_i,\bfa_{b,i},\bw_{b,i}\}$. 
-For the quaternion we implement a residual in the $S3$ manifold,
+For the quaternion we implement a residual using the operator $\ominus$ in the $S3$ manifold (see \appRef{sec:derivatives_SO3}),
 %
 \begin{align}
-\bfr_k(\bfx) = \Log(\bfz_k^*\ot\bfq_i)
+\bfr_k(\bfq_i) = \Log(\bfz_k^*\ot\bfq_i)
 \end{align}
 %
 
@@ -119,14 +119,18 @@ These are relative factors that allow the biases to drift with time at a control
 
 \subsubsection{Kinematic chain factors}
 
-These relate position and orientation of consecutive steps, corresponding to the robot's kinematic chain as measured by its joint encoders,
+These relate position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
 %
 \begin{align}
 \bfr(\bfp_i,\bfq_i,\bfp_j,\bfq_j) = \begin{bmatrix}
-\bfp_j-\bfp_i \\
-\Log(\bfq_i^*\ot\bfq_j)
+\bfq_i^*\ot(\bfp_j-\bfp_i) - \bfy_k \\
+\Log(\bfz_k^*\ot\bfq_i^*\ot\bfq_j)
 \end{bmatrix}
 \end{align}
+%
+where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternion measurements.
 
 \subsubsection{IMU preintegrated factors}
+
+These factors are by far the most complex and the whole of the next section is devoted to describe them in detail.
 
