@@ -98,7 +98,7 @@ where $\bfphi_i$ is one amongst $\{\bfp_i,\bfv_i,\bfa_{b,i},\bw_{b,i}\}$.
 For the quaternion we implement a residual using the operator $\ominus$ in the $S3$ manifold (see \appRef{sec:derivatives_SO3}),
 %
 \begin{align}
-\bfr_k(\bfq_i) = \Log(\bfz_k^*\ot\bfq_i)
+\bfr_k(\bfq_i) = \bfq_i\ominus\bfz_k = \Log(\bfz_k^*\ot\bfq_i)
 \end{align}
 %
 
@@ -116,7 +116,7 @@ These are relative factors that allow the bias estimates to drift with time at a
 
 \subsubsection{Kinematic chain factors}
 
-These relate position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
+These relate foot position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
 %
 \begin{align}
 \bfr(\bfp_i,\bfq_i,\bfp_j,\bfq_j) = \begin{bmatrix}
@@ -129,4 +129,4 @@ where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternio
 
 \subsubsection{IMU pre-integrated factors}
 
-These factors are by far the most complex and are described in detail in the next section.
+These factors are by far the most complex in the graph, and are described in detail in the next section.
