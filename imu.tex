@@ -15,10 +15,12 @@ The integration of the motion equations in an absolute reference frame strongly 
 Therefore, the changes in the estimates of these magnitudes (inherent to the iterative nature of the optimization) affect the whole motion integral. 
 Delta pre-integration theory was developed \cite{LUPTON-09,forster2015imu} to avoid the need of re-integrating all IMU data at each iteration. 
 On one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
-On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori using pre-computed Jacobians. 
+On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori, 
+\ie, when computing the residual, 
+using pre-computed Jacobians. 
 
 In this section, we revise the IMU pre-integration theory, providing three contributions: 
-1) a segmentation of the computation pipeline (from measurements to body magnitudes, to the current delta, and to the integrated delta); 
+1) a segmentation of the computation pipeline (from measurements, to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
 3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome \cite{forster2015imu} Jacobians. 
