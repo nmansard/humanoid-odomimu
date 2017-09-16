@@ -253,7 +253,7 @@ The delta covariance is then integrated with
 ~,
 \end{align}
 %
-using Jacobians \eqRef{equ:jac_composition}, and starting at $\bfQ_{\D ii}={\bf0}_{9\tcross9}$.
+using Jacobians \eqRef{equ:jac_composition}, and starting at $\bfQ_{\D_{ii}}={\bf0}_{9\tcross9}$.
 
 
 
@@ -269,17 +269,6 @@ Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the b
 %
 where $\jac{\D}{\bfb_b}$ is the pre-integrated bias Jacobian, computed incrementally using also the chain rule,
 %
-%\begin{align*}
-%\jac{\D_{ik}}{\bfb_b} 
-%&= 
-%\jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
-%+ 
-%\jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
-%~,
-%\end{align*}
-%%
-%which we might note for extra clarity,
-%
 \begin{align}
 \jac{\D_{ik}}{\bfb_b} 
 = \jac{\D_{ik}}{\D_{ij}}\jac{\D_{ij}}{\bfb_b} 
@@ -287,10 +276,12 @@ where $\jac{\D}{\bfb_b}$ is the pre-integrated bias Jacobian, computed increment
 ~.
 \end{align}
 %
-with %$\jac{\D_{ij}}{\bfb_b}=\jac{\D_{ij}}{\bfb} \jac{\bfb}{\bfb_b}$ and 
-$\jac{\delta_{jk}}{\bfb_b}=\jac{\delta_{jk}}{\bfb} \jac{\bfb}{\bfb_b}$.
-This Jacobian %integral 
-starts at $\jac{\D_{ii}}{\bfb_b} = {\bf0}_{9\tcross 9}$.
+with 
+$
+\jac{\delta_{jk}}{\bfb_b}=\jac{\delta_{jk}}{\bfb} \jac{\bfb}{\bfb_b}
+$.
+%
+This Jacobian starts at $\jac{\D_{ii}}{\bfb_b} = {\bf0}_{9\tcross 9}$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
