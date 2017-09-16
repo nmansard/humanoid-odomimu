@@ -165,6 +165,33 @@ The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
 ~.
 \end{align*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Function $S3\times S3\to S3$}
+\label{sec:jac_SO3xSO3toSO3}
+
+The function $f(\sR,\sS) = \bfp\ot\bfq = \bfR\,\bfS$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bth)\bfR=\bfR\Exp(\bfR\tr\bth)$,
+%
+\begin{align*}
+\dpar{\bfp(\bftheta)\ot\bfq}{\bftheta} 
+=
+\dpar{\bfR(\bftheta)\,\bfS}{\bftheta} 
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big((\bfR\bfS)\tr(\bfR\Exp(\delta\bftheta)\bfS)\big)}{\delta\bftheta} \\
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\bfS\tr\Exp(\delta\bftheta)\bfS\big)}{\delta\bftheta} \\
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\Exp(\bfS\tr\delta\bftheta)\big)}{\delta\bftheta} 
+= \bfS\tr
+\\
+%\end{align*}
+%%
+%and
+%%
+%\begin{align*}
+\dpar{\bfp\ot\bfq(\bfphi)}{\bfphi} 
+=
+\dpar{\bfR\,\bfS(\bfphi)}{\bfphi} 
+&= \lim_{\delta\bfphi\to0}\frac{\Log\big((\bfR\bfS)\tr(\bfR\bfS\Exp(\delta\bfphi))\big)}{\delta\bfphi} \\
+&= \lim_{\delta\bfphi\to0}\frac{\Log\big(\Exp(\delta\bfphi)\big)}{\delta\bfphi} 
+= \bfI
+\end{align*}
 
 
 

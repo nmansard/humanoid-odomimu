@@ -147,9 +147,11 @@ Substituting the integration equation \eqRef{equ:integration_state} in the delta
 \end{split}
 \end{align}
 %
-which starts at $\D_{ii}=\D_0$, being $t_i$ the time of the last KF. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
-Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity of the integration equations, and the only magnitudes entering the integral are the body magnitudes.
-Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,i} - \bfb_{b,j} - \bfb_{n,j}$ at time $t_j$,
+being $t_i$ the time of the last KF,
+at which $\D_{ii}=\D_0$.
+Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
+Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity in the integration equations, and only the body magnitudes drive  the integral.
+Indeed, we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,i} - \bfb_{b,j} - \bfb_{n,j}$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
 \begin{split}
@@ -234,7 +236,7 @@ We differentiate the delta composition \eqRef{equ:composition_compact} described
 \end{subequations}
 %
 where $\DR_{ij}$ and $\dR_{jk}$ are the rotation matrix deltas corresponding to the respective quaternion deltas $\Dq_{ij}$ and $\dq_{jk}$. 
-We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3}.
+We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3} and \appRef{sec:jac_SO3xSO3toSO3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
