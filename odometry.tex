@@ -7,7 +7,7 @@ We describe the inertial-kinematic odometry for legged robots, based on a graph 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graph-based iterative optimization}
 
-In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables and the factors (or edges) represent the geometrical constraints between variables, produced by the measurements.
+In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the factors (or edges) represent the geometrical constraints between variables, produced by the measurements.
 %
 The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and includes, in our case (see \figRef{fig:factor_graph}), foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes (KF) along the trajectory.
 %
@@ -84,7 +84,7 @@ During a biped walk, we take profit of certain situations where precise assumpti
 \subsection{Description of factors}
 
 The types of factor considered in our graph are illustrated in \figRef{fig:factor_graph}. 
-Each factor $k$ requires its own information matrix~$\bfOmega_k$, and its residual function $\bfr_k(\bfx)$. These residuals are detailed hereafter.
+Each factor $k$ requires its own information matrix~$\bfOmega_k$, and its residual function $\bfr_k(\bfx)$. These residual functions are detailed hereafter.
 
 \subsubsection{Absolute factors}
 
@@ -104,7 +104,7 @@ For the quaternion we implement a residual using the operator $\ominus$ in the $
 
 \subsubsection{Bias drift factors}
 
-These are relative factors that allow the biases to drift with time at a controlled rate. Their residual depends on two state blocks, namely
+These are relative factors that allow the bias estimates to drift with time at a controlled rate. Each bias drift residual depends on two state blocks, namely
 %
 \begin{align}
 \begin{split}
