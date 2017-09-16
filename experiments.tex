@@ -8,15 +8,15 @@ For example, during walking phases with humanoid robot HRP-2, one can notice a s
 If this effect is not measured, its integration over several steps can lead to very poor motion estimates. 
 We show that observing this slide and getting a better estimation of both the foot and the robot trajectories is possible with an IMU fixed on the sliding member, \ie, the robot's foot.
 
-We chose to use a low-cost IMU in our application to demonstrate the feasibility of our method. 
+We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
 To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
 
 \subsection{Method}
 
 
-Keyframes are declared at the beginning and ending of each support phase of the selected foot. Factors considered in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, IMU pre-integration, and kinematic odometry. We have not made use of the bias magnitude factors.
+Keyframes are declared at the beginning and ending of each support phase of the selected foot. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, IMU pre-integration, and kinematic odometry. We only use the bias magnitude factors in the initial KF.
 
-An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, kinematic factors are added between all consecutive KFs, but zero-velocity factors only for those in the contact phase (thus 2 out of 3).
+An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, kinematic factors are added between all consecutive KFs, but zero-velocity factors only for those in the contact phase.
 
 %The parameters we need to calibrate for a correct integration are the IMU biases, on top of which we integrate the incoming IMU data.
 %The time varying property of the bias is a critical point to consider in order to avoid large deviations. 
