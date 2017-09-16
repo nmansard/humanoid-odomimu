@@ -20,7 +20,7 @@ For each factor, we can define an error or residual $\bfr$ as the discrepancy be
 being $h(\bfx)$ the sensor measurement model and $\bfOmega$ the information matrix of the measurement Gaussian noise $\bfv$.
 Importantly, the functions $h(\bfx)$ and $\bfr(\bfx)$ are very sparse, since only a small handful of blocks of $\bfx$ are involved in each factor, which results in a loosely connected graph.
 In case of variables defined in manifolds, such as quaternions or rotation matrices, (\ref{eq:error}) becomes $\bfr(\bfx) = (h(\bfx) \oplus \bfv) \ominus \bfz$, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. 
-The $\oplus$ and $\ominus$ are the addition and subtraction operators on the manifold, as required for certain state blocks intervening in the factor (see \eg~\cite{Smith_arv90}, \eqRef{equ:imu_residual} in \secRef{sec:imu}, or \eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
+The $\oplus$ and $\ominus$ are the addition and subtraction operators on the manifold, as required for certain state blocks intervening in the factor (see \eg~\eqRef{equ:imu_residual} in \secRef{sec:imu}, or \eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
 
 The maximum a posteriori estimation is obtained by iteratively minimizing the Mahalanobis squared norm of all linearized errors
 %
