@@ -40,7 +40,7 @@ This effect can be explained by time inconsistency meaning that we fail
 to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motions do not use all the axis of the accelerometer as it should.
 
 \begin{figure}[tb]
-\begin{center}
+\centering
 \includegraphics[scale=0.5]{figures/Result_position}
 \par\vspace{4mm}
 \includegraphics[scale=0.5]{figures/Result_bias}
@@ -50,7 +50,6 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 {\bf Bottom}: Evolution of corresponding estimated IMU biases 
 }
 \label{fig:forward_walk_IRI}
-\end{center}
 \end{figure}
 We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
 This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.

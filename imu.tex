@@ -62,18 +62,18 @@ Their time evolution is governed by the kinematic equation,
 \end{split}
 \end{align}
 %
-where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate observed at the IMU reference frame. These are obtained from biased and noisy IMU measurements, \ie,
+where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate observed at the IMU reference frame. These are obtained at discrete times $t_j$ from biased and noisy IMU measurements, \ie,
 %
 \begin{align}\label{equ:body}
 \begin{split}
-\bfa &= \bfa_m - \ab - \bfa_n \\
-\bw &= \bw_m - \wb - \bw_n 
+\bfa_j &= \bfa_{m,j} - \bfa_{b,j} - \bfa_n \\
+\bw_j  &= \bw_{m,j}  - \bw_{b,j}  - \bw_n 
 ~,
 \end{split}
 \end{align}
 %
 with $\bullet_m$ the measurements, $\bullet_b$ the biases, and $\bullet_n$ the noises.
-Assuming constant body magnitudes within the interval $\dt\te t_k-t_j$, we have the discrete-time relation
+Assuming constant body magnitudes within the IMU sampling period $\dt\te t_k-t_j$, we have the discrete-time relation
 %
 \begin{align}\label{equ:integration_state}
 \begin{split}
@@ -91,11 +91,10 @@ Consider a non-rotating reference frame that is free-falling at the acceleration
 An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. 
 Any non-null measurements would imply motion of the IMU \wrt  $\cG_t$.
 
-%The deltas $\D\!=\!(\Dp,\Dv,\Dq)$ are defined as the motion (position, velocity, orientation) of a body \wrt this non-rotating free-falling frame. 
 At $t=t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
 At a later time $t=t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
 The motion delta, denoted $\D_{ij}%=\D(\bfx_i,\bfx_j)
-$, is defined as the motion (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
+$, is defined as the state (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
 %
 \begin{align}\label{equ:delta_definition}
 \begin{split}

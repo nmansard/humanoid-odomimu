@@ -52,11 +52,10 @@ Since the quaternion implementation is one of our contributions, in the followin
 \subsection{The additive and subtractive operators in $S3$ and $SO(3)$}
 
 \begin{figure}[tb]
-\begin{center}
+\centering
 \includegraphics{figures/manifold}
 \caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space to the manifold is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. (Likewise, these figures illustrate the $SO(3)$ manifold.)}
 \label{fig:manifold}
-\end{center}
 \end{figure}
 
 
@@ -78,10 +77,10 @@ The `minus' operator, $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above
 These operators are defined for both $\bfq$ and $\bfR$,
 %
 \begin{align}
-\bfq\oplus\bth  &= \bfq\ot\Exp(\bth) \\
-\bfR\oplus \bth &= \bfR\Exp(\bth) \\
-\bth = \bfp\ominus\bfq &= \Log(\bfq^*\ot\bfp) \\
-\bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)                         
+\bfq\oplus\bth  &= \bfq\ot\Exp(\bth) \label{equ:plus_q} \\
+\bfR\oplus \bth &= \bfR\Exp(\bth) \label{equ:plus_R} \\
+\bth = \bfp\ominus\bfq &= \Log(\bfq^*\ot\bfp) \label{equ:minus_q}\\
+\bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)  \label{equ:minus_R}                       
 \end{align}
 
 
