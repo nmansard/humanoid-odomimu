@@ -10,11 +10,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Overview}
 
-Due to the different rates of IMU data and keyframe (KF) creation, hundreds of IMU measurements need to be integrated to generate a motion factor linking two consecutive KFs. 
+Due to the different rates of IMU data and keyframe (KF) creations, hundreds of IMU measurements need to be integrated to generate a motion factor linking two consecutive KFs. 
 The integration of the motion equations in an absolute reference frame strongly depends on the initial conditions of orientation, velocity and IMU bias.
 Therefore, the changes in the estimates of these magnitudes (inherent to the iterative nature of the optimization) affect the whole motion integral. 
-Delta pre-integration theory was developed \cite{LUPTON-09,forster2015imu} to avoid the need of re-integrating all IMU data at each iteration. 
-On one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
+Delta pre-integration theory was developed to avoid the need of re-integrating all IMU data at each iteration \cite{LUPTON-09,forster2015imu}. 
+On the one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
 On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori, 
 \ie, when computing the residual, 
 using pre-computed Jacobians. 
@@ -23,7 +23,7 @@ In this section, we revise the IMU pre-integration theory, providing three contr
 1) a segmentation of the computation pipeline (from measurements, to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
-3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome \cite{forster2015imu} Jacobians. 
+3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome Jacobians \cite{forster2015imu}. 
 Important complements are provided in \appRef{sec:derivatives_SO3} for the sake of background and completeness.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -173,9 +173,8 @@ described in \eqRef{equ:composition}. In the following, we will identify $\D$ wi
 
 \newcommand{\jac}[2]{{\bfJ^{#1}_{#2}}}
 
-Notation: 
-We note all Jacobians with $\jac{y}{x}\te\dparil{y}{x}$. 
-Please refer to \appRef{sec:derivatives_SO3} for details on the development of all non-trivial Jacobian blocks in this section.
+%Notation: 
+We note all Jacobians with $\jac{y}{x}\te\dparil{y}{x}$ and refer the reader to \appRef{sec:derivatives_SO3} for details on the development of all non-trivial Jacobian blocks in this section.
 
 
 
