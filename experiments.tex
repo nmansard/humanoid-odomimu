@@ -2,7 +2,7 @@
 
 \section{Experiments} \label{sec:experiments}
 
-The confidence one can have on the encoders of the robot depends on several factors from actuators' design to control strategies. 
+The confidence one can have on the encoders of the robot depends on several factors, from actuators' design to control strategies. 
 In the legged locomotion case, this can also depend on the general design of the robot.
 For example, during walking phases with humanoid robot HRP-2, one can notice a sliding phenomenon when the foot hits the ground. 
 If this effect is not measured, its integration over several steps can lead to very poor motion estimates. 
@@ -16,7 +16,7 @@ To that end, we selected the MPU6050 from Invensense, which combines triaxial ac
 
 Keyframes are declared at the beginning and ending of each support phase of the selected foot. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, IMU pre-integration, and kinematic odometry. We only use the bias magnitude factors in the initial KF.
 
-An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, kinematic factors are added between all consecutive KFs, but zero-velocity factors only for those in the contact phase.
+An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, we add kinematic factors between all consecutive KFs, but use zero-velocity factors only in the contact phase KFs.
 
 %The parameters we need to calibrate for a correct integration are the IMU biases, on top of which we integrate the incoming IMU data.
 %The time varying property of the bias is a critical point to consider in order to avoid large deviations. 
@@ -33,7 +33,7 @@ An improved version of our graph estimator incorporates an extra KF in the middl
 \subsubsection{Trajectory reconstruction}
 
 We first validate our fusion method on a simplified setup. We do without the robot: we attach the IMU to a walking persons's foot, and use motion capture (MOCAP) techniques to generate the kinematic constraints. 
-The MOCAP provides more controlled conditions for the kinematic measurements; it is used to get odometry between zero-velocity phases, i.e. when the foot is on the ground.
+The MOCAP provides more controlled conditions for the kinematic measurements.
 \figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. We can observe a correct estimation only when the flying KF is added. Bias autocalibration is also more stable with the flying KF.
 
 %Then we show that using an IMU on the foot of the robot leads to a better estimation of the real position of the member compared to encoder based odometry. 

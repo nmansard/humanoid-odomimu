@@ -1,3 +1,9 @@
 % !TEX root = main.tex
 
 \section{Conclusion}
+
+We have presented a method to measure foot movement during robot biped locomotion. We fuse information from an IMU attached to the foot, the kinematic chain measured by the robot encoders, and available knowledge extracted from the gait phases, such as zero velocity. We used nonlinear optimization techniques based on factor graphs, which has proved to be a flexible and powerful fusion method.
+
+Results showed that this estimation method is able to detect subtle movements that are not measurable using the encoders alone, such as a sliding foot condition at the beginning or end of the contact phase. These slides, if undetected, have a dramatic negative impact on the overall robot odometry.
+
+The IMU allowed us to observe the foot dynamics not captured by the encoders, such as those due to flexibilities or vibrations.
