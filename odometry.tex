@@ -2,14 +2,14 @@
 
 \section{Graph-based inertial-kinematic odometry}
 
-We describe the inertial-kinematic odometry for legged robots, based on a graph model. 
+%We describe the inertial-kinematic odometry for legged robots, based on a graph model. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graph-based iterative optimization}
 
 In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the factors (or edges) represent the geometrical constraints between variables, produced by the measurements.
 %
-The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and includes, in our case (see \figRef{fig:factor_graph}), foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes (KF) along the trajectory.
+The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and in our case includes foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes (KF) along the trajectory (see \figRef{fig:factor_graph}).
 %
 For each factor, we can define an error or residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expectation given the involved state variables,
 %
@@ -30,10 +30,10 @@ The maximum a posteriori estimation is obtained by iteratively minimizing the Ma
 %
 being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual $\bfr_k(\bfx)$.
 %
-Current methods use Cholesky \cite{Kummerle_icra11,ila_ijrr17} or QR  \cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is used to update state. 
+Current methods use Cholesky \cite{Kummerle_icra11,ila_ijrr17} or QR  \cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is used to update the state. 
 The process is iterated until convergence.
 %
-Incremental methods \cite{Kaess_ijrr11,ila_ijrr17}, update the problem directly on the factorized matrix, obtaining important speed-ups.
+Incremental methods \cite{ila_ijrr17,Kaess_ijrr11}, update the problem directly on the factorized matrix, obtaining important speed-ups.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +98,7 @@ where $\bfphi_i$ is one amongst $\{\bfp_i,\bfv_i,\bfa_{b,i},\bw_{b,i}\}$.
 For the quaternion we implement a residual using the operator $\ominus$ in the $S3$ manifold (see \appRef{sec:derivatives_SO3}),
 %
 \begin{align}
-\bfr_k(\bfq_i) = \bfq_i\ominus\bfz_k = \Log(\bfz_k^*\ot\bfq_i)
+\bfr_k(\bfq_i) = \Log(\bfz_k^*\ot\bfq_i)
 \end{align}
 %
 
@@ -116,7 +116,7 @@ These are relative factors that allow the bias estimates to drift with time at a
 
 \subsubsection{Kinematic chain factors}
 
-These relate foot position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
+These relate position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
 %
 \begin{align}
 \bfr(\bfp_i,\bfq_i,\bfp_j,\bfq_j) = \begin{bmatrix}
@@ -129,4 +129,4 @@ where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternio
 
 \subsubsection{IMU pre-integrated factors}
 
-These factors are by far the most complex in the graph, and are described in detail in the next section.
+These factors are by far the most complex and are described in detail in the next section.
