@@ -26,7 +26,7 @@ We use vectorized versions of the exponential and logarithmic maps in the rotati
 \end{align}
 \end{subequations}
 %
-or rotation matrices for $SO(3)$, 
+where $\bfq\te(q_w,\qv)$, or rotation matrices for $SO(3)$, 
 %
 \begin{subequations}
 \begin{align}
@@ -63,10 +63,10 @@ The `minus' operator, $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above
 These operators are defined for both $\bfq$ and $\bfR$,
 %
 \begin{align}
-\bfq =\, \bfp\oplus\bth  &= \bfp\ot\Exp(\bth) \label{equ:plus_q} \\
-\bfS = \bfR\oplus \bth &= \bfR\Exp(\bth) \label{equ:plus_R} \\
-\bth =\, \bfq\ominus\bfp &= \Log(\bfp^*\ot\bfq) \label{equ:minus_q}\\
-\bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)  \label{equ:minus_R}
+\bfq =\, \bfp\oplus\bth  &\te \bfp\ot\Exp(\bth) \label{equ:plus_q} \\
+\bfS = \bfR\oplus \bth &\te \bfR\Exp(\bth) \label{equ:plus_R} \\
+\bth =\, \bfq\ominus\bfp &\te \Log(\bfp^*\ot\bfq) \label{equ:minus_q}\\
+\bth = \bfS\ominus\bfR &\te \Log(\bfR\tr\,\bfS)  \label{equ:minus_R}
 ~.
 \end{align}
 
@@ -174,7 +174,7 @@ The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
 \subsubsection{Function $S3\times S3\to S3$}
 \label{sec:jac_SO3xSO3toSO3}
 
-The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bth)\bfR=\bfR\Exp(\bfR\tr\bth)$,
+The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bfR\bth)=\bfR\Exp(\bth)\bfR\tr$,
 %
 \begin{align*}
 \dpar{\bfq(\bftheta)\ot\bfr}{\bftheta} 
