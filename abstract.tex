@@ -1,15 +1,14 @@
 % !TEX root = main.tex
 %
 %
-While the feet of many of our legged robots are equipped with force sensors, we often only have a rough idea of their exact location in space, neither of the dynamical effects acting on them ({\em e.g.}, flexibility or inertia).
-Inaccuracy of the foot location, trajectory or friction often results in rapid and unavoidable falls.
-In this paper, we consider the problem of accurately estimating the placement of the foot, either during the contact phase (to assert friction and no sliding) or during the flying phase (to compensate for flexibility in the actuation chain).
-We propose to attach an inertial measurement unit (IMU) directly on the foot in order to reconstruct its position.
-The main difficulty is then to recover the observability of the IMU location by integrating all previous sensor measurements along with additional constraints coming from the contact and the kinematic chain.
-More precisely, a graphical representation approach is presented to integrate IMU measurements, kinematic and contact information on a humanoid robot. 
-Contrary to many state estimators recently proposed in the context of legged locomotion, we propose to rely on an information graph representation to handle observability consistency and other constraints.
-We rely on the recent developments in the SLAM community where various and heterogeneous measurements are fused in a coherent mathematical framework.
-The technical difficulty is to handle the size of the graph such that it is tractable in a limited window, in particular considering the high frequency of the IMU.
-Forster et al. proposed to pre-integrate the most frequent data which are given by the IMU.
-Based on this early work, we propose a detailed derivation of this pre-integration using quaternion representation instead of rotation matrices, leading to faster computation and smaller memory foot-print.
-We validate these concepts by estimating the trajectory of the foot of an HRP-2 humanoid robot during various gaits, and show that we are able to accurately reconstruct some subtle effects, such as sliding effects during the contact and flexibility of the kinematic chain.
+In this paper, a graphical representation approach is presented to integrate 
+IMU measurement and kinematic information on a humanoid robot. Although state estimators using both
+informations \cite{Johnson:jof:2016,Fallon:ichr:2014} have been already proposed, this method has several additional interests.
+First it is allowing to estimate bias and initial position of the IMU thanks to the graph
+approach. Second the concept has been extensively used in the SLAM community and integrating 
+other measurements such as laser, range image and so on can be done in a coherent mathematical framework.
+The technical difficulty is to handle the size of the graph such that it is tractable in a limited window.
+\cite{forster2015imu} proposed to pre-integrate the most frequent data which are given by the IMU.
+In this paper we propose a detailed derivation of this pre-integration using quaternion instead
+of rotation matrices leading not only to faster computation and smaller memory foot-print, but also to a more comprehensible pre-integration data to which we can give a physically coherent interpretation.
+We validate these concepts by estimating the trajectory of the foot of a human agent during walking, and show that we are able to reconstruct its trajectory under some conditions.
