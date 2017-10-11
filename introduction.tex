@@ -13,20 +13,17 @@ Pedestrian Dead Reckoning (PDR) methods, also known as Personal Navigation Devic
 The main idea of PDR techniques is to integrate IMU's measurements with Zero Velocity Update constraints to reduce errors \cite{ojeda2007personal}.
 This work is extensively used in IMU-based human localization works and various fields. \cite{kwanmuang2015phd} analyses the gait of a walking person with PDR method to estimate the direction of the shoe, thus the walking direction, and
 measure stride lenght. \cite{jin2011robust} uses multiple dead-reckoning systems on a single human agent and constraints on relative displacements of each system to others with respect to the center of motion to create a tracking system
-greatly reducing errors when compared to a traditional dead-reckoning method. 
-
-As we can see, shoe-mounted IMU is still considered as a possible way to accurately localize persons in an indoor environment. One way to understand why foot-mounted IMU is prefered to other alternatives may be given by \cite{groves2007inertial}
+greatly reducing errors when compared to a traditional dead-reckoning method. As we can see, shoe-mounted IMU is still considered as a possible way to accurately localize persons in an indoor environment. One way to understand why foot-mounted IMU is prefered to other alternatives may be given by \cite{groves2007inertial}
 comparing body-mounted and foot-mounted based PDR methods. Both systems had similar performances considering the position error, being lower than 10 m for 60 seconds experiments. However, the foot-mounted shown drifts as results were compared
 to GPS ground truth. We should note that the body-mounted method proved to be usable in not only walking cases but also when the human agent was jogging or running but with a decrease in terms of accuracy.
 
-In the DRC \cite{Johnson:jof:2016,Marion:jof:2017,Karumanchi:jof:2017} most of the teams used laser or RGB-D cameras to build a reconstruction of the floor surface in order to \emph{plan}
-the next feet pose. For some teams the level of accuracy was not always sufficient and involved dramatic failures despite intensive training \cite{Kaneko:ichr:2015}.
-On the other hand, the IHMC team \cite{Johnson:jof:2016} reported an important gain in terms of accuracy using their state estimator alone,
-reaching an impressive $1$\,cm drift per every three steps for the pelvis horizontal position,
-and $5$\,mm per every nine steps for the pelvis vertical position. 
-Using a quite simple state estimator, it is very interesting to note the following reported factors for reaching this level of precision besides bug fixing:
-the redesign of Atlas, coming with a significant reduction of backlash in the leg joints, improving measurements using kinematics and a walking gait reducing the amount of foot slipping and bouncing.
-Although the IHMC tested a localization algorithm \cite{Pomerlau:ar:2013}, occasional localization errors were a problem in the overall behavior and SLAM happened to be not necessary in this situation.
+Various strategies can be considered to improve the localization results of foot-mounted IMU navigation. 
+%TODO:talk about sensor fusion
+As shown in \cite{kourogi2010method}, PDR can not only be used to recognize the action being carried out by the pedestrian, but adding this contextual 
+information is a way to reduce PDR localization errors. \cite{wagstaff2017improving} is not only using this contextual information thanks to a the training of a support vector machine (SVM) classifier using IMU data, but also
+doing efforts on finding optimal zero-velocity detection parameters taking into account a specific user and motion types. These examples show how critical it is to deal with the localization drift in IMU-based navigation. 
+
+%TODO: cite foot-mounted IMU + SLAM-based approach
 
 \TODO{Add cover figure}
 % \begin{figure}
