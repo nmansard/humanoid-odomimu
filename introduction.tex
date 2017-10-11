@@ -2,12 +2,22 @@
 
 \section{Introduction}\label{sec:intro}
 
-One of the most common ways to describe the trajectory of a body in space is to use odometry, which can be derived from a multitude of sensors, from encoders to GPS and cameras.
-The quality of this information is also known to be dependent on the sensor specifications and to accumulate measurement errors. 
-The development of SLAM (Simultaneous Localization And Mapping) is mature enough to resolve 
-this dependency over time with loop closure strategies. However, other strategies are required to comply with the particularities of legged locomotion and physical interactions in unstructured environments. 
-This is particularly necessary in outdoor or industrial applications with cluttered environment. 
-In this case, assuming a flat floor is not always reasonable and being able to observe the foot pose allows to implement advanced reactive locomotion strategies.
+Indoor person localization is still a challenge that needs to be faced to make this technology usable in various situtation as location-based life improving services, firefighters localization and navigation, patients tracking 
+motion monitoring, medical observation or accident monitoring \cite{pourhomayoun2012spatial}.
+A common way to localize a body in space is to use odometry information that can be processed from data captured by plenty of sensors, from GPS to cameras.
+The quality of this information is also known to be dependent on the sensor's specifications and to accumulate measurement errors during integration. 
+SLAM (Simultaneous Localization And Mapping) handles this problem with loop closure strategies correcting the pose of a body and thus reducing the effects of imperfect sensors.
+
+\cite{hutchings1998system} introduced the idea of person localization using a foot-mounted IMU in 1997. Since then, many developments have been made to find alternativ ways to accurately localize people.
+Pedestrian Dead Reckoning (PDR) methods, also known as Personal Navigation Devices, make use of one or more Inertial Measurement Units (IMU) installed on the subject's body.
+The main idea of PDR techniques is to integrate IMU's measurements with Zero Velocity Update constraints to reduce errors \cite{ojeda2007personal}.
+This work is extensively used in IMU-based human localization works and various fields. \cite{kwanmuang2015phd} analyses the gait of a walking person with PDR method to estimate the direction of the shoe, thus the walking direction, and
+measure stride lenght. \cite{jin2011robust} uses multiple dead-reckoning systems on a single human agent and constraints on relative displacements of each system to others with respect to the center of motion to create a tracking system
+greatly reducing errors when compared to a traditional dead-reckoning method. 
+
+As we can see, shoe-mounted IMU is still considered as a possible way to accurately localize persons in an indoor environment. One way to understand why foot-mounted IMU is prefered to other alternatives may be given by \cite{groves2007inertial}
+comparing body-mounted and foot-mounted based PDR methods. Both systems had similar performances considering the position error, being lower than 10 m for 60 seconds experiments. However, the foot-mounted shown drifts as results were compared
+to GPS ground truth. We should note that the body-mounted method proved to be usable in not only walking cases but also when the human agent was jogging or running but with a decrease in terms of accuracy.
 
 In the DRC \cite{Johnson:jof:2016,Marion:jof:2017,Karumanchi:jof:2017} most of the teams used laser or RGB-D cameras to build a reconstruction of the floor surface in order to \emph{plan}
 the next feet pose. For some teams the level of accuracy was not always sufficient and involved dramatic failures despite intensive training \cite{Kaneko:ichr:2015}.
@@ -18,15 +28,14 @@ Using a quite simple state estimator, it is very interesting to note the followi
 the redesign of Atlas, coming with a significant reduction of backlash in the leg joints, improving measurements using kinematics and a walking gait reducing the amount of foot slipping and bouncing.
 Although the IHMC tested a localization algorithm \cite{Pomerlau:ar:2013}, occasional localization errors were a problem in the overall behavior and SLAM happened to be not necessary in this situation.
 
-\begin{figure}
-\centering
-\includegraphics[width=\linewidth]{./figures/cover-figure.pdf}
-	\caption{The flying foot trajectory is reconstructed through an IMU set on the foot (in green), and by fusing the information coming from the kinematic chain
-        from the support foot to the flying one (in light brown). In the middle images (a)-(d) shows slippage while performing a multicontacts motion depicted on the
-        right (f) (from \cite{Carpentier:ICRA:2016}).
- }
-	\label{fig:cover}
-\end{figure}
+\TODO{Add cover figure}
+% \begin{figure}
+% \centering
+% \includegraphics[width=\linewidth]{./figures/cover-figure.pdf}
+% 	\caption{D(from \cite{Carpentier:ICRA:2016}).
+%  }
+% 	\label{fig:cover}
+% \end{figure}
 
 For robots where the design choices introduce flexibilities such as HRP-2 \cite{Nakaoka:iros:2007}, or backlashes, the system needs a state estimator being able to take into account this uncertainty.
 In addition a good pose estimation of the robot in its environment is still needed for effective interactions with the environment,
