@@ -38,13 +38,15 @@ Using these strategies is presented by \cite{ruiz2012accurate} as a successfull 
 Chdid et al. in \cite{chdid2011inertial} are using a foot-mounted IMU fused with a waist-mounted visual odometry system to update the state of the system composed of its position, velocity and acceleration.
 This last system was used recently by Pierce et al. \cite{pierce2016incorporation} to design a fusion strategy requiring measurements only once per human step instead of every time step.
 
-%TODO: cite foot-mounted IMU + SLAM-based approach
 Angermann et al. applied a SLAM approach to pedestrian localization using foot-mounted IMU and human perception in indoor environment \cite{angermann2012footslam}. Experiments show that
 FootSLAM is able to bound the error growth to 1 meter through the use of dynamic bayesian network (DBN) formulation of the problem and loop closure strategies. The idea exploited here is to use the normal human behavior 
 consisting on relying on visual information to guide the motion and avoid obstacles. FootSLAM's idea gave birth to several variants for use in different conditions or slightly different purposes (\cite{puyol2012complexity,bruno2011wislam}).
+Hardegger et al. use contextual information to body-mounted IMUs with a FastSLAM-base implementationin ActionSLAM, landmarks being location-related actions \cite{hardegger2012actionslam}. 
+A foot-mounted IMU is then used not only for inertial navigation purposes but also as a landmark observation system through action recognition strategies by applying machine learning techniques for motion classification.
+The main idea behing ActionSLAM is to consider that some specific actions are done only at some specific locations on the map. Results tend to show that using both foot-mounted and wrist-mounted IMUs
+is giving results that are robust enough for indoor applications.
 
-
-These examples show how critical it is to deal with the localization drift in IMU-based navigation.
+Previously cited example tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data.
 
 \TODO{Add cover figure}
 % \begin{figure}
