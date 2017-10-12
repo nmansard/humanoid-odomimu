@@ -26,7 +26,7 @@ We use vectorized versions of the exponential and logarithmic maps in the rotati
 \end{align}
 \end{subequations}
 %
-or rotation matrices for $SO(3)$, 
+where $\bfq\te(q_w,\qv)$, or rotation matrices for $SO(3)$, 
 %
 \begin{subequations}
 \begin{align}
@@ -63,10 +63,11 @@ The `minus' operator, $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above
 These operators are defined for both $\bfq$ and $\bfR$,
 %
 \begin{align}
-\bfq\oplus\bth  &= \bfq\ot\Exp(\bth) \label{equ:plus_q} \\
-\bfR\oplus \bth &= \bfR\Exp(\bth) \label{equ:plus_R} \\
-\bth = \bfp\ominus\bfq &= \Log(\bfq^*\ot\bfp) \label{equ:minus_q}\\
-\bth = \bfS\ominus\bfR &= \Log(\bfR\tr\,\bfS)  \label{equ:minus_R}                       
+\bfq =\, \bfp\oplus\bth  &\te \bfp\ot\Exp(\bth) \label{equ:plus_q} \\
+\bfS = \bfR\oplus \bth &\te \bfR\Exp(\bth) \label{equ:plus_R} \\
+\bth =\, \bfq\ominus\bfp &\te \Log(\bfp^*\ot\bfq) \label{equ:minus_q}\\
+\bth = \bfS\ominus\bfR &\te \Log(\bfR\tr\,\bfS)  \label{equ:minus_R}
+~.
 \end{align}
 
 
@@ -101,6 +102,8 @@ and for functions $k:S3\to\bbR^n$, we use $\{\oplus,-\}$,
 \dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} 
 ~.
 \end{align}
+%
+It might be worth noticing that all these Jacobians are independent of the representation chosen ($S3$ or $SO(3)$).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -115,10 +118,11 @@ We define the right Jacobian as,
 \end{align}
 %
 and implement it using \eqRef{equ:dif_RtoSO3}.
-The right Jacobian can be computed in closed form  \cite[pag.~40]{CHIRIKJIAN-12} with
+It admits the closed form  \cite[pag.~40]{CHIRIKJIAN-12}, 
 %
 \begin{align}
 \bfJ_r(\bth) &= \bfI - \frac{1-\cos\nth}{\nth^2}\hatx{\bth} + \frac{\nth-\sin\nth}{\nth^3}\hatx{\bth}^2 
+~.
 \end{align}
 
 
@@ -136,6 +140,7 @@ Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtai
 \dpar{\Exp(\bw\dt)}{\bw}
 = \dpar{\Exp(\bw\dt)}{(\bw\dt)}\dpar{(\bw\dt)}{\bw} 
 = \bfJ_r(\bw\dt)\dt
+~.
 \end{align*}
 %
 
@@ -165,6 +170,30 @@ The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
 ~.
 \end{align*}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Function $S3\times S3\to S3$}
+\label{sec:jac_SO3xSO3toSO3}
+
+The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bfR\bth)=\bfR\Exp(\bth)\bfR\tr$,
+%
+\begin{align*}
+\dpar{\bfq(\bftheta)\ot\bfr}{\bftheta} 
+=
+\dpar{\bfQ(\bftheta)\,\bfR}{\bftheta} 
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\Exp(\delta\bftheta)\bfR)\big)}{\delta\bftheta} \\
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\bfR\tr\Exp(\delta\bftheta)\bfR\big)}{\delta\bftheta} \\
+&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\Exp(\bfR\tr\delta\bftheta)\big)}{\delta\bftheta} 
+= \bfR\tr
+~,
+\\
+\dpar{\bfq\ot\bfr(\bfphi)}{\bfphi} 
+=
+\dpar{\bfQ\,\bfR(\bfphi)}{\bfphi} 
+&= \lim_{\delta\bfphi\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\bfR\Exp(\delta\bfphi))\big)}{\delta\bfphi} \\
+&= \lim_{\delta\bfphi\to0}\frac{\Log\big(\Exp(\delta\bfphi)\big)}{\delta\bfphi} 
+= \bfI
+~.
+\end{align*}
 
 
 

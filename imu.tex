@@ -67,8 +67,8 @@ where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the 
 %
 \begin{align}\label{equ:body}
 \begin{split}
-\bfa_j &= \bfa_{m,j} - \bfa_{b,j} - \bfa_n \\
-\bw_j  &= \bw_{m,j}  - \bw_{b,j}  - \bw_n 
+\bfa_j &\te \bfa_{m,j} - \bfa_{b,j} - \bfa_n \\
+\bw_j  &\te \bw_{m,j}  - \bw_{b,j}  - \bw_n 
 ~,
 \end{split}
 \end{align}
@@ -92,8 +92,8 @@ Consider a non-rotating reference frame that is free-falling at the acceleration
 An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. 
 Any non-null measurements would imply motion of the IMU \wrt  $\cG_t$.
 
-At $t=t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
-At a later time $t=t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
+At KF time $t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
+At a later time $t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
 The motion delta, denoted $\D_{ij}
 $, is defined as the state (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
 %
@@ -147,9 +147,12 @@ Substituting the integration equation \eqRef{equ:integration_state} in the delta
 \end{split}
 \end{align}
 %
-which starts at $\D_{ii}=\D_0$. Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
-Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity of the integration equations, and the only magnitudes entering the integral are the body magnitudes.
-Notice also that we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,j} - \bfb_{b,i} - \bfb_{n,j}$ at time $t_j$,
+%being $t_i$ the time of the last KF,
+%at which
+with $\D_{ii}=\D_0$.
+Interestingly, \eqRef{equ:g_second_order_pre-integration} is analogous to the motion of a body \emph{in an inertial frame} under constant acceleration and rotation rate.
+Notice that by letting the reference frame fall with gravity, we get rid of the dependence on gravity in the integration equations, and only the body magnitudes drive  the integral.
+Indeed, we can define a proper delta $\delta_{jk}$ from the current body magnitudes $\bfb_j=(\bfa_j,\bw_j) \te \bfb_{m,i} - \bfb_{b,j} - \bfb_{n,j}$ at time $t_j$,
 %
 \begin{align}\label{equ:delta_creation}
 \begin{split}
@@ -159,13 +162,16 @@ Notice also that we can define a proper delta $\delta_{jk}$ from the current bod
 \end{split}
 \end{align}
 %
+%(notice that $\bfb_{b,j}=\bfb_{b,i}$) 
 and write the integration \eqRef{equ:g_second_order_pre-integration} as the composition 
 %
 \begin{align}\label{equ:composition_compact}
 \D_{ik}=\D_{ij}\oplus\delta_{jk}
 \end{align}
 %
-described in \eqRef{equ:composition}. In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
+described in \eqRef{equ:composition}. 
+Typically, we take the biases at KF time $t_i$, that is, $\bfb_{b,j} = \bfb_{b,i}$.
+In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -193,7 +199,7 @@ We have from \eqRef{equ:body},
 We have from \eqRef{equ:delta_creation},
 %
 \begin{align}\label{equ:jac_current_delta}
-\jac{\delta jk}{\bfb j} =
+\jac{\delta_{jk}}{\bfb_j} =
 \begin{bmatrix}
 \frac12\bfI\dt^2 	& \bf0 \\
 \bfI\dt 			& \bf0 \\
@@ -214,14 +220,14 @@ We differentiate the delta composition \eqRef{equ:composition_compact} described
 %
 \begin{subequations}\label{equ:jac_composition}
 \begin{align}
-\jac{\D ik}{\D ij} &= \begin{bmatrix}
+\jac{\D_{ik}}{\D_{ij}} &= \begin{bmatrix}
 \bfI  & \bfI\dt & - \DR_{ij}  \hatx{\dpp_{jk}}  \\
 \bf0  & \bfI    & - \DR_{ij}  \hatx{\dv_{jk}} \\
 \bf0  & \bf0    &   \dR_{jk}\tr 
 \end{bmatrix} 
 \in \bbR^{9\tcross9}
 \\
-\jac{\D ik}{\delta jk} &= \begin{bmatrix}
+\jac{\D_{ik}}{\delta_{jk}} &= \begin{bmatrix}
 \DR_{ij} & \bf0     & \bf0 \\
 \bf0     & \DR_{ij} & \bf0 \\
 \bf0     & \bf0     & \bfI  
@@ -231,7 +237,7 @@ We differentiate the delta composition \eqRef{equ:composition_compact} described
 \end{subequations}
 %
 where $\DR_{ij}$ and $\dR_{jk}$ are the rotation matrix deltas corresponding to the respective quaternion deltas $\Dq_{ij}$ and $\dq_{jk}$. 
-We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3}.
+We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3} and \appRef{sec:jac_SO3xSO3toSO3}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,11 +255,11 @@ $ is the noise Jacobian, obtained with \eqsRef{equ:jac_body}{equ:jac_current_del
 The delta covariance is then integrated with
 %
 \begin{align}
-\bfQ_{\D ik} = \jac{\D ik}{\D ij}\bfQ_{\D ij}\,\jac{\D ik}{\D ij}\tr + \jac{\D ik}{\delta jk}\bfQ_\delta\,\jac{\D ik}{\delta jk}\tr
+\bfQ_{\D_{ik}} = \jac{\D_{ik}}{\D_{ij}}\bfQ_{\D_{ij}}\,\jac{\D_{ik}}{\D_{ij}}\tr + \jac{\D_{ik}}{\delta_{jk}}\bfQ_\delta\,\jac{\D_{ik}}{\delta_{jk}}\tr
 ~,
 \end{align}
 %
-using Jacobians \eqRef{equ:jac_composition}, and starting at $\bfQ_{\D ii}={\bf0}_{9\tcross9}$.
+using Jacobians \eqRef{equ:jac_composition}, and starting at $\bfQ_{\D_{ii}}={\bf0}_{9\tcross9}$.
 
 
 
@@ -269,32 +275,28 @@ Let $\ol\D$ and $\ol{\bfb_b}$ be respectively the pre-integrated delta and the b
 %
 where $\jac{\D}{\bfb_b}$ is the pre-integrated bias Jacobian, computed incrementally using also the chain rule,
 %
-\begin{align*}
-\jac{\D_{ik}}{\bfb_b} 
-&= 
-\jac{\D_{ik}}{\D_{ij}} \cdot \jac{\D_{ij}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
-+ 
-\jac{\D_{ik}}{\delta_{jk}} \cdot \jac{\delta_{jk}}{\bfb} \cdot \jac{\bfb}{\bfb_b} 
-~,
-\end{align*}
-%
-which we might note for extra clarity,
-%
 \begin{align}
-\jac{\D}{\bfb_b}|_{ik} = \jac{\D ik}{\D ij}\jac{\D}{\bfb_b}|_{ij} - \jac{\D ik}{\delta jk}\jac{\delta jk}{\bfb_b}
+\jac{\D_{ik}}{\bfb_b} 
+= \jac{\D_{ik}}{\D_{ij}}\jac{\D_{ij}}{\bfb_b} 
+- \jac{\D_{ik}}{\delta_{jk}}\jac{\delta_{jk}}{\bfb_b}
 ~.
 \end{align}
 %
-The Jacobian integral starts at $\jac{\D}{\bfb_b}|_{ii} = {\bf0}_{9\tcross 9}$.
+with 
+$
+\jac{\delta_{jk}}{\bfb_b}=\jac{\delta_{jk}}{\bfb} \jac{\bfb}{\bfb_b}
+$.
+%
+This Jacobian starts at $\jac{\D_{ii}}{\bfb_b} = {\bf0}_{9\tcross 9}$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Residual}
 
-The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
+The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D_{ij}}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
 %
 \begin{align}\label{equ:imu_residual}
-\bfr(\bfx_i,\bfx_j,\bfa_{b,i},\bw_{b,i}) 
+\bfr(\bfx_i,\bfx_j,\bfb_{b,i}) 
 = \begin{bmatrix}
 \Dp_{ij}-\widehat\Dp_{ij} \\
 \Dv_{ij}-\widehat\Dv_{ij} \\
