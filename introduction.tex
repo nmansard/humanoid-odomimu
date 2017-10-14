@@ -46,8 +46,6 @@ A foot-mounted IMU is then used not only for inertial navigation purposes but al
 The main idea behing ActionSLAM is to consider that some specific actions are done only at some specific locations on the map. Results tend to show that using both foot-mounted and wrist-mounted IMUs
 is giving results that are robust enough for indoor applications.
 
-Previously cited example tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data.
-
 \TODO{Add cover figure}
 % \begin{figure}
 % \centering
@@ -57,25 +55,30 @@ Previously cited example tend to show how important it is for pedestrian inertia
 % 	\label{fig:cover}
 % \end{figure}
 
+Previously cited example tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data. 
+Two different methods have been aforementionned to reach this goal : fusion strategies using different complementary sensors and IMU only based methods using specificities
+of human behavior (walking patterns, action recognition, contextual information).
 
-Graphical methods have been extensively used to implement such fusion strategies \cite{Thrun:ijrr:2006,Kaess:itro:2008}.
-They have been used for large modeling estimation problems by means of sparse networks of constraints. 
-In robotics, the problems of visual odometry, and simultaneous localization and mapping, have reached a high degree of maturity, 
-in great part thanks of the graphical representation. 
-This is so, among other aspects, because of the power of the graphical representation to accurately model complex estimation problems. 
-These often involve dynamics, proprioceptive measures, exteroceptive measures, and self-calibration.
+Graphical methods have been extensively used to implement such fusion strategies \cite{Thrun:ijrr:2006,Kaess:itro:2008} since they are well-suited to gather information from sensors
+and draw conclusions. The underlying principle is to consider that desptite all the information gathered from the sensors, we still have uncertainty about the true state of the world due to sensors' imperfections.
+Thus different states of the world can be considered as probable and relying probabilictic formulations is a way find out the most probable one. Furthermore, graphical representation are able to accurately model 
+complex estimation problems \cite{koller2009probabilistic}. 
+Fot these reasons, graphical models have been used for large modeling estimation problems by means of sparse networks of constraints and particularly in
+robotics where SLAM and visual odometry problems have reached a high degree of maturity in great part thanks to these tools.
 The graphical representation also allows for the design of powerful nonlinear estimation solvers, which can be built taking into account the needs for accuracy, 
 robustness and CPU-performance.
 In order to keep the problem tractable and maintain real-time performance a key point is to avoid the graph to be too large for a given time window.
 IMUs are challenging in this regards, as their high frequency measurements create large sets of data. 
  
-For this reason, \cite{LUPTON-09,forster2015imu} proposed to pre-integrate the IMU information over an horizon where IMU data are the only
-ones to be measured.
+For this reason, \cite{LUPTON-09,forster2015imu} proposed to pre-integrate the IMU information thus summarizing hundreds if not thousands of data into an unique
+pre-integrated data over given horizon.
 A first contribution of this paper is to reformulate the method proposed in \cite{forster2015imu} from rotation matrix to quaternion representation
 and give a detailed and simpler algebraic derivation.
-The second contribution is to apply this method to the measurement of a humanoid robot flying foot pose.
-The level of accuracy obtained with this approach allows us to detect foot slippage. 
-Finally, we describe the implementation of this pre-integration scheme in a software implementation of the graphical method.
+The second contribution is to apply this method to the estimation of foot-pose during human walking.
+We will compare the level of accuracy obtained with this method against other methods classicaly used in pedestrian localization.
+Finally, we describe the implementation of this pre-integration scheme in a software implementation of the graphical method designed to
+allow users to easily gather information from different sensor for fusion strategies. The gathered information are then used to get a graphical model-based formulation of the problem. 
+Once the formulation is completed, a non-linear least squares optimizer is used to solve the problem and find the most probable solution in the least-square sense \cite{ceres-solver}.
 
 
 
