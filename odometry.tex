@@ -114,9 +114,9 @@ These are relative factors that allow the bias estimates to drift with time at a
 \end{split}
 \end{align}
 
-\subsubsection{Kinematic chain factors (red)}
+\subsubsection{complementary factors (red)}
 
-These relate position and orientation between consecutive steps to the robot's kinematic chain derived from its joint encoders,
+These relate position and orientation between consecutive steps as it can be given from other sensors than IMU or methods using human walk specificities,
 %
 \begin{align}
 \bfr(\bfp_i,\bfq_i,\bfp_j,\bfq_j) = \begin{bmatrix}
@@ -125,7 +125,7 @@ These relate position and orientation between consecutive steps to the robot's k
 \end{bmatrix}
 \end{align}
 %
-where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternion measurements of the kinematic chain.
+where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternion measurements.
 
 \subsubsection{IMU pre-integrated factors (green)}
 
