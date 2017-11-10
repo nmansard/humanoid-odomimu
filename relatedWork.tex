@@ -2,48 +2,50 @@
 
 \section{Related work}\label{sec:relatedWork}
 
-Person localization using a foot-mounted IMU was first introduced in \cite{hutchings1998system}. 
-%Since then, many developments have been made to find alternative ways to accurately localize people.
-Pedestrian Dead Reckoning (PDR) methods (aka Personal Navigation Devices), make use of one or more IMU installed on the body of the subject.
-The main idea of PDR techniques is to integrate inertial measurements with Zero Velocity Update constraints to reduce errors \cite{ojeda2007personal}.
-This work is extensively used in IMU-based human localization works and various fields~\cite{kwanmuang2015phd} analyses the gait of a walking person 
-with PDR method to estimate the direction of the shoe, thus the walking direction, and measure stride length. In \cite{jin2011robust}, multiple dead-reckoning systems on a single human
-are used along with constraints on relative displacements. This greatly reduce errors when compared to a traditional dead-reckoning method. 
-One way to understand why foot-mounted IMU is preferred to other alternatives may be given by \cite{groves2007inertial} comparing body-mounted and foot-mounted based PDR methods. 
-Both systems had similar performances considering the position error, being lower than 10 m for 60 seconds experiments. However, the foot-mounted shown drifts as results were compared
-to GPS ground truth. Body-mounted method proved to be usable in walking, running or jumping test cases.
+\TODO{Move this before conclusion ?}
+\cite{hutchings1998system} introduced the idea of person localization using a foot-mounted IMU in 1997. Since then, many developments have been made to find alternative ways to accurately localize people.
+Pedestrian Dead Reckoning (PDR) methods, also known as Personal Navigation Devices, make use of one or more Inertial Measurement Units (IMU) installed on the subject's body.
+The main idea of PDR techniques is to integrate IMU's measurements with Zero Velocity Update constraints to reduce errors \cite{ojeda2007personal}.
+This work is extensively used in IMU-based human localization works and various fields. \cite{kwanmuang2015phd} analyses the gait of a walking person 
+with PDR method to estimate the direction of the shoe, thus the walking direction, and measure stride lenght. 
+% \cite{jin2011robust} uses multiple dead-reckoning systems on a single human 
+% agent and constraints on relative displacements of each system to others with respect to the center of motion to create a tracking system
+% greatly reducing errors when compared to a traditional dead-reckoning method. 
+Shoe-mounted IMU is still considered as a possible way to
+accurately localize persons in an indoor environment due to lower drift errors when compared to body-mounted solutions \cite{groves2007inertial} . 
+%One way to understand why foot-mounted IMU is prefered to other alternatives may be given by \cite{groves2007inertial} 
+%comparing body-mounted and foot-mounted based PDR methods. 
+%Both systems had similar performances considering the position error, being lower than 10 m for 60 seconds experiments. However, the foot-mounted shown drifts as results were compared
+%to GPS ground truth. We should note that the body-mounted method proved to be usable in not only walking cases but also when the human agent was jogging or running but with a decrease in terms of accuracy.
 
-%% Various strategies can be considered to improve the localization results of foot-mounted IMU navigation.
-%% To achieve this goal, one way to consider is the use of one or more IMU and define some special constraints.
-%% The main advantage of this choice is that the solution would be easily wearable and thus usable.
-%% As shown in \cite{kourogi2010method} and \cite{panahandeh2012chest}, 
+Various strategies can be considered to improve the localization results of foot-mounted IMU navigation.
+%To achieve this goal, one way to consider is the use of one or more IMU and define some special constraints.
+%The main advantage of this choice is that the solution would be easily wearable and thus usable.
+%As shown in \cite{kourogi2010method} and \cite{panahandeh2012chest}, PDR can be used to recognize the action being carried out by the pedestrian through classification methods, but adding this contextual 
+%information is also a way to reduce PDR localization errors (\cite{kourogi2010method}). \cite{wagstaff2017improving} is not only using this contextual information 
+%thanks to a the training of a support vector machine (SVM) classifier using IMU data, but also doing efforts on finding optimal zero-velocity detection parameters taking into account 
+%a specific user and motion types. 
+One possibility that can be considered is to limit the drift of one IMU with other units placed in other places of the body. Skog et al. successfully limited the position error
+of a dual foot-mounted IMUs system composed of an IMU on each foot and the use of inequality constraints \cite{skog2012fusing}. In that case, the additive constraint was related to the maximum step length the pedestrian could do.
+%Thus the inequality constraints limit the distance between both IMUs to give better position estimation results when compared to sinle foot-mounted IMU solution.
 
-PDR can be used to recognize the action being carried out by the pedestrian through classification methods, but adding this contextual information is also a way to reduce PDR localization errors~\cite{kourogi2010method,panahandeh2012chest}. 
-Contextual information can be added by training of a support vector machine (SVM) classifier using IMU data~\cite{wagstaff2017improving}.
-Other prior information can be exploited when merging the measurements of several IMUs, for example relative to the maximum step length the pedestrian could do when using two foot-mounted IMUs~\cite{skog2012fusing}.
+Fusion strategies with information coming from different sensors can also be used to improve localization results as it is already done in robotics. 
+At this end we could use GPS information (\cite{sukkarieh1999high,hide2012investigating,gao2014data}), received signal stregth indicator (RSSI) from wireless communication as considered
+in \cite{malyavej2013indoor} using wireless local area networks (WLAN) or radio-frequency identification (RFID) tags placed at known locations in \cite{ruiz2012accurate}
+along with other drift reduction methods such as zero velocity updates (ZUPTs), zero angular-rate updates (ZARU) and the use of magnometers.
+Using these strategies is presented by \cite{ruiz2012accurate} as a successfull solution to overcome the drift observed in methods using IMU and to obtain positionning errors of approximately 1.5 m.
+Chdid et al. in \cite{chdid2011inertial} are using a foot-mounted IMU fused with a waist-mounted visual odometry system to update the state of the system composed of its position, velocity and acceleration.
+This last system was used recently by Pierce et al. \cite{pierce2016incorporation} to design a fusion strategy requiring measurements only once per human step instead of every time step.
 
-Fusion strategies with information coming from different sensors can also be used to improve localization results as it is already done
-for in robotics: GPS information~\cite{sukkarieh1999high,hide2012investigating,gao2014data}, received signal strength indicator (RSSI) from wireless communication~\cite{malyavej2013indoor} using wireless local area networks (WLAN) or radio-frequency identification (RFID) tags placed at known locations~\cite{ruiz2012accurate}
-along with other drift reduction methods such as zero velocity updates (ZUPTs), zero angular-rate updates (ZARU) and the use of magnetometers.
-Using these strategies might be a successful solution to overcome the drift observed in methods using IMU and to obtain positioning errors of approximately 1.5 m~\cite{ruiz2012accurate}.
-In \cite{chdid2011inertial}, a foot-mounted IMU is fused with a waist-mounted visual odometry system to update the state of the system composed of its position, velocity and acceleration.
-This last system was used recently~\cite{pierce2016incorporation} to design a fusion strategy requiring measurements only once per human step instead of every time step.
-
-More information can be structured into a map following a SLAM approach~\cite{angermann2012footslam}, leading to a bounded error growth to 1 meter. This FootSLAM uses dynamic Bayesian network and loop-closure strategies.
-The idea exploited here is to use the normal human behavior 
-consisting on relying on visual information to guide the motion and avoid obstacles. FootSLAM gave birth to several variants for use in different conditions or slightly different purposes~\cite{puyol2012complexity,bruno2011wislam}.
-Body-mounted IMUs with a FastSLAM-base implementation (ActionSLAM) was then proposed, with landmarks being location-related actions~\cite{hardegger2012actionslam}. 
-A foot-mounted IMU is used for inertial navigation purposes \emph{and} as a landmark observation system (through action recognition strategies using a trained classifier).
-%ActionSLAM considers that some specific actions are done only at some specific locations on the map. Results tend to show that using both foot-mounted and wrist-mounted IMUs
+Angermann et al. applied a SLAM approach to pedestrian localization using foot-mounted IMU and human perception in indoor environment \cite{angermann2012footslam}. Experiments show that
+FootSLAM is able to bound the error growth to 1 meter through the use of dynamic bayesian network (DBN) formulation of the problem and loop closure strategies. The idea exploited here is to use the normal human behavior 
+consisting on relying on visual information to guide the motion and avoid obstacles. 
+%FootSLAM's idea gave birth to several variants for use in different conditions or slightly different purposes (\cite{puyol2012complexity,bruno2011wislam}).
+%Hardegger et al. use contextual information to body-mounted IMUs with a FastSLAM-base implementationin ActionSLAM, landmarks being location-related actions \cite{hardegger2012actionslam}. 
+%A foot-mounted IMU is then used not only for inertial navigation purposes but also as a landmark observation system through action recognition strategies by applying machine learning techniques for motion classification.
+%The main idea behing ActionSLAM is to consider that some specific actions are done only at some specific locations on the map. Results tend to show that using both foot-mounted and wrist-mounted IMUs
 %is giving results that are robust enough for indoor applications.
 
-%Previously cited example tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data. 
+Previously cited example tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data. 
 %Two different methods have been aforementionned to reach this goal : fusion strategies using different complementary sensors and IMU only based methods using specificities
 %of human behavior (walking patterns, action recognition, contextual information).
-
-From this analysis, we see that two important aspects have been investigated to solve pedestrian localization: i) exploiting some specificities of human behavior with the inertial measurements as prior knowledge and ii) fusing IMU with additional complementary sensors.
-In this paper, we have shown that using a graphical model is a sane and efficient way to encode prior knowledge about the human behavior (horizontal foot during zero-velocity phases).
-While we are not exploiting any absolute measurement, the drift resulting of the odometry integration is contained to some reasonable margin (i.e. comparable to the accuracy obtained when a rough map is used).
-An additional feature of our approach is that it is easy to extend the graphical model, either with additional prior knowledge, or with measurements coming from additional sensors.
-For example, fusing absolute but noisy measurements like GPS, RFID or RSSI would be straight forward.
-
