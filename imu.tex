@@ -4,17 +4,17 @@
 
 
 
-\section{IMU pre-integration in S3 and SO(3)}
+\section{IMU pre-integration in $S^3$ and SO(3)}
 \label{sec:imu}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Overview}
 
-Due to the different rates of IMU data and keyframe (KF) creations, hundreds of IMU measurements need to be integrated to generate a motion factor linking two consecutive KFs. 
-The integration of the motion equations in an absolute reference frame strongly depends on the initial conditions of orientation, velocity and IMU bias.
+Due to the different rates of IMU data and keyframe creations, hundreds of IMU measurements need to be integrated to generate a motion factor linking two consecutive keyframes. 
+In addition to that, the integration of the motion equations in an absolute reference frame strongly depends on the initial conditions of orientation, velocity and IMU bias.
 Therefore, the changes in the estimates of these magnitudes (inherent to the iterative nature of the optimization) affect the whole motion integral. 
 Delta pre-integration theory was developed to avoid the need of re-integrating all IMU data at each iteration \cite{LUPTON-09,forster2015imu}. 
-On the one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions of orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
+On the one hand, this theory defines new motion magnitudes called \emph{deltas}, which are independent of the initial conditions for orientation and velocity, and thus depend \emph{only} on the IMU data and bias. 
 On the other hand, the effect of the changes in the bias estimates is linearized so that the deltas can be corrected a posteriori, 
 \ie, when computing the residual, 
 using pre-computed Jacobians. 
@@ -23,7 +23,7 @@ In this section, we revise the IMU pre-integration theory, providing three contr
 1) a segmentation of the computation pipeline (from measurements, to body magnitudes, to the current delta, and to the integrated delta); 
 2) a physical interpretation of the delta magnitudes; 
 and 
-3) a simpler yet rigorous algebraic approach, valid for both the S3 (quaternion) and SO3 (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise combersome Jacobians \cite{forster2015imu}. 
+3) a simpler yet rigorous algebraic approach, valid for both the $S^3$~(quaternion) and SO(3) (rotation matrix) manifolds, which takes profit of the pipeline segmentation and the chain rule to compute the otherwise cumbersome Jacobians \cite{forster2015imu}. 
 Important complements are provided in \appRef{sec:derivatives_SO3} for the sake of background and completeness.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -36,14 +36,14 @@ We define the quaternion-by-vector product $\od$ so that
 ~,
 \end{align}
 %
-where the symbol $\ot$ indicates the quaternion product.
-That is, quaternion-by-vector products using the symbol $\od$ perform 3D rotations. 
+where $\bfq^*$ denotes the dual quaternion of $\bfq$. 
+The symbol $\ot$ stands for the product of quaternions and $\od$ corresponds to the quaternion-by-vector which performs a 3D rotation of an input vector $\bfv$. 
 Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then 
 %
 $\bfq\od\bfv = \bfR\,\bfv$. 
 %
 This straightforward equivalence
-enables us to define all the forthcoming IMU pre-integration algebra in a way that allows a direct passage between the $S3$ (quaternion) and $SO(3)$ (rotation matrix) implementations.
+enables us to define all the forthcoming IMU pre-integration algebra in a way that allows a direct transcription between the $S^3$  and $SO(3)$ spaces of representation.
 
 
 
@@ -52,8 +52,8 @@ enables us to define all the forthcoming IMU pre-integration algebra in a way th
 
 \subsection{State integration in the absolute reference frame}
 
-We define the world-referenced states of position, velocity, and orientation quaternion, $\bfx\!=\!(\bfp,\bfv,\bfq)$. 
-Their time evolution is governed by the kinematic equation,
+We define the world-referenced states of the IMU by \mbox{$\bfx\!=\!(\bfp,\bfv,\bfq)$} where $\bfp$ stands for the position, $\bfv$ for the velocity and $\bfq$ for the orientation encoded as a quaternion.
+The time evolution of $\bfx$ is governed by the kinematic equation,
 %
 \begin{align}\label{equ:cont_basic}
 \begin{split}
@@ -63,7 +63,7 @@ Their time evolution is governed by the kinematic equation,
 \end{split}
 \end{align}
 %
-where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular rate observed at the IMU reference frame. These are obtained at discrete times $t_j$ from biased and noisy IMU measurements, \ie,
+where $\bfg$ denotes the gravity vector and we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the magnitudes of acceleration and angular velocity measured by the IMU and expressed in its reference frame. These body magnitudes are obtained at discrete times $t_j$ from biased and noisy IMU measurements, \ie,
 %
 \begin{align}\label{equ:body}
 \begin{split}
@@ -74,7 +74,7 @@ where we identify $\bfb=(\bfa,\bw)$ as the \emph{body magnitudes}, that is, the 
 \end{align}
 %
 with $\bullet_m$ the measurements, $\bullet_b$ the biases, and $\bullet_n$ the noises.
-Assuming constant body magnitudes within the IMU sampling period $\dt\te t_k-t_j$, we have the discrete-time relation
+Assuming constant body magnitudes within the IMU sampling period $\dt\te t_k-t_j$, we have the discrete-time relation:
 %
 \begin{align}\label{equ:integration_state}
 \begin{split}
@@ -89,13 +89,12 @@ Assuming constant body magnitudes within the IMU sampling period $\dt\te t_k-t_j
 \subsection{Delta definitions}
 
 Consider a non-rotating reference frame that is free-falling at the acceleration of gravity $\bfg$, and name it $\cG_t$. 
-An ideal (unbiased and noiseless) IMU glued to this frame would measure null accelerations and rotations. 
-Any non-null measurements would imply motion of the IMU \wrt  $\cG_t$.
+An ideal (unbiased and noiseless) IMU glued to this frame would measure null linear accelerations and angular velocities. 
+Any non-null measurements would be due to a relative motion of the IMU \wrt  $\cG_t$.
 
-At KF time $t_i$, we initialize $\cG_i$ at $\bfx_i=(\bfq_i,\bfv_i,\bfq_i)$.
-At a later time $t_j$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is at $\bfx_j=(\bfq_j,\bfv_j,\bfq_j)$.
-The motion delta, denoted $\D_{ij}
-$, is defined as the state (position, velocity, orientation) of our body \wrt  $\cG_j$, that is,
+At a given keyframe instant $t_i$, we initialize $\cG_i$ at \mbox{$\bfx_i=(\bfp_i,\bfv_i,\bfq_i)$}.
+At a later keyframe instant $t_j$ $(j > i)$,  $\cG_j$ has fallen according to $\bfg$, and the state of our moving body is now at $\bfx_j=(\bfp_j,\bfv_j,\bfq_j)$.
+The motion variation, denoted $\D_{ij}$, is defined as the state variation in position, velocity and orientation of our body between $\cG_i$ and  $\cG_j$, that is,
 %
 \begin{align}\label{equ:delta_definition}
 \begin{split}
@@ -105,9 +104,9 @@ $, is defined as the state (position, velocity, orientation) of our body \wrt  $
 \end{split}
 \end{align}
 %
-where $\Dt_{ij} \te t_j - t_i$. 
-Notice that this definition is the same provided in \cite{LUPTON-09,forster2015imu}, and that we have given it a clear physical meaning.
-Interestingly, the deltas form a group under the composition $\D_{ik}\te\D_{ij}\oplus\D_{jk}$, defined by,
+where $\Dt_{ij} \te t_j - t_i$ is the time duration between the two keyframes. 
+Notice that this definition of $\D_{ij}$ is the same as provided in~\cite{LUPTON-09,forster2015imu}, and we have given it here a clear physical meaning.
+It is worth to notice that the deltas form a group under the composition law $\D_{ik}\te\D_{ij}\oplus\D_{jk}$, defined by:
 %
 \begin{align} \label{equ:composition}
 \begin{split}
@@ -121,7 +120,7 @@ Interestingly, the deltas form a group under the composition $\D_{ik}\te\D_{ij}\
 \end{align}
 %
 with identity $\D_0=[(0,0,0),(0,0,0),(1,0,0,0)]$, and inverse $\D_{ji}\te\D_{ij}\inv$ shuch that $\D\inv\op\D=\D\oplus\D\inv=\D_0$ (the inverse expression is not given for space reasons).
-At any time $j$ we can recover the state estimate $\bfx_j$ given the state estimate $\bfx_i$ and the delta $\D_{ij}$,
+At any time $j$ we can recover the state estimate $\bfx_j$ from the state estimate $\bfx_i$ and the motion delta $\D_{ij}$:
 %
 \begin{align} \label{equ:reconstruction}
 \begin{split}
@@ -134,7 +133,7 @@ At any time $j$ we can recover the state estimate $\bfx_j$ given the state estim
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Incremental delta pre-integration}
 
-Substituting the integration equation \eqRef{equ:integration_state} in the delta definitions \eqRef{equ:delta_definition}, we obtain the incremental delta pre-integration,
+Substituting the integration Eq.~\eqRef{equ:integration_state} in the delta definitions \eqRef{equ:delta_definition}, we obtain the incremental delta pre-integration,
 %
 \begin{align}\label{equ:g_second_order_pre-integration}
 \begin{split}
@@ -170,7 +169,7 @@ and write the integration \eqRef{equ:g_second_order_pre-integration} as the comp
 \end{align}
 %
 described in \eqRef{equ:composition}. 
-Typically, we take the biases at KF time $t_i$, that is, $\bfb_{b,j} = \bfb_{b,i}$.
+Typically, we take the biases at the keyframe time $t_i$, that is, $\bfb_{b,j} = \bfb_{b,i}$.
 In the following, we will identify $\D$ with the pre-integrated delta, and $\delta$ with the current delta.
 
 
@@ -186,7 +185,7 @@ We note all Jacobians with $\jac{y}{x}\te\dparil{y}{x}$ and refer the reader to 
 
 \subsubsection{Jacobians of the body magnitudes}
 
-We have from \eqRef{equ:body},
+from  Eq.~\eqRef{equ:body} we have:
 %
 \begin{align}\label{equ:jac_body}
 \jac{\bfb}{\bfb_m}&=\bfI_6 & \jac{\bfb}{\bfb_b}&=-\bfI_6 & \jac{\bfb}{\bfb_n}&=-\bfI_6
@@ -243,7 +242,7 @@ We develop all the non-trivial blocks as in \appRef{sec:jac_SO3xR3toR3} and \app
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Incremental delta covariance integration}
 
-Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfQ_n$ that of the measurement noise. For convenience, we first compute the covariance of the current delta,
+Let $\bfQ_\D$ be the covariance of the pre-integrated delta, and $\bfQ_n$ the one of the measurement noise. For convenience, we first compute the covariance of the current delta,
 %
 \begin{align}
 \bfQ_\delta =  \jac{\delta}{\bfb_n}\bfQ_n\,\jac{\delta}{\bfb_n}\tr
@@ -291,9 +290,9 @@ This Jacobian starts at $\jac{\D_{ii}}{\bfb_b} = {\bf0}_{9\tcross 9}$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Residual}
+\subsection{Residuals}
 
-The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D_{ij}}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally compute the residual with
+The computation of the residuals for the IMU delta factors (see \figRef{fig:factor_graph}, green) requires: the state estimates $\bfx_i$ and $\bfx_j$; the current bias estimates $\bfb_{b,i}$; the pre-integrated delta $\ol{\D_{ij}}$; the bias used during pre-integration $\ol{\bfb_{b,i}}$; and the pre-integrated bias Jacobian $\jac{\D_{ij}}{\bfb_b}$. The process is best understood if split into smaller steps: we first compute a corrected delta $\D_{ij}$ using \eqRef{equ:delta_correction}; then we compute a predicted delta $\widehat\D_{ij}$ using \eqRef{equ:delta_definition}; and finally we compute the residual with
 %
 \begin{align}\label{equ:imu_residual}
 \bfr(\bfx_i,\bfx_j,\bfb_{b,i}) 
