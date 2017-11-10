@@ -2,22 +2,22 @@
 
 \section{Experiments} \label{sec:experiments}
 
-We use the dataset made available thanks to Angermann et. al. \cite{angermann2010high} to validate our method and compare the results to provided outputs from the state-of-the-art kalman filter.
-Our method is applied on several scenarios from these dataset and we present typical results obtained with two representative cases. The first sets of data correspond to a human going back and forth 
-while the second example is related to a walk describing a eight-shape. Both IMU and motion capture data are provided at 100 Hz.
+We use the dataset made available thanks to Angermann et. al. \cite{angermann2010high} to validate our method and compare the results to provided outputs from the state-of-the-art Kalman filter.
+Our method is applied on several scenarios from these dataset and we present typical results obtained with two representative cases. The first sets of data correspond to a human walking back and forth 
+while the second example is related to a walking pattern describing a eight-shape. Both IMU and motion capture data are provided at 100 Hz.
 
-Over a second phase, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 Khz (Invensense's MPU6050).
+Then, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 kHz (Invensense's MPU6050).
 % We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
 % To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
 
 \subsection{Method}
 
-Keyframes are declared at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
-and zero velocity constraint factors in the initial KF. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes.
+Keyframes are created at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
+and zero velocity constraint factors in the initial keyframe. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes.
 
-In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU. Such strategies can be implemented with
-RFID sensors or more basically visual odometry. In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during foot's flying phase. As in the usual ZUPT-aided inertial
-navigation, zero velocity constraint are imposed only on keyframes created during contact phases. Kinematic odometry is also added between all consecutive keyframes (see \figRef{fig:factor_graph}).
+In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU. Such strategy can be implemented with
+RFID sensors or more basically with visual odometry. In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
+navigation, zero-velocity constraints are imposed only on keyframes created during contact phases. Kinematic odometry is also added between all consecutive keyframes (see \figRef{fig:factor_graph}).
 
 %The parameters we need to calibrate for a correct integration are the IMU biases, on top of which we integrate the incoming IMU data.
 %The time varying property of the bias is a critical point to consider in order to avoid large deviations. 
@@ -33,16 +33,17 @@ navigation, zero velocity constraint are imposed only on keyframes created durin
 \subsection{Results}
 \subsubsection{State estimation using ZUPT only}
 
-As MOCAP data are not used during the experiments, we are not giving the system is not given enough information to be able to precisely estimate the yaw orientation of the IMU. 
-As a result, the estimation is not able to converge to the real position of the foot in its environment. The estimated trajectory itself can then be rotated for comparison purposes as presented in \figRef{fig:straight_walk}.
+As motion capture data are not used during the experiments, the system is not provided with enough information to be able to precisely estimate the vertical orientation of the IMU due to its non-observability from the IMU measurements directly. 
+As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
+In the following, we manually rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
 Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter.
 Since ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
 The strength of IMU's pre-integration theory can also be found in the fusion strategies. 
-\figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. Adding kinematic information between keyframes enhances the observability of the system and allows to a better estimation.
-A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need to linearize 
+\figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the two cases: without and with the flying keyframe information. Adding kinematic information between keyframes enhances the observability of the system and allows to a better estimation.
+A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need of linearization of
 intermediate IMU data between previous and current estimates of the state on which the integration must be performed. We also notice that the use of a flying keyframe makes the bias estimation more stable.
 
 % The MOCAP provides more controlled conditions for the kinematic measurements.
@@ -64,8 +65,8 @@ intermediate IMU data between previous and current estimates of the state on whi
 \par\vspace{4mm}
 \includegraphics[scale=0.5]{figures/Result_bias}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: MOCAP recorded ground truth, 
-estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: ground truth, 
+estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. Odometry was here built from motion capture data.
 {\bf Bottom}: Evolution of corresponding estimated IMU biases 
 }
 \label{fig:forward_walk_IRI}
@@ -77,7 +78,7 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 \par\vspace{4mm}
 \includegraphics[scale=0.182]{figures/experiments/straight_walk/bias_orientation.eps}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used here data recorded during straight walk phases. Stars in blue and red colors are respectively : the reference estimated states provided in the dataset and the estimation we are able to do using our graph method.
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used data recorded during straight walk phases. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
 The continuous green line is the ground truth as given by the motion capture system.
 {\bf Bottom}: Evolution of estimated IMU biases and orientation of the device.
 }
