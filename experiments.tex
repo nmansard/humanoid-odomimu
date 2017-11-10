@@ -5,7 +5,7 @@
 We use the dataset made available thanks to Angermann et. al. \cite{angermann2010high} to validate our method and compare the results to provided outputs from the state-of-the-art kalman filter.
 These dataset were recorded usig a Holodeck motion capture system and a Xsens MTx-28A53G25 IMU sampled at 100 Hz. 
 
-Over a second phase, we will investigate the use of additionnal sensors to demonstrate the feasility of fusion strategies using a low cost IMU running at 1 Khz (Invensense's MPU6050).
+Over a second phase, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 Khz (Invensense's MPU6050).
 % We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
 % To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
 
@@ -39,9 +39,9 @@ Since ZUPT information only is not enough to observe the overall system, we can 
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
-The strenght of IMU's preintegration theory can also be found in the fusion strategies. 
+The strength of IMU's pre-integration theory can also be found in the fusion strategies. 
 \figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. Adding kinematic information between keyframes enhances the observability of the system and allows to a better estimation.
-A major advantage of IMU's preintegration theory is the ability to use past preintegrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need to linearize 
+A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need to linearize 
 intermediate IMU data between previous and current estimates of the state on which the integration must be performed. We also notice that the use of a flying keyframe makes the bias estimation more stable.
 
 % The MOCAP provides more controlled conditions for the kinematic measurements.
@@ -63,7 +63,7 @@ intermediate IMU data between previous and current estimates of the state on whi
 \par\vspace{4mm}
 \includegraphics[scale=0.5]{figures/Result_bias}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: mocap recorded ground truth, 
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: MOCAP recorded ground truth, 
 estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
 {\bf Bottom}: Evolution of corresponding estimated IMU biases 
 }
