@@ -7,11 +7,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graph-based iterative optimization}
 
-In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the factors (or edges) represent the geometrical constraints between variables, produced by the measurements.
+In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the edges, called factors, represent the geometrical constraints that link between variables produced by the measurements.
 %
-The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and in our case includes foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes (KF) along the trajectory (see \figRef{fig:factor_graph}).
+The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and in our case it includes foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes along the trajectory (see \figRef{fig:factor_graph}).
 %
-For each factor, we can define an error or residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expectation given the involved state variables,
+For each factor, we can define an error or a residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expectation given the involved state variables,
 %
 \begin{equation}
     \bfr(\bfx) = h(\bfx) + \bfv - \bfz, \qquad \bfv \sim \mathcal \cN (0, \bfOmega\inv)\label{eq:error}
@@ -19,8 +19,11 @@ For each factor, we can define an error or residual $\bfr$ as the discrepancy be
 %
 being $h(\bfx)$ the sensor measurement model and $\bfOmega$ the information matrix of the measurement Gaussian noise $\bfv$.
 Importantly, the functions $h(\bfx)$ and $\bfr(\bfx)$ are very sparse, since only a small handful of blocks of $\bfx$ are involved in each factor, which results in a loosely connected graph.
-In case of variables defined in manifolds, such as quaternions or rotation matrices, (\ref{eq:error}) becomes $\bfr(\bfx) = (h(\bfx) \oplus \bfv) \ominus \bfz$, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. 
-The $\oplus$ and $\ominus$ are the addition and subtraction operators on the manifold, as required for certain state blocks intervening in the factor (see \eg~\eqRef{equ:imu_residual} in \secRef{sec:imu}, or \eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
+In case of variables defined on manifolds, such as quaternions or rotation matrices, we must rewrite~\eqref{eq:error} as \mbox{$\bfr(\bfx) = (h(\bfx) \oplus \bfv) \ominus \bfz$}.
+%, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. 
+The $\oplus$ and $\ominus$ symbols correspond to the addition and subtraction operators on the manifold
+%, as required for certain state blocks intervening in the factor 
+(see \eg~Eq.~\eqRef{equ:imu_residual} in \secRef{sec:imu}, or Eq.~\eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
 
 The maximum a posteriori estimation is obtained by iteratively minimizing the Mahalanobis squared norm of all linearized errors
 %
@@ -28,12 +31,12 @@ The maximum a posteriori estimation is obtained by iteratively minimizing the Ma
   \Delta \bfx^* &= \argmin_{\Delta \bfx} \sum_k \norm{ \bfr_k(\breve\bfx) + \bfJ_k \Delta \bfx }_{\bfOmega_k^{-1}}^2 \label{eq:LeastSquares}
 \end{align}
 %
-being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual $\bfr_k(\bfx)$.
+being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual $\bfr_k(\bfx)$ (with \mbox{$\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$} in the case of variables lying on a manifold) and $\bfOmega_k$ is the information matrix of the $k$-th measurement.
 %
-Current methods use Cholesky \cite{Kummerle_icra11,ila_ijrr17} or QR  \cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is used to update the state. 
+Current methods use the Cholesky~\cite{Kummerle_icra11,ila_ijrr17} or the QR~\cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is then used to update the current state estimate. 
 The process is iterated until convergence.
 %
-Incremental methods \cite{ila_ijrr17,Kaess_ijrr11}, update the problem directly on the factorized matrix, obtaining important speed-ups.
+Incremental methods~\cite{ila_ijrr17,Kaess_ijrr11} update the problem directly on the factorized matrices, obtaining important speed-ups.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,7 +52,8 @@ Incremental methods \cite{ila_ijrr17,Kaess_ijrr11}, update the problem directly 
 \centering
 \includegraphics[scale=0.65]{figures/graph_exploded}
 \caption{
-{\bf Top}: Detailed factor graph for the initial keyframe and two steps. 
+%{\bf Top}: 
+Detailed factor graph for the initial keyframe and two steps. 
 \emph{Circles}: state blocks for position ($\bfp$), orientation quaternion ($\bfq$), velocity ($\bfv$), accelerometer bias ($\bfa_b$), gyrometer bias ($\bw_b$). 
 \emph{Orange}: initial pose factor. 
 \emph{Red}: leg kinematic factor. 
@@ -69,7 +73,7 @@ Incremental methods \cite{ila_ijrr17,Kaess_ijrr11}, update the problem directly 
 
 \subsection{Keyframe variables}
 
-During a biped walk, we take profit of certain situations where precise assumptions can be made. For example, the  foot velocity is null during the support phase. At these selected moments, we create the keyframes that will produce a chain of states. These are linked by the measurements, forming our factor graph (\figRef{fig:factor_graph}). Each KF $\bff_i$ contains the following state blocks: the foot's position, velocity and orientation quaternion, plus the IMU's accelerometer and gyrometer biases,
+During a biped walk, we take profit of certain situations where precise and reliable assumptions can be made. For example, the  foot velocity is null during its support phase. At these selected instants, we create the keyframes that will produce a chain of states. These states are linked by the measurements, forming our factor graph (\figRef{fig:factor_graph}). Each keyframe $\bff_i$ contains the following state blocks: the foot's position, velocity and orientation data, plus the IMU's accelerometer and gyrometer biases,
 %
 \begin{align}
 \bff_i = \begin{bmatrix}
@@ -94,8 +98,8 @@ These include initial position and orientation (orange in the figure), zero velo
 \bfr_k(\bfphi_i) = \bfphi_i - \bfz_k
 \end{align}
 %
-where $\bfphi_i$ is one amongst $\{\bfp_i,\bfv_i,\bfa_{b,i},\bw_{b,i}\}$. 
-For the quaternion we implement the residual using the operator $\ominus$ in the $S3$ manifold (see \eqRef{equ:minus_q} in \appRef{sec:derivatives_SO3}),
+where $\bfphi_i$ is one among $\{\bfp_i,\bfv_i,\bfa_{b,i},\bw_{b,i}\}$. 
+For the quaternion we implement the residual using the operator $\ominus$ on the sphere of dimension $3$ manifold, denoted $S^3$ (see \eqRef{equ:minus_q} in \appRef{sec:derivatives_SO3} for further details),
 %
 \begin{align}
 \bfr_k(\bfq_i) = \bfq_i\ominus\bfz_k = \Log(\bfz_k^*\ot\bfq_i)
@@ -114,9 +118,9 @@ These are relative factors that allow the bias estimates to drift with time at a
 \end{split}
 \end{align}
 
-\subsubsection{complementary factors (red)}
+\subsubsection{Complementary factors (red)}
 
-These relate position and orientation between consecutive steps as it can be given from other sensors than IMU or methods using human walk specificities,
+These relate position and orientation between two consecutive steps as it can be provided by other sensors than IMU or methods using human walking specificities,
 %
 \begin{align}
 \bfr(\bfp_i,\bfq_i,\bfp_j,\bfq_j) = \begin{bmatrix}
@@ -129,4 +133,4 @@ where $\bfy_k$ and $\bfz_k$ are respectively the relative position and quaternio
 
 \subsubsection{IMU pre-integrated factors (green)}
 
-These factors are by far the most complex and are described in detail in the next section.
+These factors are by far the most complex ones and are described in details in the next section.
