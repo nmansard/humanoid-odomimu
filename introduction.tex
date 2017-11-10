@@ -5,16 +5,16 @@
 \textit{Context: }
 Indoor person localization is an open challenge in various situations: location-based life improving services,
 firefighters localization and navigation, patients tracking 
-motion monitoring, medical observation, accident monitoring \cite{pourhomayoun2012spatial}, mobility and independence of partially-sighted or blind persons, etc.
+motion monitoring, medical observation, accident monitoring, mobility and independence of partially-sighted or blind persons, etc.
 As GPS are not available indoor, and because relying on a network of fixed sensors (cameras, RFID) also raised many open questions, an appealing way to localize a body in space is to use odometry information measured by embedded inertial measurement units (IMUs).
 In this context, while performing the integration it is mandatory to take into account the IMU bias.
 As the bias varies with time and conditions, it must be estimated on-line while processing the measurements.
-Furthermore, it is desirable that additional informations coming from other sensors can be integrated in the same estimation process.
+Furthermore, it is desirable that additional information coming from other sensors can be integrated in the same estimation process.
 Similarly to the strategies adopted in simultaneous localization and mapping (SLAM), sparse measurements or additional information (e.g. coming from intermittent absolute localization, or from a sparse sensor network) would benefit to the localization process when available.
 With these requirements coming from the context in mind, we propose to define an estimator based on graphical models, able to accurately and efficiently integrate inertial measurements while estimating the IMU biases. Thanks to the graphical model, the estimator will then be able to fuse additional measurements coming from other sensors or additional prior information provided by the application.
 The setup considered in this work  is a pedestrian walking on structured terrain (flat floor or stairs) with an IMU attached to his foot.
 
-\TODO{Add cover figure}
+%\TODO{Add cover figure}
 % \begin{figure}
 % \centering
 % \includegraphics[width=\linewidth]{./figures/cover-figure.pdf}

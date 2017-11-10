@@ -2,7 +2,9 @@
 
 \section{Conclusion}
 
-We have presented a method to measure foot movement during robot biped locomotion. We fuse information from an IMU attached to the foot, the kinematic chain measured by the robot encoders, and available knowledge extracted from the gait phases, such as zero velocity and IMU bias dynamics. We used nonlinear optimization techniques based on factor graphs, which has proved to be a flexible and powerful fusion framework. For this, we have revised the IMU pre-integration theory, and proposed an implementation in the quaternions manifold, with simpler derivations than previous works, and with physical interpretations, which we believe go in the direction of improving the clarity of the method.
-
-
-Results showed that this estimation method is able to detect subtle movements that are not measurable using the encoders alone, such as a sliding foot condition at the beginning or end of the contact phase. These slides, if undetected, have a dramatic negative impact on the overall robot odometry.
+We have presented a method to measure foot movement during an IMU attached to the foot and exploit available knowledge extracted from the gait phases, such as zero velocity and IMU bias dynamics. 
+Measurements and prior knowledge have been described in a graphical model where the full IMU state (position, orientation, velocity, bias) is observable. 
+We then used nonlinear optimization techniques based on factor graphs, which has proved to be a flexible and powerful fusion framework. For this, we have revised the IMU pre-integration theory, and proposed an implementation in the quaternions manifold, with simpler derivations than previous works, and with physical interpretations, which we believe go in the direction of improving the clarity of the method.
+Results showed that this estimation method is able to properly estimate the bias, then leading to an accurate odometry where the drift remains reasonable, even after minutes of integration. 
+The method easily extends to additional prior knowledge or additional sensors. 
+We also plan to use it to accurately track the odometry of a biped robot, while fusing the inertial measurements of the robot feet with the encoders measurements of its kinematic chain.

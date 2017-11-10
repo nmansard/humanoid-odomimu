@@ -1,16 +1,29 @@
 % !TEX root = main.tex
 %
 %
-In this paper, a graphical representation approach is presented to integrate 
-IMU measurement on an augmented human. Although state estimators using both
-informations \cite{Johnson:jof:2016,Fallon:ichr:2014} have been already proposed, this method has several additional interests.
-First it is allowing to estimate bias and initial position of the IMU thanks to the graph
-approach. Second the concept has been extensively used in the SLAM community and integrating 
-other measurements such as laser, range image and so on can be done in a coherent mathematical framework.
-The technical difficulty is to handle the size of the graph such that it is tractable in a limited window.
-It was proposed in \cite{forster2015imu} to pre-integrate the most frequent data which are given by the IMU.
-In this paper we propose a detailed derivation of this pre-integration using quaternion instead
-of rotation matrices leading not only to faster computation and smaller memory foot-print,
-but also to a more comprehensible pre-integration data to which we can give a physically coherent interpretation.
-We validate these concepts by estimating the trajectory of the foot of a human agent during walking,
-and show that we are able to reconstruct its trajectory under some conditions.
+Location of pedestrian in indoor environment is an open problem.
+An important sensor in this context is the inertial measurement units (IMU), carried by the pedestrian while he/she is walking.
+However, due to the bias of the accelerometer and the gyroscope, integrating directly the inertial measurements leads to tremendous drift, as the state of the system is not fully observable. 
+In this paper, we consider the specific case where the IMU is attached to the foot.
+We then exploit specific prior knowledge (i.e. the fact that the foot lands at zero velocity on a horizontal plan). Using this prior, the full state of the IMU (position, orientation, velocity, bias) becomes observable.
+The inertial measurements and the prior knowledge are gathered in a graphical model (a factor graph), then exploits to build a maximum-likelihood estimator.
+The technical difficulty is to handle the size of the graph such that it is tractable in a limited window, that we do by relying on pre-integration.
+In that existing framework, our contributions are to reformulate the pre-integration method using quaternion while giving a simpler algebraic formulation, and to apply this method for estimating the human foot-pose during walking.
+We validate these concepts on several long-range trajectories capture with human subject and compare the results with ground-truth measurements (coming from a motion capture system)  and previous results of the state of the art.
+We show that our method is able to reconstruct its trajectory under some conditions.
+
+
+
+%% In this paper, a graphical representation approach is presented to integrate 
+%% IMU measurement on an augmented human. Although state estimators using both
+%% informations \cite{Johnson:jof:2016,Fallon:ichr:2014} have been already proposed, this method has several additional interests.
+%% First it is allowing to estimate bias and initial position of the IMU thanks to the graph
+%% approach. Second the concept has been extensively used in the SLAM community and integrating 
+%% other measurements such as laser, range image and so on can be done in a coherent mathematical framework.
+%% The technical difficulty is to handle the size of the graph such that it is tractable in a limited window.
+%% It was proposed in \cite{forster2015imu} to pre-integrate the most frequent data which are given by the IMU.
+%% In this paper we propose a detailed derivation of this pre-integration using quaternion instead
+%% of rotation matrices leading not only to faster computation and smaller memory foot-print,
+%% but also to a more comprehensible pre-integration data to which we can give a physically coherent interpretation.
+%% We validate these concepts by estimating the trajectory of the foot of a human agent during walking,
+%% and show that we are able to reconstruct its trajectory under some conditions.
