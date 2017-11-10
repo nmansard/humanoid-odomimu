@@ -7,4 +7,5 @@ Measurements and prior knowledge have been described in a graphical model where 
 We then used nonlinear optimization techniques based on factor graphs, which has proved to be a flexible and powerful fusion framework. For this, we have revised the IMU pre-integration theory, and proposed an implementation in the quaternions manifold, with simpler derivations than previous works, and with physical interpretations, which we believe go in the direction of improving the clarity of the method.
 Results showed that this estimation method is able to properly estimate the bias, then leading to an accurate odometry where the drift remains reasonable, even after minutes of integration. 
 The method easily extends to additional prior knowledge or additional sensors. 
-We also plan to use it to accurately track the odometry of a biped robot, while fusing the inertial measurements of the robot feet with the encoders measurements of its kinematic chain.
+We also plan to use it to accurately track the odometry of a biped robot, while fusing the inertial measurements of the robot feet with the encoders measurements of its kinematic chain. 
+Further work are needed to make the system less critical to wrong ZUPT detections. To achieve this goal we can change the ZUPT implementation strategy from a fixed parameter to an estimated one starting with a zero prior and low variance.
