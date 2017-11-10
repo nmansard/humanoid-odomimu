@@ -2,16 +2,20 @@
 
 \section{Experiments} \label{sec:experiments}
 
+We use the dataset made available thanks to Angermann et. al. \cite{angermann2010high} to validate our method and compare the results to provided outputs from the state-of-the-art kalman filter.
+These dataset were recorded usig a Holodeck motion capture system and a Xsens MTx-28A53G25 IMU sampled at 100 Hz. 
 
-We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
-To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
+Over a second phase, we will investigate the use of additionnal sensors to demonstrate the feasility of fusion strategies using a low cost IMU running at 1 Khz.
+% We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
+% To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
 
 \subsection{Method}
 
+Keyframes are declared at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
+and zero velocity constraint factors in the initial KF. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes.
 
-Keyframes are declared at the beginning and ending of each support phase of the selected foot. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, IMU pre-integration, and kinematic odometry. We only use the bias magnitude factors in the initial KF.
-
-An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, we add kinematic factors between all consecutive KFs, but use zero-velocity factors only in the contact phase KFs.
+%In order to show how interesting fusion strategies can be, we simulate the use of
+% An improved version of our graph estimator incorporates an extra KF in the middle of the foot's flying phase. In this case, we add kinematic factors between all consecutive KFs, but use zero-velocity factors only in the contact phase KFs.
 
 %The parameters we need to calibrate for a correct integration are the IMU biases, on top of which we integrate the incoming IMU data.
 %The time varying property of the bias is a critical point to consider in order to avoid large deviations. 
@@ -27,35 +31,51 @@ An improved version of our graph estimator incorporates an extra KF in the middl
 \subsection{Results}
 \subsubsection{Trajectory reconstruction}
 
-We first validate our fusion method on a simplified setup. We do without the robot: we attach the IMU to a walking persons's foot, and use motion capture (MOCAP) techniques to generate the kinematic constraints. 
-The MOCAP provides more controlled conditions for the kinematic measurements.
-\figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. We can observe a correct estimation only when the flying KF is added. Bias autocalibration is also more stable with the flying KF.
+As MOCAP data are not used during the experiments, we are not giving the system is not given enough information to be able to precisely estimate the yaw orientation of the IMU. 
+As a result, the estimation is not able to converge to the real position of the foot in its environment. The estimated trajectory itself can then be rotated for comparison purposes as presented in \figRef{fig:straight_walk}.
+Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state kalman filter.
+Since ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
+% The MOCAP provides more controlled conditions for the kinematic measurements.
+% \figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. We can observe a correct estimation only when the flying KF is added. Bias autocalibration is also more stable with the flying KF.
 
-%Then we show that using an IMU on the foot of the robot leads to a better estimation of the real position of the member compared to encoder based odometry. 
-%We check the feasibility of the trajectory reconstruction using a 1Khz IMU attached to one's foot and tracked with a motion capture (MOCAP) system. The MOCAP is used to get odometry between zero-velocity phases, i.e. when the foot is on the ground,
-%and will be taken as the ground truth against which we compare the trajectory reconstruction.
-%
-%We reproduce the movements the feet of a robot could have when it is walking. However, as shown in figures \textbf{add figure here}, the final optimal state
-%is not the expected one and acceleration biases are rapidly changing. The variation that we can see is not only due to some random walk and can be explained by the excitement of biases in a different axis.
-%As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acceleration biases do not converge toward stable values during a motion exciting several axis of the sensor. 
-%This effect can be explained by time inconsistency meaning that we fail
-%to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motions do not use all the axis of the accelerometer as it should.
+% %Then we show that using an IMU on the foot of the robot leads to a better estimation of the real position of the member compared to encoder based odometry. 
+% %We check the feasibility of the trajectory reconstruction using a 1Khz IMU attached to one's foot and tracked with a motion capture (MOCAP) system. The MOCAP is used to get odometry between zero-velocity phases, i.e. when the foot is on the ground,
+% %and will be taken as the ground truth against which we compare the trajectory reconstruction.
+% %
+% %We reproduce the movements the feet of a robot could have when it is walking. However, as shown in figures \textbf{add figure here}, the final optimal state
+% %is not the expected one and acceleration biases are rapidly changing. The variation that we can see is not only due to some random walk and can be explained by the excitement of biases in a different axis.
+% %As explained in \cite{roussillon2011rt}, in opposition to gyroscope biases, acceleration biases do not converge toward stable values during a motion exciting several axis of the sensor. 
+% %This effect can be explained by time inconsistency meaning that we fail
+% %to use the information of the entire motion to converge toward stable values as expected in the sensor model, but the problem may also be that the step motions do not use all the axis of the accelerometer as it should.
+
+% \begin{figure}[tb]
+% \centering
+% \includegraphics[scale=0.5]{figures/Result_position}
+% \par\vspace{4mm}
+% \includegraphics[scale=0.5]{figures/Result_bias}
+% \caption{ 
+% {\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: mocap recorded ground truth, 
+% estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
+% {\bf Bottom}: Evolution of corresponding estimated IMU biases 
+% }
+% \label{fig:forward_walk_IRI}
+% \end{figure}
 
 \begin{figure}[tb]
 \centering
-\includegraphics[scale=0.5]{figures/Result_position}
+\includegraphics[scale=0.182]{figures/experiments/straight_walk/XY_XZ_viewsRotated.eps}
 \par\vspace{4mm}
-\includegraphics[scale=0.5]{figures/Result_bias}
+\includegraphics[scale=0.182]{figures/experiments/straight_walk/bias_orientation.eps}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: mocap recorded ground truth, 
-estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. odometry was here built from MOCAP information.
-{\bf Bottom}: Evolution of corresponding estimated IMU biases 
+{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used here data recorded during straight walk phases. Stars in blue and red colors are respectively : the reference estimated states provided in the dataset and the estimation we are able to do using our graph method.
+The continuous green line is the ground truth as given by the motion capture system.
+{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device.
 }
-\label{fig:forward_walk_IRI}
+\label{fig:straight_walk}
 \end{figure}
 
-We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
-This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
+% We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
+% This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
 
 
 
