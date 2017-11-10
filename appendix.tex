@@ -6,14 +6,14 @@
 
 \small
 
-\section{Definition of the derivatives in $S3$ and $SO(3)$}
+\section{Definition of the derivatives in $S^3$ and $SO(3)$}
 \label{sec:derivatives_SO3}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Exp and Log maps in $S3$ and $SO(3)$}
+\subsection{Exp and Log maps in $S^3$ and $SO(3)$}
 
-We use vectorized versions of the exponential and logarithmic maps in the rotation groups $S3$ (quaternion) and $SO(3)$ (rotation matrix), and denote them with capitalized names $\Exp()$ and $\Log()$ (see \figRef{fig:manifold}, left). They operate directly on the vector space $\bbR^3$, and use either quaternions for $S3$,
+We use vectorized versions of the exponential and logarithmic maps in the rotation groups $S^3$ (quaternion) and $SO(3)$ (rotation matrix), and denote them with capitalized names $\Exp()$ and $\Log()$ (see \figRef{fig:manifold}, left). They operate directly on the vector space $\bbR^3$, and use either quaternions for $S^3$,
 %
 \begin{subequations}
 \begin{align}
@@ -40,26 +40,26 @@ where $\bfq\te(q_w,\qv)$, or rotation matrices for $SO(3)$,
 with $\theta=\cos\inv\left(\frac{\trace(\bfR)-1}{2}\right)$,
 and where $\bullet^\vee$, known as the \emph{vee} operator, is the inverse of the \emph{skew} operator $\hatx{\bullet}$. 
 Their exact form ($\bfq$ or $\bfR$) is always clear by the context.
-Since the quaternion implementation is one of our contributions, in the following we will refer to the rotation groups $S3$ and $SO(3)$ with the unique name $S3$, although everything applies equally to $SO(3)$. 
+Since the quaternion implementation is one of our contributions, in the following we will refer to the rotation groups $S^3$ and $SO(3)$ with the unique name $S^3$, although everything applies equally to $SO(3)$. 
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{The additive and subtractive operators in $S3$ and $SO(3)$}
+\subsection{The additive and subtractive operators in $S^3$ and $SO(3)$}
 
 \begin{figure}[tb]
 \centering
 \includegraphics{figures/manifold}
-\caption{The S3 manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space to the manifold is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. (Likewise, these figures illustrate the $SO(3)$ manifold.)}
+\caption{The $S^3$ manifold is a unit sphere in $\bbR^4$, here represented by a unit circle (blue),  where all unit quaternions live. The tangent space to the manifold is the hyperplane $\bbR^3$, here represented by a line (red). The $\Exp()$ and $\Log()$ operators map elements of $\bbR^3$ to/from elements of $S^3$. The $\oplus$ and $\ominus$ operators relate elements of the manifold with elements in the tangent space. (Likewise, these figures illustrate the $SO(3)$ manifold.)}
 \label{fig:manifold}
 \end{figure}
 
 
 
 
-The `plus' operator, $\oplus:S3\times\bbR^3\to S3$, composes a reference element $\sR\in S3$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $S3$ manifold at $\sR$, yielding an element $\sS\in S3$ (see \figRef{fig:manifold}, right). 
-The `minus' operator, $\ominus:S3\times S3\to\bbR^3$ is the inverse of the above.
+The `plus' operator, $\oplus:S^3\times\bbR^3\to S^3$, composes a reference element $\sR\in S^3$ with a (often small) rotation specified by a vector of $\bth\in\bbR^3$ that is tangent to the $S^3$ manifold at $\sR$, yielding an element $\sS\in S^3$ (see \figRef{fig:manifold}, right). 
+The `minus' operator, $\ominus:S^3\times S^3\to\bbR^3$ is the inverse of the above.
 These operators are defined for both $\bfq$ and $\bfR$,
 %
 \begin{align}
@@ -81,7 +81,7 @@ For functions $f:\bbR^m\to\bbR^n$, the derivative is defined classically using t
 ~;
 \end{align}
 %
-for functions $g:S3\to S3$, we use the operators $\{\oplus,\ominus\}$,
+for functions $g:S^3\to S^3$, we use the operators $\{\oplus,\ominus\}$,
 %
 \begin{align}\label{equ:derivative_SO3}
 \dpar{g(\sR)}{\bth} 
@@ -89,31 +89,31 @@ for functions $g:S3\to S3$, we use the operators $\{\oplus,\ominus\}$,
 ~;
 \end{align}
 %
-for functions $h:\bbR^m \to S3$, we use $\{+,\ominus\}$,
+for functions $h:\bbR^m \to S^3$, we use $\{+,\ominus\}$,
 %
 \begin{align}\label{equ:dif_RtoSO3}
 \dpar{h(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ h(\bfx+\delta\bfx)\ominus h(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} 
 ~;
 \end{align}
 %
-and for functions $k:S3\to\bbR^n$, we use $\{\oplus,-\}$,
+and for functions $k:S^3\to\bbR^n$, we use $\{\oplus,-\}$,
 %
 \begin{align}\label{equ:jacobian_SO3_Rn}
 \dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} 
 ~.
 \end{align}
 %
-It might be worth noticing that all these Jacobians are independent of the representation chosen ($S3$ or $SO(3)$).
+It might be worth noticing that all these Jacobians are independent of the representation chosen ($S^3$ or $SO(3)$).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Right Jacobian of $S3$ and $SO(3)$}
+\subsection{Right Jacobian of $S^3$ and $SO(3)$}
 
 We define the right Jacobian as, 
 %
 \begin{align}\label{equ:Jr}
 \bfJ_r(\bth) &\te \dpar{\Exp(\bth)}{\bth} 
-\in\bbR^{3\tcross3}
+\in\bbR^{3\tcross^3}
 ~,
 \end{align}
 %
@@ -130,10 +130,10 @@ It admits the closed form  \cite[pag.~40]{CHIRIKJIAN-12},
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Examples}
 
-\subsubsection{Function $\bbR^3\to S3$} 
+\subsubsection{Function $\bbR^3\to S^3$} 
 \label{sec:jac_R3toSO3}
 
-The function $f(\bw) = \Exp(\bw\dt)$ produces elements of $S3$ from vectors $\bw\in\bbR^3$. 
+The function $f(\bw) = \Exp(\bw\dt)$ produces elements of $S^3$ from vectors $\bw\in\bbR^3$. 
 Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtained from \eqRef{equ:Jr} and the chain rule,
 %
 \begin{align*}
@@ -145,10 +145,10 @@ Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtai
 %
 
 
-\subsubsection{Function $S3\times\bbR^3\to\bbR^3$} 
+\subsubsection{Function $S^3\times\bbR^3\to\bbR^3$} 
 \label{sec:jac_SO3xR3toR3}
 
-The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv$ produces vectors of $\bbR^3$ from elements $\sR\in S3$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
+The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv$ produces vectors of $\bbR^3$ from elements $\sR\in S^3$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
 %
 \begin{align*}
 \dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
@@ -171,7 +171,7 @@ The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
 \end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Function $S3\times S3\to S3$}
+\subsubsection{Function $S^3\times S^3\to S^3$}
 \label{sec:jac_SO3xSO3toSO3}
 
 The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bfR\bth)=\bfR\Exp(\bth)\bfR\tr$,
