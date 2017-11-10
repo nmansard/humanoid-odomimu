@@ -66,9 +66,9 @@ intermediate IMU data between previous and current estimates of the state on whi
 
 \begin{figure}[tb]
 \centering
-\includegraphics[scale=0.5]{figures/Result_position}
+\includegraphics[scale=0.47]{figures/Result_position}
 \par\vspace{4mm}
-\includegraphics[scale=0.5]{figures/Result_bias}
+\includegraphics[scale=0.47]{figures/Result_bias}
 \caption{ 
 {\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: ground truth, 
 estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. Odometry was here built from motion capture data.
@@ -79,17 +79,29 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 
 \begin{figure}[tb]
 \centering
-\includegraphics[scale=0.182]{figures/experiments/straight_walk/XY_XZ_viewsRotated.eps}
+\includegraphics[scale=0.175]{figures/experiments/straight_walk/XY_XZ_viewsRotated.eps}
 \par\vspace{4mm}
-\includegraphics[scale=0.182]{figures/experiments/straight_walk/bias_orientation.eps}
+\includegraphics[scale=0.175]{figures/experiments/straight_walk/bias_orientation.eps}
 \caption{ 
 {\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used data recorded during straight walk phases. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
 The continuous green line is the ground truth as given by the motion capture system.
-{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device.
+{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
 }
 \label{fig:straight_walk}
 \end{figure}
 
+\begin{figure}[tb]
+\centering
+\includegraphics[scale=0.175]{figures/experiments/8shape/XY_XZ_viewsRotated.eps}
+\par\vspace{4mm}
+\includegraphics[scale=0.175]{figures/experiments/8shape/bias_orientation.eps}
+\caption{ 
+{\bf Top}: trajectory estimation during human 8-shaped walking phases with an IMU attached to a foot. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
+The continuous green line is the ground truth as given by the motion capture system.
+{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
+}
+\label{fig:8shape_walk}
+\end{figure}
 % We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
 % This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
 
