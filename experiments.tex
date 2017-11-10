@@ -57,18 +57,5 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
 This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
 
-%TODO : process mocap experiments
-
-\subsubsection{Legged-Locomotion's undesired behavior measurement}
-
-We use the approach presented above in the case of the humanoid robot HRP-2 to better estimate the trajectory of the foot. This also results in a better estimation of the pose of the robot using its kinematic chain. 
-For this experiment, the robot is moving in open loop and some particularities are worth to be noted compared to the previous experiment. 
-The structure of the robot produces vibrations that are measured by the IMU, thus explaining the over noisy aspect of the data. The foot's flying phase is set to last 800 ms. The double support phase lasts only 20 ms, thus it is difficult to observe
-even with the IMU working at 1 KHz because of the vibration it will measure on impacts.
-
-
-
-
-%TODO experiment : step motion + complex rotation, followed by MOCAP
 
 
