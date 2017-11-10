@@ -3,7 +3,8 @@
 \section{Experiments} \label{sec:experiments}
 
 We use the dataset made available thanks to Angermann et. al. \cite{angermann2010high} to validate our method and compare the results to provided outputs from the state-of-the-art kalman filter.
-These dataset were recorded usig a Holodeck motion capture system and a Xsens MTx-28A53G25 IMU sampled at 100 Hz. 
+Our method is applied on several scenarios from these dataset and we present typical results obtained with two representative cases. The first sets of data correspond to a human going back and forth 
+while the second example is related to a walk describing a eight-shape. Both IMU and motion capture data are provided at 100 Hz.
 
 Over a second phase, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 Khz (Invensense's MPU6050).
 % We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
@@ -34,7 +35,7 @@ navigation, zero velocity constraint are imposed only on keyframes created durin
 
 As MOCAP data are not used during the experiments, we are not giving the system is not given enough information to be able to precisely estimate the yaw orientation of the IMU. 
 As a result, the estimation is not able to converge to the real position of the foot in its environment. The estimated trajectory itself can then be rotated for comparison purposes as presented in \figRef{fig:straight_walk}.
-Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state kalman filter.
+Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter.
 Since ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
