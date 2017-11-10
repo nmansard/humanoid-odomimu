@@ -14,7 +14,9 @@ Then, we will investigate the use of additional sensors to demonstrate the feasi
 \subsection{Method}
 
 Keyframes are created at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
-and zero velocity constraint factors in the initial keyframe. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes.
+and zero velocity constraint factors in the initial keyframe. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes. Zero velocity constraints are applied 
+as a fixed prior for the optimizer, meaning that corresponding variables will not be estimated but considered as parameters. As a consequence, we need to be confident that timestamps detected as zero velocity instants really match static phases of the IMU. 
+Otherwise we would be imposing a hard constraint inducing a wrong estimate of the trajectory.
 
 In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU. Such strategy can be implemented with
 RFID sensors or more basically with visual odometry. In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
@@ -37,16 +39,16 @@ navigation, zero-velocity constraints are imposed only on keyframes created duri
 As motion capture data are not used during the experiments, the system is not provided with enough information to be able to precisely estimate the vertical orientation of the IMU due to its non-observability from the IMU measurements directly. 
 As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
 In the following, we manually rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
-Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter.
+Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter as shown in \figRef{fig:straight_walk} and \figRef{fig:8shape_walk}.
 Since using ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
 
-Besides, the experiment shows satisfying results in terms of computational times. Indeed, 0.19 seconds are enough to integrate all the data corresponding to a 50 seconds experiments and to optimize the graph each time a keyframe is created with our framework,
-with a total of 7 keyframes.
+Besides, the experiment shows satisfying results in terms of computational times. Indeed, 0.19 seconds are enough to integrate all the data corresponding to a 50 seconds experiments, that is 4952 IMU data, and to optimize the graph each time a keyframe is created with our framework,
+with a total of 7 keyframes. It would be hard, if not currently impossible, to get such results using the IMU without a proper pre-integration method.
 The optimization part is currently handled by Google Ceres optimizer \cite{Agarwal} using the sparse structure of the problem. All in all, it takes $39 \mu s$ to integrate a single IMU measurement and compute jacobians and run 7 optimizations.
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
-The strength of IMU's pre-integration theory can also be found in the fusion strategies. 
+The strength of the optimal estimation can also be found in the fusion strategies. 
 \figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the two cases: without and with the flying keyframe information. Adding kinematic information between keyframes enhances the observability of the system and allows to a better estimation.
 A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need of linearization of
 intermediate IMU data between previous and current estimates of the state on which the integration must be performed. We also notice that the use of a flying keyframe makes the bias estimation more stable.
