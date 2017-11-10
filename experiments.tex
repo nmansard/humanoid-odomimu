@@ -6,7 +6,8 @@ We use the dataset made available thanks to Angermann et. al. \cite{angermann201
 Our method is applied on several scenarios from these dataset and we present typical results obtained with two representative cases. The first sets of data correspond to a human walking back and forth 
 while the second example is related to a walking pattern describing a eight-shape. Both IMU and motion capture data are provided at 100 Hz.
 
-Then, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 kHz (Invensense's MPU6050).
+Then, we will investigate the use of additional sensors to demonstrate the feasibility of fusion strategies using a low cost IMU running at 1 kHz (Invensense's MPU6050 \cite{InvenSense}).
+
 % We use a low-cost IMU in our application to demonstrate the feasibility of our method. 
 % To that end, we selected the MPU6050 from Invensense, which combines triaxial accelerometers and gyrometers, provides 1kHz data rate, and is extensively used in the open source community.
 
@@ -37,7 +38,11 @@ As motion capture data are not used during the experiments, the system is not pr
 As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
 In the following, we manually rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
 Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter.
-Since ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
+Since using ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
+
+Besides, the experiment shows satisfying results in terms of computational times. Indeed, 0.19 seconds are enough to integrate all the data corresponding to a 50 seconds experiments and to optimize the graph each time a keyframe is created with our framework,
+with a total of 7 keyframes.
+The optimization part is currently handled by Google Ceres optimizer \cite{Agarwal} using the sparse structure of the problem. All in all, it takes $39 \mu s$ to integrate a single IMU measurement and compute jacobians and run 7 optimizations.
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
