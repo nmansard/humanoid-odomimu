@@ -5,8 +5,8 @@
 \textit{Context: }
 Indoor person localization is an open challenge in various situations: location-based life improving services,
 firefighters localization and navigation, patients tracking 
-motion monitoring, medical observation, accident monitoring \cite{pourhomayoun2012spatial}, mobility and independance of partially-sighted or blind persons, etc.
-As GPS are not available indoor, and because relying on a network of fixed sensors (cameras, RFID) also raised many open questions, an appealing way to localize a body in space is to use odometry information measured by embedded interial measurement units (IMUs).
+motion monitoring, medical observation, accident monitoring \cite{pourhomayoun2012spatial}, mobility and independence of partially-sighted or blind persons, etc.
+As GPS are not available indoor, and because relying on a network of fixed sensors (cameras, RFID) also raised many open questions, an appealing way to localize a body in space is to use odometry information measured by embedded inertial measurement units (IMUs).
 In this context, while performing the integration it is mandatory to take into account the IMU bias.
 As the bias varies with time and conditions, it must be estimated on-line while processing the measurements.
 Furthermore, it is desirable that additional informations coming from other sensors can be integrated in the same estimation process.
@@ -28,7 +28,7 @@ Graphical methods have been extensively used to implement such fusion strategies
 They are well-suited to gather information from sensors
 and draw conclusions. The underlying principle is to consider that despite all the information gathered from the sensors, we still have uncertainties about the true state of the world due to imperfections of the sensors.
 Several states of the world can thus be considered as probable.
-Relying on probabilictic formulations is a way find out the most probable one. Furthermore, graphical representation are able to accurately model 
+Relying on probabilistic formulations is a way find out the most probable one. Furthermore, graphical representation are able to accurately model 
 complex estimation problems~\cite{koller2009probabilistic} in a versatile way. 
 
 Graphical models have been used for large modeling estimation problems by means of sparse networks of constraints and particularly in
@@ -40,14 +40,14 @@ In order to keep the problem tractable and maintain real-time performance a key 
 IMUs are challenging in this regard, as their high frequency measurement rate create large sets of data. 
 Pre-integration of IMU measurements helps to reduce the size of the graph by summarizing 100 to 1000 measures into a single pre-integrated Bayesian node~\cite{LUPTON-09}.
 Direct pre-integration leads to a dependency of the resulting node on the initial integration condition, implying to integrate again (and again) when an optimizer process the graph.
-It was later suggested to make this pre-integrated data independant from the initial state where it was computed~\cite{forster2015imu}.
-Consequently, the IMU measurements can simply be disgarded even when the initial ``pre-integration'' condition changes while the numerical solver optimized the maximum-likelihood trajectory.
+It was later suggested to make this pre-integrated data independent from the initial state where it was computed~\cite{forster2015imu}.
+Consequently, the IMU measurements can simply be disregarded even when the initial ``pre-integration'' condition changes while the numerical solver optimized the maximum-likelihood trajectory.
 
-\textit{Contibutions: }
+\textit{Contributions: }
 In this paper, we follow a similar methodology. We define a graphical model where pre-integrated data are added at key-frame instants (about 2Hz), summarizing IMU measurements captured at about 1kHz.
 The state that we want to estimate considers the position, orientation and linear velocity (dimension 9) of the IMU attached to the foot, along with the accelerometer and gyroscope biases (both varying in time -- dimension 6).
 We also implement the prior knowledge that the foot lands horizontally, by adding Bayesian nodes when the foot lands and takes off.
-This prior knowlegde make the considered state observable. 
+This prior knowledge make the considered state observable. 
 We then use a numerical solver to maximize the likelihood of the measurements and prior knowledge along the past trajectory in a sliding window. 
 
 A first contribution of this paper is to reformulate the method proposed in \cite{forster2015imu} from rotation matrix to quaternion representation
