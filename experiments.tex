@@ -38,8 +38,8 @@ navigation, zero-velocity constraints are imposed only on keyframes created duri
 
 As motion capture data are not used during the experiments, the system is not provided with enough information to be able to precisely estimate the vertical orientation of the IMU due to its non-observability from the IMU measurements directly. 
 As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
-In the following, we manually rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
-Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter as shown in \figRef{fig:straight_walk} and \figRef{fig:8shape_walk}.
+In the following, we manually translate the first estimated states to the initial reference one and rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
+Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:straight_walk} and \figRef{fig:8shape_walk}.
 Since using ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
 
 Besides, the experiment shows satisfying results in terms of computational times. Indeed, 0.19 seconds are enough to integrate all the data corresponding to a 50 seconds experiments, that is 4952 IMU data, and to optimize the graph each time a keyframe is created with our framework,
