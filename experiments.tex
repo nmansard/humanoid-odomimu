@@ -18,8 +18,10 @@ and zero velocity constraint factors in the initial keyframe. All the graph is o
 as a fixed prior for the optimizer, meaning that corresponding variables will not be estimated but considered as parameters. As a consequence, we need to be confident that timestamps detected as zero velocity instants really match static phases of the IMU. 
 Otherwise we would be imposing a hard constraint inducing a wrong estimate of the trajectory.
 
-In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU. Such strategy can be implemented with
-RFID sensors or more basically with visual odometry. In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
+In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU.
+This specific case is a common use of IMUs in fusion strategies to reduce the drift error due to IMU's biases. With a better estimation of its biases, the IMU can then be used to detect events related the human wearing the device.
+Such strategy can be implemented with RFID sensors or more basically with visual odometry. 
+In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
 navigation, zero-velocity constraints are imposed only on keyframes created during contact phases. Kinematic odometry is also added between all consecutive keyframes (see \figRef{fig:factor_graph}).
 
 %The parameters we need to calibrate for a correct integration are the IMU biases, on top of which we integrate the incoming IMU data.
@@ -42,9 +44,9 @@ In the following, we manually translate the first estimated states to the initia
 Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:straight_walk} and \figRef{fig:8shape_walk}.
 Since using ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
 
-Besides, the experiment shows satisfying results in terms of computational times. Indeed, 0.19 seconds are enough to integrate all the data corresponding to a 50 seconds experiments, that is 4952 IMU data, and to optimize the graph each time a keyframe is created with our framework,
-with a total of 7 keyframes. It would be hard, if not currently impossible, to get such results using the IMU without a proper pre-integration method.
-The optimization part is currently handled by Google Ceres optimizer~\cite{ceres-solver} using the sparse structure of the problem. All in all, it takes $39 \mu s$ to integrate a single IMU measurement and compute jacobians and run 7 optimizations.
+Besides, the experiment shows satisfying results in terms of computational times. Indeed, 3.1 seconds are enough to integrate all the data corresponding to a 50 seconds experiment, that is more than 5000 IMU data, to build and to optimize the graph each time a keyframe is created with our framework,
+with a total of 80 keyframes. It would be hard, if not currently impossible, to get such results using the IMU without a proper pre-integration method.
+The optimization part is currently handled by Google Ceres optimizer~\cite{ceres-solver} using the sparse structure of the problem. All in all, it takes $98 \mu s$ in average to read and integrate a single IMU measurement including the computation of jacobians.
 
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
