@@ -4,6 +4,27 @@
 
 %We describe the inertial-kinematic odometry for legged robots, based on a graph model. 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Quaternion rotations}
+
+We define the quaternion-by-vector product $\od$ so that
+%
+\begin{align}
+\bfq\od\bfv \te \bfq\ot\bfv\ot\bfq^*
+~,
+\end{align}
+%
+where $\bfq^*$ denotes the dual quaternion of $\bfq$. 
+The symbol $\ot$ stands for the product of quaternions and $\od$ corresponds to the quaternion-by-vector which performs a 3D rotation of an input vector $\bfv$. 
+Notice that if $\bfR$ is the rotation matrix equivalent to the quaternion $\bfq$, then 
+%
+$\bfq\od\bfv = \bfR\,\bfv$. 
+%
+This straightforward equivalence
+enables us to define all the forthcoming IMU pre-integration algebra in a way that allows a direct transcription between the $S^3$  and $SO(3)$ spaces of representation.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graph-based iterative optimization}
 
