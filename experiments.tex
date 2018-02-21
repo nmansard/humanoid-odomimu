@@ -41,8 +41,7 @@ navigation, zero-velocity constraints are imposed only on keyframes created duri
 As motion capture data are not used during the experiments, the system is not provided with enough information to be able to precisely estimate the vertical orientation of the IMU due to its non-observability from the IMU measurements directly. 
 As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
 In the following, we manually translate the first estimated states to the initial reference one and rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
-Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:straight_walk} and \figRef{fig:8shape_walk}.
-Since using ZUPT information only is not enough to observe the overall system, we can notice significant gyrometer biases.
+Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:8shape_walk}.
 
 Besides, the experiment shows satisfying results in terms of computational times. Indeed, 3.1 seconds are enough to integrate all the data corresponding to a 50 seconds experiment, that is more than 5000 IMU data, to build and to optimize the graph each time a keyframe is created with our framework,
 with a total of 80 keyframes. It would be hard, if not currently impossible, to get such results using the IMU without a proper pre-integration method.
@@ -81,28 +80,42 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 \label{fig:forward_walk_IRI}
 \end{figure}
 
-\begin{figure}[tb]
-\centering
-\includegraphics[scale=0.175]{figures/experiments/straight_walk/XY_XZ_viewsRotated.eps}
-\par\vspace{4mm}
-\includegraphics[scale=0.175]{figures/experiments/straight_walk/bias_orientation.eps}
-\caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used data recorded during straight walk phases. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
-The continuous green line is the ground truth as given by the motion capture system.
-{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
-}
-\label{fig:straight_walk}
-\end{figure}
+% \begin{figure}[tb]
+% \centering
+% \includegraphics[scale=0.175]{figures/experiments/straight_walk/XY_XZ_viewsRotated.eps}
+% \par\vspace{4mm}
+% \includegraphics[scale=0.175]{figures/experiments/straight_walk/bias_orientation.eps}
+% \caption{ 
+% {\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used data recorded during straight walk phases. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
+% The continuous green line is the ground truth as given by the motion capture system.
+% {\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
+% }
+% \label{fig:straight_walk}
+% \end{figure}
+
+% \begin{figure}[tb]
+% \centering
+% \includegraphics[scale=0.175]{figures/experiments/8shape/euclidean_err.eps}
+% \caption{ 
+% {\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. We used data recorded during straight walk phases. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
+% The continuous green line is the ground truth as given by the motion capture system.
+% {\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
+% }
+% \label{fig:8shape_walk_err}
+% \end{figure}
 
 \begin{figure}[tb]
 \centering
-\includegraphics[scale=0.175]{figures/experiments/8shape/XY_XZ_viewsRotated.eps}
+\includegraphics[scale=0.175]{figures/experiments/8shape/XY_XZ_viewsRotated2.eps}
 \par\vspace{4mm}
-\includegraphics[scale=0.175]{figures/experiments/8shape/bias_orientation.eps}
+\includegraphics[scale=0.175]{figures/experiments/8shape/bias_orientation2.eps}
+\par\vspace{4mm}
+\includegraphics[scale=0.170]{figures/experiments/8shape/euclidean_err.eps}
 \caption{ 
 {\bf Top}: trajectory estimation during human 8-shaped walking phases with an IMU attached to a foot. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
 The continuous green line is the ground truth as given by the motion capture system.
-{\bf Bottom}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them. 
+{\bf Middle}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them.
+{\bf Bottom}: Evolution of euclidean distance errors between estimates and the ground truth for this 8-shaped walking trajectory.
 }
 \label{fig:8shape_walk}
 \end{figure}
