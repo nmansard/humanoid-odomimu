@@ -50,9 +50,10 @@ The optimization part is currently handled by Google Ceres optimizer~\cite{ceres
 \subsubsection{State estimation using ZUPT and sensor fusion}
 
 The strength of the optimal estimation can also be found in the fusion strategies. 
-\figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the two cases: without and with the flying keyframe information. Adding kinematic information between keyframes enhances the observability of the system and allows to a better estimation.
-A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need of linearization of
-intermediate IMU data between previous and current estimates of the state on which the integration must be performed. We also notice that the use of a flying keyframe makes the bias estimation more stable.
+\figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the two cases: without and with the flying keyframe information. Adding kinematic information between keyframes enhances the observability of the system and allows to get a better estimation.
+%A major advantage of IMU's pre-integration theory is the ability to use past pre-integrations corrected with current estimates of keyframes and biases as simply as it takes to integrate a single IMU data. This removes the need of linearization of
+%intermediate IMU data between previous and current estimates of the state on which the integration must be performed. 
+%We also notice that the use of a flying keyframe makes the bias estimation more stable.
 
 % The MOCAP provides more controlled conditions for the kinematic measurements.
 % \figRef{fig:forward_walk_IRI} shows the reconstructed foot trajectories for the cases without the flying KF, and with the flying KF. We can observe a correct estimation only when the flying KF is added. Bias autocalibration is also more stable with the flying KF.
@@ -70,12 +71,13 @@ intermediate IMU data between previous and current estimates of the state on whi
 \begin{figure}[tb]
 \centering
 \includegraphics[scale=0.47]{figures/Result_position}
-\par\vspace{4mm}
-\includegraphics[scale=0.47]{figures/Result_bias}
+%\par\vspace{4mm}
+%\includegraphics[scale=0.47]{figures/Result_bias}
 \caption{ 
-{\bf Top}: trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: ground truth, 
+%{\bf Top}: 
+trajectory estimation during human walking with an IMU attached to a foot. Continuous, dashed and dashed-dot lines are respectively: ground truth, 
 estimation with zero velocity constraints only, estimation using zero velocity constraint and 1 odometry measurement during foot's flying phase. Odometry was here built from motion capture data.
-{\bf Bottom}: Evolution of corresponding estimated IMU biases 
+%{\bf Bottom}: Evolution of corresponding estimated IMU biases 
 }
 \label{fig:forward_walk_IRI}
 \end{figure}
@@ -108,13 +110,13 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 \centering
 \includegraphics[scale=0.175]{figures/experiments/8shape/XY_XZ_viewsRotated2.eps}
 \par\vspace{4mm}
-\includegraphics[scale=0.175]{figures/experiments/8shape/bias_orientation2.eps}
+\includegraphics[scale=0.175]{figures/experiments/8shape/bias.eps}
 \par\vspace{4mm}
 \includegraphics[scale=0.170]{figures/experiments/8shape/euclidean_err.eps}
 \caption{ 
 {\bf Top}: trajectory estimation during human 8-shaped walking phases with an IMU attached to a foot. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
 The continuous green line is the ground truth as given by the motion capture system.
-{\bf Middle}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them.
+{\bf Middle}: Evolution of estimated IMU biases. Biases are estimated only for keyframes and considered as constant between them.
 {\bf Bottom}: Evolution of euclidean distance errors between estimates and the ground truth for this 8-shaped walking trajectory.
 }
 \label{fig:8shape_walk}
