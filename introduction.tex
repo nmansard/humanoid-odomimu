@@ -15,15 +15,6 @@ Similarly to the strategies adopted in simultaneous localization and mapping (SL
 With these requirements coming from the context in mind, we propose to define an estimator based on graphical models, able to accurately and efficiently integrate inertial measurements while estimating the IMU biases. Thanks to the graphical model, the estimator will then be able to fuse additional measurements coming from other sensors or additional prior information provided by the application.
 The setup considered in this work  is a pedestrian walking on structured terrain (flat floor or stairs) with an IMU attached to one of his or her feet.
 
-%\TODO{Add cover figure}
-% \begin{figure}
-% \centering
-% \includegraphics[width=\linewidth]{./figures/cover-figure.pdf}
-% 	\caption{D(from \cite{Carpentier:ICRA:2016}).
-%  }
-% 	\label{fig:cover}
-% \end{figure}
-
 \textit{Methodology: }
 Graphical methods have been extensively used to implement such fusion strategies \cite{Thrun:ijrr:2006,Kaess:itro:2008}.
 They are well-suited to gather information from sensors
@@ -32,15 +23,15 @@ Several states of the world can thus be considered as probable.
 Relying on probabilistic formulations is a way to find out the most probable one. Furthermore, graphical representation are able to accurately model 
 complex estimation problems~\cite{koller2009probabilistic} in a versatile way. 
 
-Graphical models have been used for large modeling estimation problems by means of sparse networks of constraints and particularly in
-robotics where SLAM and visual odometry problems have reached a high degree of maturity in great part thanks to these tools.
-The graphical representation also allows for the design of powerful nonlinear estimation solvers, which can be built taking into account the needs for accuracy, 
-robustness and computational performances.
+%Graphical models have been used for large modeling estimation problems by means of sparse networks of constraints and particularly in
+%robotics where SLAM and visual odometry problems have reached a high degree of maturity in great part thanks to these tools.
+%The graphical representation also allows for the design of powerful nonlinear estimation solvers, which can be built taking into account the needs for accuracy, 
+%robustness and computational performances.
 
 In order to keep the problem tractable and maintain real-time performance, a key point is to prevent the graph from being too large given a time window.
 IMUs are challenging in this regard, as their high frequency measurement rate create large sets of data. 
-Pre-integration of IMU measurements helps to reduce the size of the underlying graph by squeezing 100 to 1000 measures into a single pre-integrated Bayesian node~\cite{LUPTON-09}.
-Direct pre-integration leads to a dependency of the resulting node on the initial integration conditions, implying to integrate again (and again) when an optimizer process the graph.
+Pre-integration of IMU measurements helps to reduce the size of the underlying graph by squeezing measures into a single pre-integrated Bayesian node~\cite{LUPTON-09}.
+Direct pre-integration leads to a dependency of the resulting node on the initial integration conditions, implying to integrate again (and again) when an optimizer processes the graph.
 It was later suggested to make this pre-integrated data independent from the initial state from which it was computed~\cite{forster2015imu}.
 Consequently, the IMU measurements can simply be disregarded even when the initial ``pre-integration'' conditions change while the numerical solver optimized the maximum-likelihood trajectory.
 
