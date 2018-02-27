@@ -16,10 +16,10 @@ Then, we will investigate the use of additional sensors to demonstrate the feasi
 Keyframes are created at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
 and zero velocity constraint factors in the initial keyframe. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes. Zero velocity constraints are applied 
 as a fixed prior for the optimizer, meaning that corresponding variables will not be estimated but considered as parameters. As a consequence, we need to be confident that timestamps detected as zero velocity instants really match static phases of the IMU. 
-Otherwise we would be imposing a hard constraint inducing a wrong estimate of the trajectory.
+Otherwise we would be imposing a constraint inducing a wrong estimate of the trajectory.
 
 In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU.
-This specific case is a common use of IMUs in fusion strategies to reduce the drift error due to IMU's biases. With a better estimation of its biases, the IMU can then be used to detect events related the human wearing the device.
+This specific case is a common use of IMUs in fusion strategies to reduce the drift error due to IMU's biases \cite{santamaria2015high}. With a better estimation of its biases, the IMU can then be used to detect events related the human wearing the device.
 Such strategy can be implemented with RFID sensors or more basically with visual odometry. 
 In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
 navigation, zero-velocity constraints are imposed only on keyframes created during contact phases. Kinematic odometry is also added between all consecutive keyframes (see \figRef{fig:factor_graph}).
