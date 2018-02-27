@@ -4,8 +4,8 @@
 Location of pedestrian in indoor environment remains an open problem.
 A cheap and reliable sensor in this context is the inertial measurement units (IMU), carried by the pedestrian while he/she is walking.
 However, due to the bias of both the accelerometer and the gyroscope, integrating directly the inertial measurements leads to tremendous drift, as the state of the system (position, orientation, velocity, bias) is not fully observable. 
-In this paper, we consider the specific case where an IMU is attached to one of the pedestrian's feet.
-We exploit specific prior knowledges (i.e. the fact that the foot lands at zero velocity on a horizontal plane) in order to make the full state of the IMU observable.
+In this paper, we consider the specific case of a foot-mounted IMU.
+We exploit specific prior knowledges (foot landing at zero velocity) in order to make the full state of the IMU observable.
 The inertial measurements and these prior knowledges are gathered in a graphical model (a factor graph), and are exploited to build a maximum-likelihood estimator.
 The technical difficulty is to handle the size of the graph such that it is tractable in a limited time window, that we do by relying on the pre-integration technique.
 In that existing framework, our contributions are to reformulate the pre-integration method using quaternions while giving a simpler algebraic formulation, and to apply this method for estimating the human foot-pose during walking.
