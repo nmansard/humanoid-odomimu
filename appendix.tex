@@ -128,72 +128,72 @@ It admits the closed form  \cite[pag.~40]{CHIRIKJIAN-12},
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Examples}
-
-\subsubsection{Function $\bbR^3\to S^3$} 
-\label{sec:jac_R3toSO3}
-
-The function $f(\bw) = \Exp(\bw\dt)$ produces elements of $S^3$ from vectors $\bw\in\bbR^3$. 
-Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtained from \eqRef{equ:Jr} and the chain rule,
-%
-\begin{align*}
-\dpar{\Exp(\bw\dt)}{\bw}
-= \dpar{\Exp(\bw\dt)}{(\bw\dt)}\dpar{(\bw\dt)}{\bw} 
-= \bfJ_r(\bw\dt)\dt
-~.
-\end{align*}
-%
-
-
-\subsubsection{Function $S^3\times\bbR^3\to\bbR^3$} 
-\label{sec:jac_SO3xR3toR3}
-
-The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv$ produces vectors of $\bbR^3$ from elements $\sR\in S^3$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
-%
-\begin{align*}
-\dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
-&\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
-= \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} 
-&= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
-= \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} 
-&= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} 
-= -\bfR\hatx{\bfv} 
-\end{align*}
-%
-where we used the properties $\Exp(\dth) \approx \bfI + \hatx{\dth}$ and  $\hatx{\bfa}\bfb = -\hatx{\bfb}\bfa$. 
-The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
-%
-\begin{align*}
-\dpar{\bfq\od\bfv}{\bfv} = \dpar{\bfR\bfv}{\bfv} 
-&\te \lim_{\partial\bfv\to0}\frac{\bfR\tdot(\bfv+\partial\bfv)-\bfR\bfv}{\partial\bfv} 
-= \bfR
-~.
-\end{align*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Function $S^3\times S^3\to S^3$}
-\label{sec:jac_SO3xSO3toSO3}
-
-The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bfR\bth)=\bfR\Exp(\bth)\bfR\tr$,
-%
-\begin{align*}
-\dpar{\bfq(\bftheta)\ot\bfr}{\bftheta} 
-=
-\dpar{\bfQ(\bftheta)\,\bfR}{\bftheta} 
-&= \lim_{\delta\bftheta\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\Exp(\delta\bftheta)\bfR)\big)}{\delta\bftheta} \\
-&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\bfR\tr\Exp(\delta\bftheta)\bfR\big)}{\delta\bftheta} \\
-&= \lim_{\delta\bftheta\to0}\frac{\Log\big(\Exp(\bfR\tr\delta\bftheta)\big)}{\delta\bftheta} 
-= \bfR\tr
-~,
-\\
-\dpar{\bfq\ot\bfr(\bfphi)}{\bfphi} 
-=
-\dpar{\bfQ\,\bfR(\bfphi)}{\bfphi} 
-&= \lim_{\delta\bfphi\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\bfR\Exp(\delta\bfphi))\big)}{\delta\bfphi} \\
-&= \lim_{\delta\bfphi\to0}\frac{\Log\big(\Exp(\delta\bfphi)\big)}{\delta\bfphi} 
-= \bfI
-~.
-\end{align*}
+% \subsection{Examples}
+% 
+% \subsubsection{Function $\bbR^3\to S^3$} 
+% \label{sec:jac_R3toSO3}
+% 
+% The function $f(\bw) = \Exp(\bw\dt)$ produces elements of $S^3$ from vectors $\bw\in\bbR^3$. 
+% Its Jacobian \wrt $\bw$ follows from \eqRef{equ:dif_RtoSO3}, but is better obtained from \eqRef{equ:Jr} and the chain rule,
+% %
+% \begin{align*}
+% \dpar{\Exp(\bw\dt)}{\bw}
+% = \dpar{\Exp(\bw\dt)}{(\bw\dt)}\dpar{(\bw\dt)}{\bw} 
+% = \bfJ_r(\bw\dt)\dt
+% ~.
+% \end{align*}
+% %
+% 
+% 
+% \subsubsection{Function $S^3\times\bbR^3\to\bbR^3$} 
+% \label{sec:jac_SO3xR3toR3}
+% 
+% The rotation $f(\sR,\bfv) = \bfq\od\bfv = \bfR\,\bfv$ produces vectors of $\bbR^3$ from elements $\sR\in S^3$ and vectors $\bfv\in\bbR^3$. The first Jacobian is defined by \eqRef{equ:jacobian_SO3_Rn} and developed as
+% %
+% \begin{align*}
+% \dpar{\bfq\od\bfv}{\bth} = \dpar{\bfR\bfv}{\bth} 
+% &\te \lim_{\delta\bth\to0}\frac{(\bfR\oplus\delta\bth)\bfv-\bfR\bfv}{\delta\bth} \\
+% = \lim_{\delta\bth\to0}\frac{\bfR\Exp(\delta\bth)\bfv-\bfR\bfv}{\delta\bth} 
+% &= \lim_{\delta\bth\to0}\frac{\bfR\tdot(\bfI+\hatx{\delta\bth})\bfv-\bfR\bfv}{\delta\bth} \\
+% = \lim_{\delta\bth\to0}\frac{\bfR\hatx{\delta\bth}\bfv}{\delta\bth} 
+% &= \lim_{\delta\bth\to0}\frac{-\bfR\hatx{\bfv}\delta\bth}{\delta\bth} 
+% = -\bfR\hatx{\bfv} 
+% \end{align*}
+% %
+% where we used the properties $\Exp(\dth) \approx \bfI + \hatx{\dth}$ and  $\hatx{\bfa}\bfb = -\hatx{\bfb}\bfa$. 
+% The second Jacobian is defined by \eqRef{equ:derivative_vector} and yields,
+% %
+% \begin{align*}
+% \dpar{\bfq\od\bfv}{\bfv} = \dpar{\bfR\bfv}{\bfv} 
+% &\te \lim_{\partial\bfv\to0}\frac{\bfR\tdot(\bfv+\partial\bfv)-\bfR\bfv}{\partial\bfv} 
+% = \bfR
+% ~.
+% \end{align*}
+% 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsubsection{Function $S^3\times S^3\to S^3$}
+% \label{sec:jac_SO3xSO3toSO3}
+% 
+% The function $f(\sQ,\sR) = \bfq\ot\bfr = \bfQ\,\bfR$ produces rotation composition. Its Jacobians are computed from \eqRef{equ:derivative_SO3}, using the property $\Exp(\bfR\bth)=\bfR\Exp(\bth)\bfR\tr$,
+% %
+% \begin{align*}
+% \dpar{\bfq(\bftheta)\ot\bfr}{\bftheta} 
+% =
+% \dpar{\bfQ(\bftheta)\,\bfR}{\bftheta} 
+% &= \lim_{\delta\bftheta\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\Exp(\delta\bftheta)\bfR)\big)}{\delta\bftheta} \\
+% &= \lim_{\delta\bftheta\to0}\frac{\Log\big(\bfR\tr\Exp(\delta\bftheta)\bfR\big)}{\delta\bftheta} \\
+% &= \lim_{\delta\bftheta\to0}\frac{\Log\big(\Exp(\bfR\tr\delta\bftheta)\big)}{\delta\bftheta} 
+% = \bfR\tr
+% ~,
+% \\
+% \dpar{\bfq\ot\bfr(\bfphi)}{\bfphi} 
+% =
+% \dpar{\bfQ\,\bfR(\bfphi)}{\bfphi} 
+% &= \lim_{\delta\bfphi\to0}\frac{\Log\big((\bfQ\bfR)\tr(\bfQ\bfR\Exp(\delta\bfphi))\big)}{\delta\bfphi} \\
+% &= \lim_{\delta\bfphi\to0}\frac{\Log\big(\Exp(\delta\bfphi)\big)}{\delta\bfphi} 
+% = \bfI
+% ~.
+% \end{align*}
 
 
 
