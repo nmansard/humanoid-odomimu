@@ -2,7 +2,7 @@
 
 \section{Conclusion}
 
-We have presented a method to measure foot movement during an IMU attached to the foot and exploit available knowledge extracted from the gait phases, such as zero velocity and IMU bias dynamics. 
+We have presented a method to measure foot movement during walking with an IMU attached to the foot and exploit available knowledge extracted from the gait phases, such as zero velocity and IMU bias dynamics. 
 Measurements and prior knowledge have been described in a graphical model where the full IMU state (position, orientation, velocity, bias) is observable. 
 We then used nonlinear optimization techniques based on factor graphs, which has proved to be a flexible and powerful fusion framework. For this, we have revised the IMU pre-integration theory, and proposed an implementation in the quaternions manifold, with simpler derivations than previous works, and with physical interpretations, which we believe go in the direction of improving the clarity of the method.
 Results showed that this estimation method is able to properly estimate the bias, then leading to an accurate odometry where the drift remains reasonable, even after minutes of integration. 
