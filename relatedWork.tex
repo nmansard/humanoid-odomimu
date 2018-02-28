@@ -27,17 +27,16 @@ Various strategies can be considered to improve the localization results of foot
 %a specific user and motion types. 
 Prior information can be exploited when merging the measurements of several IMUs, for example relative to the maximum step length the pedestrian could do when using two foot-mounted IMUs~\cite{skog2012fusing}.
 %Thus the inequality constraints limit the distance between both IMUs to give better position estimation results when compared to sinle foot-mounted IMU solution.
-
 Fusion strategies with information coming from different sensors can also be used to improve localization results as it is already done
- in robotics: GPS information~\cite{hide2012investigating},% received signal strength indicator (RSSI) from wireless communication~\cite{malyavej2013indoor} using wireless local area networks or radio-frequency identification (RFID) 
+ in robotics: GPS information~\cite{hide2012investigating},
+ % received signal strength indicator (RSSI) from wireless communication~\cite{malyavej2013indoor} using wireless local area networks or radio-frequency identification (RFID) 
   tags placed at known locations~\cite{ruiz2012accurate} along with other drift reduction methods such as zero velocity updates, zero angular-rate updates (ZARU) and the use of magnetometers.
 Using these strategies might be a successful solution to overcome the drift observed in methods using IMU.% and to obtain positioning errors of approximately 1.5 m~\cite{ruiz2012accurate}.
 %In \cite{chdid2011inertial}, a foot-mounted IMU is fused with a waist-mounted visual odometry system to update the state of the system composed of its position, velocity and acceleration.
 %This last system was used recently~\cite{pierce2016incorporation} to design a fusion strategy requiring measurements only once per human step instead of every time step.
-
-More information can be structured into a map following a SLAM approach~\cite{angermann2012footslam}, leading to a bounded error growth to 1 meter. This FootSLAM uses dynamic Bayesian network and loop-closure strategies.
-The idea exploited here is to use the normal human behavior 
-consisting on relying on visual information to guide the motion and avoid obstacles.
+ More information deduced from normal human behavior can be structured into a map following a SLAM approach~\cite{angermann2012footslam} using dynamic Bayesian network and loop-closure strategies, leading to a bounded error growth to 1 meter.
+%This FootSLAM uses dynamic Bayesian network and loop-closure strategies.
+%The idea exploited here is to use the normal human behavior consisting on relying on visual information to guide the motion and avoid obstacles.
 %FootSLAM's idea gave birth to several variants for use in different conditions or slightly different purposes (\cite{puyol2012complexity,bruno2011wislam}).
 %Hardegger et al. use contextual information to body-mounted IMUs with a FastSLAM-base implementationin ActionSLAM, landmarks being location-related actions \cite{hardegger2012actionslam}. 
 %A foot-mounted IMU is then used not only for inertial navigation purposes but also as a landmark observation system through action recognition strategies by applying machine learning techniques for motion classification.
