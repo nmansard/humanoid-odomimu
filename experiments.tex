@@ -15,11 +15,12 @@ Then, we will investigate the use of additional sensors to demonstrate the feasi
 
 Keyframes are created at the beginning and ending of each support phase of the selected foot according to ZUPT detection provided by the dataset. Factors active in the graph (see \figRef{fig:factor_graph}) are: initial position and yaw; zero velocity, bias drift, and IMU pre-integration. We only use the bias magnitude 
 and zero velocity constraint factors in the initial keyframe. All the graph is optimized after each keyframe creation so that these estimates can be used for future estimations with new keyframes. Zero velocity constraints are applied 
-as a fixed prior for the optimizer, meaning that corresponding variables will not be estimated but considered as parameters. As a consequence, we need to be confident that timestamps detected as zero velocity instants really match static phases of the IMU. 
-Otherwise we would be imposing a constraint inducing a wrong estimate of the trajectory.
+as a fixed prior for the optimizer, meaning that corresponding variables will not be estimated but considered as parameters. 
+As a consequence, Timestamps detected as zero velocity instants should really match static phases of the IMU. 
+%Otherwise we would be imposing a constraint inducing a wrong estimate of the trajectory.
 
-In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two frames at a frequency that is lower than IMU.
-This specific case is a common use of IMUs in fusion strategies to reduce the drift error due to IMU's biases \cite{santamaria2015high}. With a better estimation of its biases, the IMU can then be used to detect events related the human wearing the device.
+In order to show how interesting fusion strategies can be, we simulate the use of an odometry sensor providing the displacement of the foot between two keyframes.
+This specific case is a common use of IMUs in fusion strategies to reduce the drift error due to IMU's biases \cite{santamaria2015high}. %With a better estimation of its biases, the IMU can then be used to detect events related the human wearing the device.
 Such strategy can be implemented with RFID sensors or more basically with visual odometry. 
 In our case, we use motion capture information to reconstruct odometry between consecutive keyframes, allowing us to create keyframes during the flying phases of the foot. As in the usual ZUPT-aided inertial
 navigation, zero-velocity constraints are imposed only on keyframes created during contact phases. Kinematic odometry is also added between all consecutive keyframes (see \figRef{fig:factor_graph}).
@@ -38,8 +39,9 @@ navigation, zero-velocity constraints are imposed only on keyframes created duri
 \subsection{Results}
 \subsubsection{State estimation using ZUPT only}
 
-As motion capture data are not used during the experiments, the system is not provided with enough information to be able to precisely estimate the vertical orientation of the IMU due to its non-observability from the IMU measurements directly. 
-As a consequence, the estimation of the state of the foot is not able to converge to its real value. In other words, the foot trajectory can be recovered up to a rotation around the gravity axis. 
+
+As motion capture data are not used during the experiments, the system is not given enough information to estimate the yaw orientation of the IMU due to its non-observability from the IMU measurements directly. 
+As a consequence, the foot trajectory can be recovered up to a rotation around the gravity axis. 
 In the following, we manually translate the first estimated states to the initial reference one and rotate the estimated trajectories in order to compare our results against the ground-truth measurements.
 Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:8shape_walk}.
 
