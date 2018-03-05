@@ -74,14 +74,14 @@ These operators are defined for both $\bfq$ and $\bfR$,
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The four possible derivative definitions}
 
-For functions $f:\bbR^m\to\bbR^n$, the derivative is defined classically using the standard operators $\{+,-\}$,
+For functions $f:\bbR^m\to\bbR^n$, $g:S^3\to S^3$, $h:\bbR^m \to S^3$, and $k:S^3\to\bbR^n$, the derivative are defined respectively using the operators $\{+,-\}$, $\{\oplus,\ominus\}$, $\{+,\ominus\}$ and $\{\oplus,-\}$:
 %
 \begin{align}\label{equ:derivative_vector}
 \dpar{f(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0}\frac{f(\bfx+\delta\bfx)-f(\bfx)}{\delta\bfx} &&\in \bbR^{n\times m} 
 ~;
 \end{align}
 %
-for functions $g:S^3\to S^3$, we use the operators $\{\oplus,\ominus\}$,
+%for functions $g:S^3\to S^3$, we use the operators $\{\oplus,\ominus\}$,
 %
 \begin{align}\label{equ:derivative_SO3}
 \dpar{g(\sR)}{\bth} 
@@ -89,22 +89,19 @@ for functions $g:S^3\to S^3$, we use the operators $\{\oplus,\ominus\}$,
 ~;
 \end{align}
 %
-for functions $h:\bbR^m \to S^3$, we use $\{+,\ominus\}$,
+%for functions $h:\bbR^m \to S^3$, we use $\{+,\ominus\}$,
 %
 \begin{align}\label{equ:dif_RtoSO3}
 \dpar{h(\bfx)}{\bfx} &\te \lim_{\delta\bfx\to0} \frac{ h(\bfx+\delta\bfx)\ominus h(\bfx)}{\delta\bfx} && \in \bbR^{3\times m} 
 ~;
 \end{align}
 %
-and for functions $k:S^3\to\bbR^n$, we use $\{\oplus,-\}$,
+%and for functions $k:S^3\to\bbR^n$, we use $\{\oplus,-\}$,
 %
 \begin{align}\label{equ:jacobian_SO3_Rn}
 \dpar{k(\sR)}{\bth} &\te \lim_{\delta\bth\to0} \frac{k(\sR\oplus\delta\bth) - k(\sR)}{\delta\bth} && \in \bbR^{n\times 3} 
 ~.
 \end{align}
-%
-It might be worth noticing that all these Jacobians are independent of the representation chosen ($S^3$ or $SO(3)$).
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Right Jacobian of $S^3$ and $SO(3)$}
