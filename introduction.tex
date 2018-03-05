@@ -3,25 +3,24 @@
 \section{Introduction}\label{sec:intro}
 
 \textit{Context: }
-Indoor person localization is an open challenge in various situations: location-based life improving services,
-firefighters localization and navigation, patients tracking 
-motion monitoring, medical observation, accident monitoring, mobility and independence of partially-sighted or blind persons, etc.
+Indoor person localization is an open challenge in various situations: 
+medical observation, accident monitoring, mobility and independence of partially-sighted or blind persons, etc.
 As GPS are not available indoor, and because relying on a network of fixed sensors (cameras, RFID) also raised many open questions, an appealing way to localize a body in space is to use odometry information measured by embedded inertial measurement units (IMUs).
-In this context, while performing the integration it is mandatory to take into account the IMU biases.
-As the biases vary with time and physical conditions, it must be estimated on-line while processing the measurements.
-Furthermore, it is desirable that additional information coming from other sensors can be integrated in the same estimation process.
-Similarly to the strategies adopted in simultaneous localization and mapping (SLAM), sparse measurements or additional information (e.g. coming from intermittent absolute localization, or from a sparse sensor network) would benefit to the localization process when available.
+%In this context, while performing the integration it is mandatory to take into account the IMU biases.
+In this context, as the IMU biases vary with time and physical conditions, it must be estimated on-line while integrating the measurements.
+%Furthermore, it is desirable that additional information coming from other sensors can be integrated in the same estimation process.
+Furthermore, similarly to the strategies adopted in simultaneous localization and mapping (SLAM), sparse measurements or additional information (e.g. coming from absolute localization, or from a sparse sensor network) would benefit to the localization process when available.
 %State estimation using both inertial sensor and localization information coming from optical flow smart cameras and compensated with estimated biases is investigated in \cite{santamaria2015high} with Kalman filters.
-With these requirements coming from the context in mind, we propose to define an estimator based on graphical models, able to accurately and efficiently integrate inertial measurements while estimating the IMU biases. Thanks to the graphical model, the estimator will then be able to fuse additional measurements coming from other sensors or additional prior information provided by the application.
-The setup considered in this work  is a pedestrian walking on structured terrain (flat floor or stairs) with an IMU attached to one of his or her feet.
+With these requirements in mind, we propose to define an estimator based on graphical models, able to accurately and efficiently use measurements from IMUs and other sensors while estimating the IMU biases. %Thanks to the graphical model, the estimator will then be able to fuse additional measurements coming from other sensors or additional prior information provided by the application.
+The setup considered in this work  is a pedestrian walking on structured terrain (flat floor) with an IMU attached to one of his or her feet.
 
 \textit{Methodology: }
 Graphical methods have been extensively used to implement such fusion strategies \cite{Thrun:ijrr:2006,Kaess:itro:2008}.
 They are well-suited to gather information from sensors
 and draw conclusions. The underlying principle is to consider that despite all the information gathered from the sensors, we still have uncertainties about the true state of the world due to imperfections of the sensors.
 Several states of the world can thus be considered as probable.
-Relying on probabilistic formulations is a way to find out the most probable one. Furthermore, graphical representation are able to accurately model 
-complex estimation problems~\cite{koller2009probabilistic} in a versatile way. 
+Relying on probabilistic formulations is a way to find out the most probable one. 
+%Furthermore, graphical representation are able to accurately model complex estimation problems~\cite{koller2009probabilistic} in a versatile way. 
 
 %Graphical models have been used for large modeling estimation problems by means of sparse networks of constraints and particularly in
 %robotics where SLAM and visual odometry problems have reached a high degree of maturity in great part thanks to these tools.
@@ -38,15 +37,14 @@ Consequently, the IMU measurements can simply be disregarded even when the initi
 \textit{Contributions: }
 In this paper, we follow a similar methodology. We define a graphical model where pre-integrated data are added at key-frame instants (about 2Hz), summarizing IMU measurements captured at about 1kHz.
 The state that we want to estimate considers the position, orientation and linear velocity (dimension 9) of the IMU attached to the foot, along with the time-varying accelerometer and gyroscope biases (dimension 6).
-We also implement the prior knowledge that the foot lands horizontally, by adding Bayesian nodes when the foot lands and takes off.
-This prior knowledge make the considered state observable. 
+We also implement the prior knowledge that the foot lands with zero velocity by adding Bayesian nodes to make the considered state observable. 
 We then use a numerical solver to maximize the likelihood of the measurements and prior knowledge along the past trajectory in a sliding window. 
 
 The first contribution of this paper is to reformulate the pre-integration method introduced in~\cite{forster2015imu} using quaternion representation
 and to give a detailed and simpler algebraic derivation.
-The second contribution is to apply this method for estimating the human foot-pose during walking.
-To this end, we build a graphical model formulation of the problem by gathering information.
-Once the formulation is completed, a non-linear least squares optimizer is used to solve the problem and find the most probable solution in the least-square sense~\cite{ceres-solver}.
+The second contribution is to apply this method for estimating the human foot-pose during walking by gathering information in a graphical model formulation of the problem.
+%To this end, we build a graphical model formulation of the problem by gathering information.
+A non-linear least squares optimizer is then used to solve the problem and find the most probable solution.
 %% We describe the implementation of this pre-integration scheme in a software implementation of the graphical method.
 %% %This implementation would allow to simply add different sensor or additional priors for fusion strategies.
 %% We compare the level of accuracy obtained with this method against other methods classicaly used in pedestrian localization.
