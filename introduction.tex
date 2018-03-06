@@ -7,7 +7,7 @@ Indoor person localization is an open challenge in various situations:
 medical observation, accident monitoring, mobility and independence of partially-sighted or blind persons, etc.
 As GPS are not available indoor, and because relying on a network of fixed sensors (cameras, RFID) also raised many open questions, an appealing way to localize a body in space is to use odometry information measured by embedded inertial measurement units (IMUs).
 %In this context, while performing the integration it is mandatory to take into account the IMU biases.
-In this context, as the IMU biases vary with time and physical conditions, it must be estimated on-line while integrating the measurements.
+In this context, as the IMU biases vary with time and physical conditions, they must be estimated on-line while integrating the measurements.
 %Furthermore, it is desirable that additional information coming from other sensors can be integrated in the same estimation process.
 Furthermore, similarly to the strategies adopted in simultaneous localization and mapping (SLAM), sparse measurements or additional information (e.g. coming from absolute localization, or from a sparse sensor network) would benefit to the localization process when available.
 %State estimation using both inertial sensor and localization information coming from optical flow smart cameras and compensated with estimated biases is investigated in \cite{santamaria2015high} with Kalman filters.
@@ -29,9 +29,9 @@ Relying on probabilistic formulations is a way to find out the most probable one
 
 In order to keep the problem tractable and maintain real-time performance, a key point is to prevent the graph from being too large given a time window.
 IMUs are challenging in this regard, as their high frequency measurement rate create large sets of data. 
-Pre-integration of IMU measurements helps to reduce the size of the underlying graph by squeezing measures into a single pre-integrated Bayesian node~\cite{LUPTON-09}.
+Pre-integration of IMU measurements helps to reduce the size of the underlying graph by squeezing measures into a single pre-integrated Bayesian node.
 Direct pre-integration leads to a dependency of the resulting node on the initial integration conditions, implying to integrate again (and again) when an optimizer processes the graph.
-It was later suggested to make this pre-integrated data independent from the initial state from which it was computed~\cite{forster2015imu}.
+In~\cite{LUPTON-09} it was suggested to make this pre-integrated data independent from the initial state from which it was computed. In~\cite{forster2015imu}, the initial formulation using Euler angles was adapted and improved to the $SO(3)$ manifold.
 Consequently, the IMU measurements can simply be disregarded even when the initial ``pre-integration'' conditions change while the numerical solver optimized the maximum-likelihood trajectory.
 
 \textit{Contributions: }
@@ -40,11 +40,11 @@ The state that we want to estimate considers the position, orientation and linea
 We also implement the prior knowledge that the foot lands with zero velocity by adding Bayesian nodes to make the considered state observable. 
 We then use a numerical solver to maximize the likelihood of the measurements and prior knowledge along the past trajectory in a sliding window. 
 
-The first contribution of this paper is to reformulate the pre-integration method introduced in~\cite{forster2015imu} using quaternion representation
-and to give a detailed and simpler algebraic derivation.
-The second contribution is to apply this method for estimating the human foot-pose during walking by gathering information in a graphical model formulation of the problem.
+In this paper we reformulate the pre-integration method introduced in~\cite{forster2015imu}, using indistinctly the quaternion and rotation matrix representations,
+and provide a detailed and simpler algebraic derivation.
+Then we apply this method for estimating the human foot-pose during walking by gathering information in a graphical model formulation of the problem.
 %To this end, we build a graphical model formulation of the problem by gathering information.
-A non-linear least squares optimizer is then used to solve the problem and find the most probable solution.
+A non-linear least squares optimizer is used to solve the problem and find the most probable solution.
 %% We describe the implementation of this pre-integration scheme in a software implementation of the graphical method.
 %% %This implementation would allow to simply add different sensor or additional priors for fusion strategies.
 %% We compare the level of accuracy obtained with this method against other methods classicaly used in pedestrian localization.

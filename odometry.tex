@@ -28,50 +28,10 @@ enables us to define all the forthcoming IMU pre-integration algebra in a way th
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Graph-based iterative optimization}
 
-In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the edges, called factors, represent the geometrical constraints that link between variables produced by the measurements.
-%
-The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and in our case it includes foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes along the trajectory (see \figRef{fig:factor_graph}).
-%
-For each factor, we can define an error or a residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expectation given the involved state variables,
-%
-\begin{equation}
-    \bfr(\bfx) = h(\bfx) + \bfv - \bfz, \qquad \bfv \sim \mathcal \cN (0, \bfOmega\inv)\label{eq:error}
-\end{equation}
-%
-being $h(\bfx)$ the sensor measurement model and $\bfOmega$ the information matrix of the measurement Gaussian noise $\bfv$.
-Importantly, the functions $h(\bfx)$ and $\bfr(\bfx)$ are very sparse, since only a small handful of blocks of $\bfx$ are involved in each factor, which results in a loosely connected graph.
-In case of variables defined on manifolds, such as quaternions or rotation matrices, we must rewrite~\eqref{eq:error} as \mbox{$\bfr(\bfx) = (h(\bfx) \oplus \bfv) \ominus \bfz$}.
-%, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. 
-The $\oplus$ and $\ominus$ symbols correspond to the addition and subtraction operators on the manifold
-%, as required for certain state blocks intervening in the factor 
-(see \eg~Eq.~\eqRef{equ:imu_residual} in \secRef{sec:imu}, or Eq.~\eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
-
-The maximum a posteriori estimation is obtained by iteratively minimizing the Mahalanobis squared norm of all linearized errors
-%
-\begin{align}
-  \Delta \bfx^* &= \argmin_{\Delta \bfx} \sum_k \norm{ \bfr_k(\breve\bfx) + \bfJ_k \Delta \bfx }_{\bfOmega_k^{-1}}^2 \label{eq:LeastSquares}
-\end{align}
-%
-being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual $\bfr_k(\bfx)$ (with \mbox{$\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$} in the case of variables lying on a manifold) and $\bfOmega_k$ is the information matrix of the $k$-th measurement.
-%
-Current methods use the Cholesky~\cite{Kummerle_icra11,ila_ijrr17} or the QR~\cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is then used to update the current state estimate. 
-The process is iterated until convergence.
-%
-Incremental methods~\cite{ila_ijrr17,Kaess_ijrr11} update the problem directly on the factorized matrices, obtaining important speed-ups.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%Estimation is realized with a tool in ongoing development \textbf{(cite WOLF ?)} and using Google Ceres non-linear least squares optimizer. This optimization is run on data given by the front-end part of the framework,
-%which aim is to formalize the problem according to the graph-based model for aforementioned reasons. This representation, illustrated in \figRef{fig:factor_graph}, 
-%gives a human-readable way to easily visualize optimized states (circles) linked to constraining information during the optimization process (factors drawn as squares). Constraints are set by the front-end process using measurements from sensors.
-%Thus, it is possible to constrain states with several factors provided by different sensors leading to a fusion. Factor play a key role since they are used on top of previous states to predict next ones and compute the error with the current states.
-%The optimal states are computed so that the overall residual is minimized in a least squares meaning.
-
 
 \begin{figure}[tb]
 \centering
-\includegraphics[scale=0.65]{figures/graph_exploded}
+\includegraphics[scale=0.5]{figures/graph_exploded}
 \caption{
 %{\bf Top}: 
 Detailed factor graph for the initial keyframe and two steps. 
@@ -86,6 +46,47 @@ Detailed factor graph for the initial keyframe and two steps.
 }
 \label{fig:factor_graph}
 \end{figure}
+
+
+In graph-based optimization, the problem is represented as a graph, where the nodes refer to the variables, and the edges, called factors, represent the geometrical constraints between variables, produced by the measurements.
+%
+The state $\bfx$ is modeled as a multi-variate Gaussian distribution, and in our case it includes foot poses and velocities $(\bfp,\bfq,\bfv)$ and IMU biases $(\bfa_b,\bw_b)$ at selected keyframes along the trajectory (see \figRef{fig:factor_graph}).
+%
+For each factor, we can define an error or a residual $\bfr$ as the discrepancy between a measurement $\bfz$ and its expected value given the involved state variables,
+%
+\begin{equation}
+    \bfr(\bfx) = h(\bfx) + \bfn - \bfz, \qquad \bfn \sim \mathcal \cN (0, \bfOmega\inv)\label{eq:error}
+\end{equation}
+%
+being $h(\bfx)$ the sensor measurement model and $\bfOmega$ the information matrix of the measurement Gaussian noise $\bfn$.
+Importantly, the functions $h(\bfx)$ and $\bfr(\bfx)$ are very sparse, since only a small handful of blocks of $\bfx$ are involved in each factor, which results in a loosely connected graph.
+In case of variables defined on manifolds, such as quaternions or rotation matrices, we must rewrite~\eqref{eq:error} as \mbox{$\bfr(\bfx) = (h(\bfx) \oplus \bfn) \ominus \bfz$}.
+%, with $\bfJ_k = \partial (h_k(\bfx)\ominus\bfz_k)/\partial \Delta \bfx$. 
+The $\oplus$ and $\ominus$ symbols correspond to the addition and subtraction operators on the manifold
+%, as required for certain state blocks intervening in the factor 
+(see \eg~Eq.~\eqRef{equ:imu_residual} in \secRef{sec:imu}, or Eq.~\eqsRef{equ:plus_q}{equ:minus_R} in \appRef{sec:derivatives_SO3}).
+
+The maximum a posteriori estimation is obtained by iteratively minimizing the Mahalanobis squared norm of all linearized errors
+%
+\begin{align}
+  \Delta \bfx^* &= \argmin_{\Delta \bfx} \sum_k \norm{ \bfr_k(\breve\bfx) + \bfJ_k \Delta \bfx }_{\bfOmega_k^{-1}}^2 \label{eq:LeastSquares}
+\end{align}
+%
+being $\breve\bfx$ the state estimate at the current iteration, and $\bfJ_k$ the Jacobian of the $k$-th residual $\bfr_k(\bfx)$ (with \mbox{$\bfJ_k = \partial \bfr_k(\bfx)/\partial \Delta \bfx$} in the case of variables lying on a manifold) and $\bfOmega_k$ is the information matrix of the $k$-th measurement.
+%
+Current methods use the Cholesky~\cite{Kummerle_icra11,ila_ijrr17} or the QR~\cite{Dellaert_ijrr06,Kaess_ijrr11} matrix factorizations to solve for $\Delta\bfx^*$, which is then used to update the current state estimate. 
+The process is iterated until convergence.
+%
+Incremental methods~\cite{ila_ijrr17,Kaess_ijrr11} update the problem directly on the factorized matrices, obtaining important speed-ups.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%Estimation is realized with a tool in ongoing development \textbf{(cite WOLF ?)} and using Google Ceres non-linear least squares optimizer. This optimization is run on data given by the front-end part of the framework,
+%which aim is to formalize the problem according to the graph-based model for aforementioned reasons. This representation, illustrated in \figRef{fig:factor_graph}, 
+%gives a human-readable way to easily visualize optimized states (circles) linked to constraining information during the optimization process (factors drawn as squares). Constraints are set by the front-end process using measurements from sensors.
+%Thus, it is possible to constrain states with several factors provided by different sensors leading to a fusion. Factor play a key role since they are used on top of previous states to predict next ones and compute the error with the current states.
+%The optimal states are computed so that the overall residual is minimized in a least squares meaning.
 
 
 

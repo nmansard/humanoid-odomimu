@@ -6,13 +6,14 @@ Person localization using a foot-mounted IMU was first introduced in \cite{hutch
 %Since then, many developments have been made to find alternative ways to accurately localize people.
 Pedestrian Dead Reckoning (PDR) methods (aka Personal Navigation Devices), make use of one or more IMU installed on the body of the subject.
 The main idea of PDR techniques is to integrate inertial measurements with Zero Velocity Update (ZUPT) constraints to reduce errors \cite{ojeda2007personal}.
-This work is extensively used in IMU-based human localization works and various fields~\cite{kwanmuang2015phd} analyzes the gait of a walking person 
+This is extensively used in IMU-based human localization works.
+\cite{kwanmuang2015phd} analyzes the gait of a walking person 
 with PDR method to measure stride length.
 % \cite{jin2011robust} uses multiple dead-reckoning systems on a single human 
 % agent and constraints on relative displacements of each system to others with respect to the center of motion to create a tracking system
 % greatly reducing errors when compared to a traditional dead-reckoning method. 
 Shoe-mounted IMU is still considered as a possible way to
-accurately localize persons in an indoor environment due to lower drift errors when compared to body-mounted solutions \cite{groves2007inertial} . 
+accurately localize persons in indoor environments due to lower drift errors when compared to body-mounted solutions \cite{groves2007inertial} . 
 %One way to understand why foot-mounted IMU is prefered to other alternatives may be given by \cite{groves2007inertial} 
 %comparing body-mounted and foot-mounted based PDR methods. 
 %Both systems had similar performances considering the position error, being lower than 10 m for 60 seconds experiments. However, the foot-mounted shown drifts as results were compared
@@ -43,7 +44,7 @@ Using these strategies might be a successful solution to overcome the drift obse
 %The main idea behing ActionSLAM is to consider that some specific actions are done only at some specific locations on the map. Results tend to show that using both foot-mounted and wrist-mounted IMUs
 %is giving results that are robust enough for indoor applications.
 
-Previously cited examples tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU's data. 
+The previous  examples tend to show how important it is for pedestrian inertial navigation system to be able to deal with the localization drifts due to the integration of IMU data. 
 %Two different methods have been aforementionned to reach this goal : fusion strategies using different complementary sensors and IMU only based methods using specificities
 %of human behavior (walking patterns, action recognition, contextual information).
 From this analysis, we see that two important aspects have been investigated to solve pedestrian localization: i) exploiting some specificities of human behavior with the inertial measurements as prior knowledge and ii) fusing IMU with additional complementary sensors.
