@@ -44,6 +44,29 @@ In the following, we manually translate the first estimated states to the initia
 Our system is able to estimate the state of the system to a precision close to the state-of-the-art 9-state Kalman filter \cite{foxlin2005pedestrian} as shown in \figRef{fig:8shape_walk}.
 Results of bias estimation using another dataset provided by the DLR are given in \figRef{fig:curve_walk}.
 
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.3]{figures/experiments/8shape/XY_XZ_viewsRotated2.eps}
+\par\vspace{4mm}
+\includegraphics[scale=0.3]{figures/experiments/8shape/euclidean_err.eps}
+\caption{ 
+{\bf Top}: trajectory estimation during human 8-shaped walking phases with an IMU attached to a foot. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
+The continuous green line is the ground truth as given by the motion capture system.
+{\bf Middle}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them.
+{\bf Bottom}: Evolution of euclidean distance errors between estimates and the ground truth for this 8-shaped walking trajectory.
+}
+\label{fig:8shape_walk}
+\end{figure}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[scale=0.29]{figures/experiments/8shape/bias_orientation2.eps}
+\caption{ 
+Evolution of estimated IMU biases and orientation of the device during a curved walk. Biases are estimated only for keyframes and considered as constant between them.
+}
+\label{fig:curve_walk}
+\end{figure}
+
 Besides, the experiment shows satisfying results in terms of computational times. Indeed, 3.1 seconds are enough to integrate all the data corresponding to a 50 seconds experiment, that is more than 5000 IMU data, to build and to optimize the graph each time a keyframe is created with our framework,
 with a total of 80 keyframes. It would be hard, if not currently impossible, to get such results using the IMU without a proper pre-integration method.
 The optimization part is currently handled by Google Ceres optimizer~\cite{ceres-solver} using the sparse structure of the problem. All in all, it takes $98 \mu s$ in average to read and integrate a single IMU measurement including the computation of jacobians.
@@ -104,29 +127,6 @@ estimation with zero velocity constraints only, estimation using zero velocity c
 % }
 % \label{fig:8shape_walk_err}
 % \end{figure}
-
-\begin{figure}[tb]
-\centering
-\includegraphics[scale=0.3]{figures/experiments/8shape/XY_XZ_viewsRotated2.eps}
-\par\vspace{4mm}
-\includegraphics[scale=0.3]{figures/experiments/8shape/euclidean_err.eps}
-\caption{ 
-{\bf Top}: trajectory estimation during human 8-shaped walking phases with an IMU attached to a foot. Stars in blue and red colors are respectively the reference estimated states provided in the dataset and the estimation with our approach.
-The continuous green line is the ground truth as given by the motion capture system.
-{\bf Middle}: Evolution of estimated IMU biases and orientation of the device. Biases are estimated only for keyframes and considered as constant between them.
-{\bf Bottom}: Evolution of euclidean distance errors between estimates and the ground truth for this 8-shaped walking trajectory.
-}
-\label{fig:8shape_walk}
-\end{figure}
-
-\begin{figure}[tb]
-\centering
-\includegraphics[scale=0.3]{figures/experiments/8shape/bias_orientation2.eps}
-\caption{ 
-Evolution of estimated IMU biases and orientation of the device during a curved walk. Biases are estimated only for keyframes and considered as constant between them.
-}
-\label{fig:curve_walk}
-\end{figure}
 
 % We fix the trajectory estimation problem by adding odometry information during foot's flying phase. However, we cannot fix any other conditions making velocity and bias observation possible hence all parameters of the state vector are estimated.
 % This added KeyFrame reduces the integration time since last state optimization making bias random walk variation less critical on estimation. As we can see, results are much better and closer to MOCAP's ground truth as we could expect.
