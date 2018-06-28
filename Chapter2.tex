@@ -1,0 +1,84 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+\ifdefined\included
+\else
+\documentclass[a4paper,11pt,twoside]{StyleThese}
+\include{formatAndDefs}
+\sloppy
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+\usepackage{graphicx} % for pdf, bitmapped graphics files
+\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{color}
+\usepackage{bm} 
+\usepackage{customCommandsECC}
+
+%\usepackage[pdflatex]{hyperref}
+
+% More macros
+\newcommand{\bw}{{\bfomega}}
+\newcommand{\bth}{{\bftheta}}
+\newcommand{\bphi}{{\bfphi}}
+\newcommand{\nth}{\norm{\bth}}
+\newcommand{\ab}{{\bfa_b}}
+\newcommand{\wb}{{\bw_b}}
+\newcommand{\D}{\Delta}
+\newcommand{\Dzero}{{\D^0}}
+\newcommand{\Dp}{{\D\bfp}}
+\newcommand{\Dv}{{\D\bfv}}
+\newcommand{\Dth}{{\D\bth}}
+\newcommand{\Dq}{{\D\bfq}}
+\newcommand{\DR}{{\D\bfR}}
+\newcommand{\DP}{{\D\bfP}}
+\newcommand{\DV}{{\D\bfV}}
+\newcommand{\DTH}{{\D\bfTheta}}
+\newcommand{\Dw}{{\D\bw}}
+\newcommand{\DW}{{\D\bfOmega}}
+\newcommand{\dpp}{{\delta\bfp}}
+\newcommand{\dv}{{\delta\bfv}}
+\newcommand{\dth}{{\delta\bth}}
+\newcommand{\dq}{{\delta\bfq}}
+\newcommand{\dR}{{\delta\bfR}}
+\newcommand{\dP}{{\delta\bfP}}
+\newcommand{\dV}{{\delta\bfV}}
+\newcommand{\dTH}{{\delta\bfTheta}}
+\newcommand{\dw}{{\delta\bw}}
+
+\newcommand{\te}{\triangleq}
+\newcommand{\od}{\odot}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\setcounter{chapter}{1} %% Numéro du chapitre précédent ;)
+\dominitoc
+\fi
+
+\chapter{Graph based localization}
+\minitoc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{abstract}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{introduction}
+\input{odometry}
+\input{imu}
+\input{experiments}
+\input{conclusion}
+%\input{appendix}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\section*{ACKNOWLEDGMENT}
+%Work sponsored by FP7 EUROC, ANR LOCO3D and?
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\ifdefined\included
+\else
+\bibliographystyle{acm}
+\bibliography{These,bib,slam,footIMU}
+\end{document}
+\fi
